@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Shopping from '@/views/Shopping.vue'
 import User from '@/views/User.vue'
 import AccountBook from '@/views/AccountBook.vue'
-import ShoppingPreparation from '@/views/ShoppingPreparation.vue'
+import Preparation from '@/views/Preparation.vue'
 import Mypage from '@/views/Mypage.vue'
 
  
@@ -26,9 +26,9 @@ const routes = [
     component: AccountBook,
   },
   {
-    path: '/shop/perparation',
-    name: ShoppingPreparation,
-    component: ShoppingPreparation,
+    path: '/perparation',
+    name: Preparation,
+    component: Preparation,
   },
   {
     path: '/mypage',

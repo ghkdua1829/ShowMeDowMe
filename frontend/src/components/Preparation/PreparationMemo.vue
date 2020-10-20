@@ -1,10 +1,10 @@
 <template>
-  <div>쇼핑 준비화면</div>
+  <div>구매 목록 메모</div>
 </template>
 
 <script>
 export default {
-  name: "ShoppingPreparation",
+  name: "PreparationMemo",
 };
 </script>
 
