@@ -7,7 +7,7 @@
     <ShoppingList />
     <ShoppingPhotoReg />
     결재금액:
-    <button>완료</button>
+    <router-link :to="{ path: '/report' }">완료</router-link>
   </div>
 </template>
 

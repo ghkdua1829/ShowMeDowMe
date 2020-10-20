@@ -5,7 +5,7 @@ import User from '@/views/User.vue'
 import AccountBook from '@/views/AccountBook.vue'
 import Preparation from '@/views/Preparation.vue'
 import Mypage from '@/views/Mypage.vue'
-
+import Report from '@/views/Report.vue'
  
 Vue.use(VueRouter)
 
@@ -34,6 +34,11 @@ const routes = [
     path: '/mypage',
     name: Mypage,
     component: Mypage,
+  },
+  {
+    path: '/report',
+    name: Report,
+    component: Report,
   },
 ]
 
