@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import "@/assets/css/components/homepage.scss";
+import "@/assets/css/views/home.scss";
 
 export default {
   name: "Home",
