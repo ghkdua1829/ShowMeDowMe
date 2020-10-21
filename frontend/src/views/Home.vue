@@ -9,7 +9,7 @@
         <v-btn
           rounded
           dark
-          color="teal"
+          color="teal lighten-2"
           @click="$router.push({ name: 'Login' })"
           >로그인</v-btn
         >

@@ -38,7 +38,7 @@ export default {
         case 0:
           return "blue-grey";
         case 1:
-          return "teal";
+          return "teal"; // lighten-2
         case 2:
           return "indigo";
         default:
