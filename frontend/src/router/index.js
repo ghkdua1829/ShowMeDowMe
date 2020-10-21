@@ -8,6 +8,7 @@ import Mypage from '@/views/Mypage.vue'
 import Report from '@/views/Report.vue'
 import Login from "@/components/Home/Login"
 import Signup from "@/components/Home/Signup"
+import PreparationMemo from '@/components/Preparation/PreparationMemo'
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,11 @@ const routes = [
     path: '/perparation',
     name: Preparation,
     component: Preparation,
+  },
+  {
+    path: '/memo',
+    name: PreparationMemo,
+    component: PreparationMemo,
   },
   {
     path: '/mypage',
