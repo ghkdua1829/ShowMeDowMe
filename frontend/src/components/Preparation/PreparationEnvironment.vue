@@ -9,7 +9,7 @@
           sm="6"
         >
           <v-text-field
-            v-model="first"
+            v-model="hour"
             label="시간"
             outlined
           ></v-text-field>
@@ -20,14 +20,18 @@
           sm="6"
         >
           <v-text-field
-            v-model="last"
+            v-model="minute"
             label="분"
             outlined
           ></v-text-field>
         </v-col>
+        <v-btn disabled>
+          skip
+        </v-btn>
       </v-row>
     </v-container>
   </v-form>
+  
 
     <h2 style="text-align:center;">목표금액</h2>
       <v-col class = 'd-flex'
@@ -36,27 +40,32 @@
           md="4"
         >
           <v-text-field
+            v-model="amount"
             label="금액을 입력하세요."
             outlined
             dense
           ></v-text-field>
             <div class = "d-flex xx-large ml-2 " >원</div>
         </v-col>
+        <v-btn disabled>
+          skip
+        </v-btn>
     <router-link :to="{ path: '/shop' }">
       <div class="text-center">
-        <v-btn
-          rounded
-          color="primary"
-          dark
-        >
-          장보러 가기
-        </v-btn>
-     </div>
+    <v-btn
+      class="ma-2 m-3 0 4"
+      outlined
+      color="indigo"
+    >
+      <h2>장보러 가기</h2>
+    </v-btn>
+  </div>
     </router-link>
   </div>
 </template>
 
 <script>
+// const BACK_URL = ""
 export default {
   name: "PreparationEnvironment",
 };
