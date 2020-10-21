@@ -1,12 +1,13 @@
 <template>
   <div>
-    쇼핑 준비화면
     <PreparationEnvironment />
     <PreparationMemo />
+    <Navigation />
   </div>
 </template>
 
 <script>
+import Navigation from "@/components/Navigation";
 import PreparationEnvironment from "@/components/Preparation/PreparationEnvironment";
 import PreparationMemo from "@/components/Preparation/PreparationMemo";
 
@@ -15,6 +16,7 @@ export default {
   components: {
     PreparationEnvironment,
     PreparationMemo,
+    Navigation,
   },
 };
 </script>
