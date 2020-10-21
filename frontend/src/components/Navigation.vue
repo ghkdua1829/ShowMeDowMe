@@ -24,7 +24,7 @@ export default {
   name: "Navigation",
   created() {
     this.select = this.$route.name.name;
-    if (this.select === "Preparation") {
+    if (this.select === "Preparation" || this.select == "PreparationMemo") {
       this.value = 0;
     } else if (this.select === "AccountBook") {
       this.value = 1;

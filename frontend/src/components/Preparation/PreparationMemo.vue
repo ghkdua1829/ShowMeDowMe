@@ -1,20 +1,18 @@
 <template>
   <div>
-      <v-btn
-        block
-        depressed
-        elevation="2"
-        outlined
-        text
-        class="blue-grey lighten-5"
-      ><span class=" "><v-icon large style="text-align: left"> mdi-file-document-edit-outline</v-icon>구매 목록 메모</span></v-btn>
-      
+    <h1>메모장</h1>
+    <Navigation />
   </div>
 </template>
 
 <script>
+import Navigation from "@/components/Navigation";
+
 export default {
   name: "PreparationMemo",
+  components: {
+    Navigation,
+  },
 };
 </script>
 
