@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import "@/assets/css/app.scss";
+
 export default {
   name: "App",
 
