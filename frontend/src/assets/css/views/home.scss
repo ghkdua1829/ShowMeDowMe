@@ -1,8 +1,11 @@
+@import "@/assets/css/components";
+
 .homepage {
+  font-family: $main-font;
   div {
-    margin: 20px;
+    margin: $components-margin;
     .v-btn {
-      width: 200px;
+      width: 60%;
       cursor: pointer;
     }
     .v-img {
