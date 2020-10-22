@@ -9,6 +9,7 @@ import Report from '@/views/Report.vue'
 import Login from "@/components/Home/Login"
 import Signup from "@/components/Home/Signup"
 import PreparationMemo from '@/components/Preparation/PreparationMemo'
+import ShoppingPhotoReg from '@/components/Shopping/ShoppingPhotoReg'
 
 Vue.use(VueRouter)
 
@@ -57,6 +58,11 @@ const routes = [
     path: '/report',
     name: Report,
     component: Report,
+  },
+  {
+    path: '/camera',
+    name: ShoppingPhotoReg,
+    component: ShoppingPhotoReg,
   },
 ]
 

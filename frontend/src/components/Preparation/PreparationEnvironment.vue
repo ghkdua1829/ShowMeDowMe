@@ -16,17 +16,25 @@
       </v-container>
     </v-form>
 
-    <h2 style="text-align: center">목표금액</h2>
-    <v-col class="d-flex" cols="11" sm="6" md="4">
-      <v-text-field
-        v-model="amount"
-        label="금액을 입력하세요."
-        outlined
-        dense
-      ></v-text-field>
-      <div class="d-flex xx-large ml-2">원</div>
-    </v-col>
-    <v-btn disabled> skip </v-btn>
+    <h2 style="text-align:center;">목표금액</h2>
+      <v-col class = 'd-flex'
+          cols="11"
+          sm="6"
+          md="4"
+        >
+          <v-text-field
+            v-model="amount"
+            label="금액을 입력하세요."
+            outlined
+            dense
+          ></v-text-field>
+            <h1>원</h1>
+        </v-col>
+        <v-btn disabled>
+          skip
+        </v-btn>
+    <router-link :to="{ path: '/shop' }">
+      <div class="text-center">
     <v-btn
       class="ma-2 m-3 0 4"
       outlined
@@ -44,9 +52,3 @@ export default {
   name: "PreparationEnvironment",
 };
 </script>
-
-<style>
-.xx-large {
-  font-size: 2em;
-}
-</style>
