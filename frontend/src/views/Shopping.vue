@@ -5,7 +5,9 @@
     <ShoppingReceipe />
     소요시간:
     <ShoppingList />
-    <ShoppingPhotoReg />
+    <v-btn @click="$router.push({ path: '/camera'})">
+    물건등록
+    </v-btn>
     결재금액:
     <router-link :to="{ path: '/report' }">완료</router-link>
   </div>
@@ -13,7 +15,6 @@
 
 <script>
 import ShoppingList from "@/components/Shopping/ShoppingList";
-import ShoppingPhotoReg from "@/components/Shopping/ShoppingPhotoReg";
 import ShoppingMemo from "@/components/Shopping/ShoppingMemo";
 import ShoppingReceipe from "@/components/Shopping/ShoppingRecipe";
 
@@ -23,7 +24,6 @@ export default {
     ShoppingMemo,
     ShoppingReceipe,
     ShoppingList,
-    ShoppingPhotoReg,
   },
 };
 </script>
