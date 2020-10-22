@@ -53,7 +53,7 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.4.0</version>
 		</dependency>
-		<!-- JPA -->
+		<!-- JPA 의존성 추가 -->
 		<dependency> 
 			<groupId>org.springframework.boot</groupId> 
 			<artifactId>spring-boot-starter-data-jpa</artifactId> 
