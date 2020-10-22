@@ -1,37 +1,20 @@
 <template>
   <div>
-    <h2 style="text-align:center;">목표시간</h2>
-  <v-form>
-    <v-container>
-      <v-row>
-        <v-col
-          cols="6"
-          sm="6"
-        >
-          <v-text-field
-            v-model="hour"
-            label="시간"
-            outlined
-          ></v-text-field>
-        </v-col>
+    <h2 style="text-align: center">목표시간</h2>
+    <v-form>
+      <v-container>
+        <v-row>
+          <v-col cols="6" sm="6">
+            <v-text-field v-model="hour" label="시간" outlined></v-text-field>
+          </v-col>
 
-        <v-col
-          cols="6"
-          sm="6"
-        >
-          <v-text-field
-            v-model="minute"
-            label="분"
-            outlined
-          ></v-text-field>
-        </v-col>
-        <v-btn disabled>
-          skip
-        </v-btn>
-      </v-row>
-    </v-container>
-  </v-form>
-  
+          <v-col cols="6" sm="6">
+            <v-text-field v-model="minute" label="분" outlined></v-text-field>
+          </v-col>
+          <v-btn disabled> skip </v-btn>
+        </v-row>
+      </v-container>
+    </v-form>
 
     <h2 style="text-align:center;">목표금액</h2>
       <v-col class = 'd-flex'
@@ -56,11 +39,10 @@
       class="ma-2 m-3 0 4"
       outlined
       color="indigo"
+      @click="$router.push({ path: '/shop' })"
     >
       <h2>장보러 가기</h2>
     </v-btn>
-  </div>
-    </router-link>
   </div>
 </template>
 
