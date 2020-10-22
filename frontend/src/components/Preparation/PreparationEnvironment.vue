@@ -45,7 +45,7 @@
             outlined
             dense
           ></v-text-field>
-            <div class = "d-flex xx-large ml-2 " >원</div>
+            <h1>원</h1>
         </v-col>
         <v-btn disabled>
           skip
@@ -70,9 +70,3 @@ export default {
   name: "PreparationEnvironment",
 };
 </script>
-
-<style>
-.xx-large{
-  font-size: 2em;
-}
-</style>
