@@ -29,12 +29,10 @@
             dense
           ></v-text-field>
             <h1>원</h1>
-        </v-col>
-        <v-btn disabled>
-          skip
-        </v-btn>
-    <router-link :to="{ path: '/shop' }">
-      <div class="text-center">
+      </v-col>
+      <v-btn disabled>
+        skip
+      </v-btn>
     <v-btn
       class="ma-2 m-3 0 4"
       outlined
