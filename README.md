@@ -79,7 +79,7 @@ $ npm run serve
 
 ```bash
 $ cd backend/
-$ run.sh start
+$ java -jar showm2dowm2-spring-0.0.1-SNAPSHOT.jar
 ```
 
 
