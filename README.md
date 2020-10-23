@@ -94,6 +94,8 @@ $ java -jar showm2dowm2-spring-0.0.1-SNAPSHOT.jar
 
 - PWA
 
+   PWA를 사용하여 브라우저에서 카메라 접근합니다.
+
 - Vision API
 
    google vision Api 를 사용하여 텍스트 감지 구현합니다.
