@@ -146,7 +146,7 @@ $ git commit -m "이슈번호 | 상태 | 작업 설명(optional)"
 
 ### 👨‍👩‍👦‍👦  팀원소개 
 
-#### 👦 김원정(팀장/Frontend) : Front
+#### 👦 김원정(팀장/Frontend) : Front(굿)
 
 #### 👦 권오정(팀원/Frontend) : Front
 
