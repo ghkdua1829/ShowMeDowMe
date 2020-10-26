@@ -1,13 +1,13 @@
-package com.ssafy.showmedowme;
+package com.ssafy.SMDM;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ShowmedowmeApplication {
+public class SmdmApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ShowmedowmeApplication.class, args);
+		SpringApplication.run(SmdmApplication.class, args);
 	}
 
 }

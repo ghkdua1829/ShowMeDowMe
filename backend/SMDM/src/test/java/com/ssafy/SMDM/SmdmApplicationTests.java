@@ -1,10 +1,10 @@
-package com.ssafy.showmedowme;
+package com.ssafy.SMDM;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ShowmedowmeApplicationTests {
+class SmdmApplicationTests {
 
 	@Test
 	void contextLoads() {
