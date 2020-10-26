@@ -12,7 +12,7 @@
           ></v-text-field>
         </v-col>
         <v-col>
-          <v-btn rounded dark color="teal" outlined>중복 체크</v-btn>
+          <v-btn @click="checkId" rounded dark color="teal" outlined>중복 체크</v-btn>
         </v-col>
       </v-row>
       <!-- 비밀번호 -->
@@ -96,6 +96,14 @@ export default {
     save(date) {
       this.$refs.menu.save(date);
     },
+    checkId() {
+      if (this.signupData.userId) {
+        alert("사용가능한 아이디입니다.") 
+      } else {
+        this.signupData.userId = ""
+        alert("중복된 아이디입니다. 새로운 아이디를 입력해주세요.")
+      }
+    }
   },
   data() {
     return {

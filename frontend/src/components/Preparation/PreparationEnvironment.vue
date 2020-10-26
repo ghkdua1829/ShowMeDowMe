@@ -5,13 +5,15 @@
       <v-container>
         <v-row>
           <v-col cols="6" sm="6">
-            <v-text-field v-model="hour" label="시간" outlined></v-text-field>
+            <v-text-field type="text" 
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" v-model="hour" label="시간" outlined></v-text-field>
           </v-col>
 
           <v-col cols="6" sm="6">
-            <v-text-field v-model="minute" label="분" outlined></v-text-field>
+            <v-text-field type="text" 
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" v-model="minute" label="분" outlined></v-text-field>
           </v-col>
-          <v-btn disabled> skip </v-btn>
+          <v-btn depressed> skip </v-btn>
         </v-row>
       </v-container>
     </v-form>
@@ -23,6 +25,8 @@
           md="4"
         >
           <v-text-field
+          type="text" 
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
             v-model="amount"
             label="금액을 입력하세요."
             outlined
@@ -30,7 +34,7 @@
           ></v-text-field>
             <h1>원</h1>
       </v-col>
-      <v-btn disabled>
+      <v-btn depressed>
         skip
       </v-btn>
     <v-btn
@@ -48,5 +52,21 @@
 // const BACK_URL = ""
 export default {
   name: "PreparationEnvironment",
+
+  data() {
+		return{
+      number : "",
+      hour:"",
+      minute:"",
+		}
+	},
+	watch:{
+		hour : function(){
+			return this.hour = this.hour.replace(/[^0-9]/g, ''); 
+    },
+    minute : function(){
+			return this.minute = this.minute.replace(/[^0-9]/g, '');  
+    }
+	}
 };
 </script>
