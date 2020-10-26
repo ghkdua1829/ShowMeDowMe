@@ -18,7 +18,15 @@
         <v-btn rounded depressed>소셜로그인</v-btn>
       </div>
       <div>
-        <v-btn rounded depressed outlined color="teal"> 비회원 </v-btn>
+        <v-btn
+          rounded
+          depressed
+          outlined
+          color="teal"
+          @click="$router.push({ path: '/nonMember/perparation' })"
+        >
+          비회원
+        </v-btn>
       </div>
       <div @click="$router.push({ name: 'Signup' })">회원가입 하러가기</div>
     </div>
