@@ -2,15 +2,23 @@
   <div class="preparationMemo">
     <div class="memo">
       <h1>메모장</h1>
-      <div v-for="(memo, index) in memoList" :key="index">
+      <v-text-field
+        label="장보기 목록에 추가하기"
+        hide-details="auto"
+        class="mb-2"
+        v-model="memoInput"
+        @keyup.enter="plusMemo()"
+        @keyup.space="plusMemo()"
+      ></v-text-field>
+      <span v-for="(memo, index) in memoList" :key="index">
         <v-chip
-          :color="`${colors[nonce - 1]} lighten-3`"
+          class="ma-2"
+          :color="`${colors[index % 6]} lighten-3`"
           close
           @click:close="deleteMemo(index)"
           >{{ memo }}</v-chip
         >
-      </div>
-      {{ memoList }}
+      </span>
     </div>
     <Navigation />
   </div>
@@ -27,13 +35,21 @@ export default {
   },
   methods: {
     deleteMemo(index) {
-      console.log(index);
       this.memoList.splice(index, 1);
+    },
+    plusMemo() {
+      if (this.memoInput !== " ") {
+        this.memoList.push(this.memoInput);
+        this.memoInput = "";
+      } else {
+        alert("추가할 물품을 입력해주세요.");
+      }
     },
   },
   data() {
     return {
-      memoList: ["렌즈세정액", "우유", "당근"],
+      memoInput: "",
+      memoList: ["렌즈세정액", "우유", "당근"], // 사용자가 미리 작성한 리스트
       colors: ["green", "purple", "indigo", "cyan", "teal", "orange"],
     };
   },
