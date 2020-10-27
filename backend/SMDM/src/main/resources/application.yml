@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:mariadb://k3a301.p.ssafy.io:1827/showmedowme_db
     driver-class-name: org.mariadb.jdbc.Driver
-    username:
+    username:sdasdas
     password: 
 
   jpa:
