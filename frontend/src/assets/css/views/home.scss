@@ -11,5 +11,18 @@
     .v-img {
       text-align: center;
     }
+    #app {
+      width: 300px;
+      padding: 24px;
+      margin: 0px auto 0 auto;
+      text-align: center;
+      // border: 1px solid #cccccc;
+    }
+    
+    #app img {
+      width: 100%;
+    }
+    
+    
   }
 }
