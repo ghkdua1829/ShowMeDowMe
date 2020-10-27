@@ -1,4 +1,4 @@
-package service;
+package com.ssafy.SMDM.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
