@@ -20,7 +20,9 @@
         >
       </span>
     </div>
-    <Navigation />
+    <div v-if="modalCheck">
+      <Navigation />
+    </div>
   </div>
 </template>
 
@@ -32,6 +34,13 @@ export default {
   name: "PreparationMemo",
   components: {
     Navigation,
+  },
+  created() {
+    if (this.$route.name.name === "PreparationMemo") {
+      this.modalCheck = true;
+    } else {
+      this.modalCheck = false;
+    }
   },
   methods: {
     deleteMemo(index) {
@@ -51,6 +60,7 @@ export default {
       memoInput: "",
       memoList: ["렌즈세정액", "우유", "당근"], // 사용자가 미리 작성한 리스트
       colors: ["green", "purple", "indigo", "cyan", "teal", "orange"],
+      modalCheck: false,
     };
   },
 };
