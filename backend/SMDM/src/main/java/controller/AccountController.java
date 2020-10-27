@@ -30,11 +30,13 @@ public class AccountController {
                 (user.getUser_id(),user.getUser_pw());
         if(user1 != null) {
             System.out.println("login");
-            response = new ResponseEntity("success", HttpStatus.OK);
+            //jwt 키 생성
+            String Jwttoken = jwtService.create("user_id",user.getUser_id(),user.getUser_birth());
+            response = new ResponseEntity(Jwttoken, HttpStatus.OK);
+            return ResponseEntity.ok(Jwttoken);
         } else{
-            response = new ResponseEntity(null, HttpStatus.NOT_FOUND);
+            response = new ResponseEntity("not found", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not correct");
         }
-
-        return response;
     }
 }
