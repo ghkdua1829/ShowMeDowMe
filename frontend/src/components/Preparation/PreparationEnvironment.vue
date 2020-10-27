@@ -1,72 +1,77 @@
 <template>
-  <div>
-    <h2 style="text-align: center">목표시간</h2>
-    <v-form>
-      <v-container>
-        <v-row>
-          <v-col cols="6" sm="6">
-            <v-text-field type="text" 
-          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" v-model="hour" label="시간" outlined></v-text-field>
-          </v-col>
-
-          <v-col cols="6" sm="6">
-            <v-text-field type="text" 
-          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" v-model="minute" label="분" outlined></v-text-field>
-          </v-col>
-          <v-btn depressed> skip </v-btn>
-        </v-row>
-      </v-container>
-    </v-form>
-
-    <h2 style="text-align:center;">목표금액</h2>
-      <v-col class = 'd-flex'
-          cols="11"
-          sm="6"
-          md="4"
-        >
-          <v-text-field
-          type="text" 
-          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-            v-model="amount"
-            label="금액을 입력하세요."
-            outlined
-            dense
-          ></v-text-field>
-            <h1>원</h1>
+  <div class="preparation-environment">
+    <h2 class="ready-title">장보기 준비</h2>
+    <v-row>
+      <v-col cols="4" class="preparation-type">
+        <h3>목표시간</h3>
+        <div>
+          <v-btn x-small depressed> skip </v-btn>
+        </div>
       </v-col>
-      <v-btn depressed>
-        skip
-      </v-btn>
+      <v-col cols="7">
+        <v-text-field
+          :value="time"
+          v-model="aim_time"
+          type="time"
+          @click="calTime()"
+          outlined
+        ></v-text-field>
+        <!-- <p>
+          현재 시각에서 {{ diff_time }}분 뒤 쇼핑을 끝날 것을 목표로 합니다.
+        </p> -->
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="4" class="preparation-type"
+        ><h3>목표금액</h3>
+        <div>
+          <v-btn x-small depressed> skip </v-btn>
+        </div>
+      </v-col>
+      <v-col cols="6">
+        <v-text-field
+          type="text"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+          v-model="amount"
+          outlined
+          dense
+        ></v-text-field>
+      </v-col>
+      <v-col cols="1" class="preparation-type"><h4>원</h4></v-col>
+    </v-row>
+
     <v-btn
       class="ma-2 m-3 0 4"
       outlined
-      color="indigo"
       @click="$router.push({ path: '/shop' })"
     >
-      <h2>장보러 가기</h2>
+      <!-- color="indigo" -->
+      <h4>장보러 가기</h4>
     </v-btn>
   </div>
 </template>
 
 <script>
-// const BACK_URL = ""
+import "@/assets/css/components/Preparation/preparationEnvironment.scss";
+
 export default {
   name: "PreparationEnvironment",
-
+  created() {
+    let today = new Date();
+    this.hours = today.getHours();
+    this.minute = today.getMinutes();
+    this.time = this.hour + ":" + this.minute + ":00";
+  },
+  methods: {},
   data() {
-		return{
-      number : "",
-      hour:"",
-      minute:"",
-		}
-	},
-	watch:{
-		hour : function(){
-			return this.hour = this.hour.replace(/[^0-9]/g, ''); 
-    },
-    minute : function(){
-			return this.minute = this.minute.replace(/[^0-9]/g, '');  
-    }
-	}
+    return {
+      number: "",
+      hour: "",
+      minute: "",
+      time: "",
+      // diff_time: 0,
+      aim_time: "",
+    };
+  },
 };
 </script>
