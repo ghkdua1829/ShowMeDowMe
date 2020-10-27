@@ -4,10 +4,10 @@ server:
 
 spring:
   datasource:
-      jdbc-url: jdbc:mariadb://localhost:3306/showmedowme_db
+      url: jdbc:mariadb://localhost:3306/showmedowme_db
       driver-class-name: org.mariadb.jdbc.Driver
-      username:
-      password:
+      username: root
+      password: sh0wm2d0wm2
 
   jpa:
     open-in-view: false
