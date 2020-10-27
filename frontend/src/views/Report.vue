@@ -31,7 +31,7 @@
     <v-btn
       rounded
       dark
-      @click="$router.push({ path: '/user' })"
+      @click="$router.push({ path: '/Mypage' })"
       >확인</v-btn
     >
   </div>
