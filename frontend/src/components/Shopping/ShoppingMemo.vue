@@ -9,9 +9,9 @@
         <v-card>
           <PreparationMemo />
 
-          <v-btn class="close-btn" text @click="dialog = false">
+          <div class="close-btn" @click="dialog = false">
             <v-icon>mdi-close</v-icon>
-          </v-btn>
+          </div>
         </v-card>
       </v-dialog>
     </v-row>
@@ -20,6 +20,7 @@
 
 <script>
 import PreparationMemo from "@/components/Preparation/PreparationMemo";
+import "@/assets/css/components/Shopping/shoppingMemo.scss";
 
 export default {
   name: "ShoppingMemo",
