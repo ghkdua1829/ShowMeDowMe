@@ -23,22 +23,22 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="4">
                     <v-text-field
                       v-model="editedItem.name"
-                      label="Dessert name"
+                      label="제품명"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="4">
                     <v-text-field
                       v-model="editedItem.amount"
-                      label="amount"
+                      label="수량"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="4">
                     <v-text-field
                       v-model="editedItem.price"
-                      label="price (g)"
+                      label="가격"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -54,29 +54,22 @@
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="headline"
-              >Are you sure you want to delete this item?</v-card-title
-            >
+            <v-card-title>구매 목록에서 제거할까요?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete"
-                >Cancel</v-btn
+                >취소</v-btn
               >
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-                >OK</v-btn
-              >
+              <v-btn text @click="deleteItemConfirm">확인</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-slot: item.actions="{ item }">
+    <template v-slot:item.actions="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
       <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize"> Reset </v-btn>
     </template>
   </v-data-table>
 </template>
@@ -114,7 +107,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+      return this.editedIndex === -1 ? "구입할 제품" : "등록된 제품 수정";
     },
   },
 
@@ -128,65 +121,61 @@ export default {
   },
 
   created() {
-    this.initialize();
+    this.desserts = [
+      {
+        name: "Frozen Yogurt",
+        amount: 1,
+        price: 6000,
+      },
+      {
+        name: "Ice cream sandwich",
+        amount: 2,
+        price: 9000,
+      },
+      {
+        name: "Eclair",
+        amount: 2,
+        price: 16000,
+      },
+      {
+        name: "Cupcake",
+        amount: 3,
+        price: 3700,
+      },
+      {
+        name: "Gingerbread",
+        amount: 3,
+        price: 1600,
+      },
+      {
+        name: "Jelly bean",
+        amount: 1,
+        price: 1000,
+      },
+      {
+        name: "Lollipop",
+        amount: 2,
+        price: 2000,
+      },
+      {
+        name: "Honeycomb",
+        amount: 1,
+        price: 3200,
+      },
+      {
+        name: "Donut",
+        amount: 2,
+        price: 2500,
+      },
+      {
+        name: "KitKat",
+        amount: 2,
+        price: 2600,
+      },
+    ];
   },
 
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: "Frozen Yogurt",
-          amount: 159,
-          price: 6.0,
-        },
-        {
-          name: "Ice cream sandwich",
-          amount: 237,
-          price: 9.0,
-        },
-        {
-          name: "Eclair",
-          amount: 262,
-          price: 16.0,
-        },
-        {
-          name: "Cupcake",
-          amount: 305,
-          price: 3.7,
-        },
-        {
-          name: "Gingerbread",
-          amount: 356,
-          price: 16.0,
-        },
-        {
-          name: "Jelly bean",
-          amount: 375,
-          price: 0.0,
-        },
-        {
-          name: "Lollipop",
-          amount: 392,
-          price: 0.2,
-        },
-        {
-          name: "Honeycomb",
-          amount: 408,
-          price: 3.2,
-        },
-        {
-          name: "Donut",
-          amount: 452,
-          price: 25.0,
-        },
-        {
-          name: "KitKat",
-          amount: 518,
-          price: 26.0,
-        },
-      ];
-    },
-
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);

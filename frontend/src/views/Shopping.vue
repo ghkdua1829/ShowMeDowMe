@@ -9,9 +9,24 @@
     </v-row>
     <ShoppingList />
     <!-- <ShoppingReceipe /> -->
-    <v-btn @click="$router.push({ path: '/camera' })"> 물건등록 </v-btn>
-    결재금액:
-    <router-link :to="{ path: '/report' }">완료</router-link>
+
+    <v-btn
+      class="mt-5"
+      dark
+      color="teal"
+      @click="$router.push({ path: '/camera' })"
+    >
+      <v-icon>mdi-camera </v-icon>
+      사진으로 제품 등록
+    </v-btn>
+    <v-row class="mt-3">
+      <v-col>
+        <h4>현재 결재 예상 금액 28000원</h4>
+      </v-col>
+      <v-col>
+        <v-btn dark @click="$router.push({ path: '/report' })"> 완료 </v-btn>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
