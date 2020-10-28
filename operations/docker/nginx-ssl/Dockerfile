@@ -1,7 +1,30 @@
-FROM nginx:1.9.9
+FROM ubuntu:latest
 
-RUN mkdir /etc/nginx/ssl/
+# Install letsencrypt.
+RUN apt-get update
+RUN apt-get install -y build-essential
+RUN cd /home
+RUN clone https://github.com/letsencrypt/letsencrypt
+RUN cd /home/letsencrypt/
+RUN ./letsencrypt-auto --help
+RUN ./letsencrypt-auto certonly --standalone -d k3a301.p.ssafy.io
 
-COPY default.conf /etc/nginx/conf.d/
+COPY nginx.conf /etc/nginx/nginx.conf
 
-CMD ["nginx", "-g", "daemon off;"]
+# Install Nginx.
+RUN apt-get install -y nginx
+RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf
+RUN chown -R www-data:www-data /var/lib/nginx
+
+# Define mountable directories.
+VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
+
+# Define working directory.
+WORKDIR /etc/nginx
+
+# Define default command.
+CMD ["nginx"]
+
+# Expose ports.
+EXPOSE 80
+EXPOSE 443
