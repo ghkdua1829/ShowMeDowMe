@@ -8,7 +8,7 @@ RUN apt-get install -y git
 # Install letsencrypt.
 RUN apt-get install -y build-essential
 RUN cd /home
-RUN clone https://github.com/letsencrypt/letsencrypt
+RUN git clone https://github.com/letsencrypt/letsencrypt
 RUN cd /home/letsencrypt/
 RUN ./letsencrypt-auto --help
 RUN ./letsencrypt-auto certonly --standalone -d k3a301.p.ssafy.io
