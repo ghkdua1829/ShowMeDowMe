@@ -2,7 +2,7 @@
   <v-data-table
     :headers="headers"
     :items="purchasedThings"
-    sort-by="amount"
+    sort-by="value"
     class="elevation-1"
     :mobile-breakpoint="0"
   >
@@ -12,7 +12,7 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn dark class="mb-2" v-bind="attrs" v-on="on"
+            <v-btn class="mb-2" v-bind="attrs" v-on="on" outlined color="teal"
               >직접추가하기
             </v-btn>
           </template>
