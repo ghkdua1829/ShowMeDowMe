@@ -3,8 +3,12 @@
     <Navigation />
     <div class="mypage">
       <h1>마이페이지</h1>
-      <MypageUpdate />
-      <MypageNotice />
+      <div class="mt-3">
+        <MypageNotice />
+      </div>
+      <div class="mypage-update-button mt-5">
+        <MypageUpdate />
+      </div>
     </div>
   </div>
 </template>
@@ -24,6 +28,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>
