@@ -1,9 +1,10 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="purchasedThings"
     sort-by="amount"
     class="elevation-1"
+    :mobile-breakpoint="0"
   >
     <template v-slot:top>
       <v-toolbar flat>
@@ -47,8 +48,8 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close"> Cancel </v-btn>
-              <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
+              <v-btn color="blue darken-1" text @click="close"> 닫기 </v-btn>
+              <v-btn color="blue darken-1" text @click="save"> 저장 </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -91,7 +92,7 @@ export default {
       { text: "가격", value: "price" },
       { text: "편집", value: "actions", sortable: false },
     ],
-    desserts: [],
+    purchasedThings: [],
     editedIndex: -1,
     editedItem: {
       제품: "",
@@ -121,54 +122,54 @@ export default {
   },
 
   created() {
-    this.desserts = [
+    this.purchasedThings = [
       {
-        name: "Frozen Yogurt",
+        name: "당근",
         amount: 1,
         price: 6000,
       },
       {
-        name: "Ice cream sandwich",
+        name: "고등어",
         amount: 2,
         price: 9000,
       },
       {
-        name: "Eclair",
+        name: "한우",
         amount: 2,
         price: 16000,
       },
       {
-        name: "Cupcake",
+        name: "감자",
         amount: 3,
         price: 3700,
       },
       {
-        name: "Gingerbread",
+        name: "포카칩",
         amount: 3,
         price: 1600,
       },
       {
-        name: "Jelly bean",
+        name: "생수",
         amount: 1,
         price: 1000,
       },
       {
-        name: "Lollipop",
+        name: "종이컵",
         amount: 2,
         price: 2000,
       },
       {
-        name: "Honeycomb",
+        name: "치약",
         amount: 1,
         price: 3200,
       },
       {
-        name: "Donut",
+        name: "사과",
         amount: 2,
         price: 2500,
       },
       {
-        name: "KitKat",
+        name: "귤",
         amount: 2,
         price: 2600,
       },
@@ -177,19 +178,19 @@ export default {
 
   methods: {
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.purchasedThings.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.purchasedThings.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
 
     deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
+      this.purchasedThings.splice(this.editedIndex, 1);
       this.closeDelete();
     },
 
@@ -211,9 +212,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.purchasedThings[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.purchasedThings.push(this.editedItem);
       }
       this.close();
     },
