@@ -1,18 +1,18 @@
 package com.ssafy.SMDM.controller;
 
 import com.google.cloud.vision.v1.AnnotateImageResponse;
-        import com.google.cloud.vision.v1.EntityAnnotation;
-        import com.google.cloud.vision.v1.Feature.Type;
-        import java.util.LinkedHashMap;
-        import java.util.Map;
-        import java.util.stream.Collectors;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
-        import org.springframework.core.io.ResourceLoader;
-        import org.springframework.ui.ModelMap;
-        import org.springframework.web.bind.annotation.GetMapping;
-        import org.springframework.web.bind.annotation.RestController;
-        import org.springframework.web.servlet.ModelAndView;
+import com.google.cloud.vision.v1.EntityAnnotation;
+import com.google.cloud.vision.v1.Feature.Type;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Code sample demonstrating Cloud Vision usage within the context of Spring Framework using Spring
