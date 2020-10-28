@@ -1,6 +1,8 @@
 @import "@/assets/css/components";
 
-.notice{
-    margin: $components-margin;
-    font-family: $main-font;
+.notice {
+  padding: $components-margin;
+  font-family: $main-font;
+  background-color: rgb(206, 220, 247);
+  border-radius: 2rem;
 }

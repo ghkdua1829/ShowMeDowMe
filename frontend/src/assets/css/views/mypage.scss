@@ -2,4 +2,7 @@
 
 .mypage {
   margin: $components-margin;
+  .mypage-update-button {
+    text-align: end;
+  }
 }
