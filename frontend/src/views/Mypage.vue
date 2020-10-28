@@ -3,8 +3,10 @@
     <Navigation />
     <div class="mypage">
       <h1>마이페이지</h1>
-      <MypageNotice />
-      <div class="mypage-update-button">
+      <div class="mt-3">
+        <MypageNotice />
+      </div>
+      <div class="mypage-update-button mt-5">
         <MypageUpdate />
       </div>
     </div>
