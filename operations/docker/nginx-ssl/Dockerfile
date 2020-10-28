@@ -1,7 +1,11 @@
 FROM ubuntu:latest
 
-# Install letsencrypt.
 RUN apt-get update
+
+# Install Git
+RUN apt-get install -y git
+
+# Install letsencrypt.
 RUN apt-get install -y build-essential
 RUN cd /home
 RUN clone https://github.com/letsencrypt/letsencrypt
