@@ -1,4 +1,7 @@
+@import "@/assets/css/components";
+
 .shoppingPhotoReg {
+  
   .video.front {
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
@@ -7,7 +10,7 @@
     background-color: black;
     display: grid;
     width: 100vw;
-    height: 100vh;
+    height: 90vh;
     grid-template-columns: [left] 90vw [bs] 5vw [es] 5vw [right];
     grid-template-rows: [top] 5vh [bs] 5vh [es] 60vh [middle] 10vh [bottom] 20vh [end];
     justify-items: center;
@@ -56,4 +59,5 @@
     grid-column: left / right;
     grid-row: bottom / end;
   }
+  
 }
