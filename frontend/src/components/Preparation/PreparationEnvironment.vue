@@ -68,11 +68,11 @@ export default {
   methods: {},
   data() {
     return {
+      amount: "",
       number: "",
       hour: "",
       minute: "",
       time: "",
-      // diff_time: 0,
       aim_time: "",
       value: 0,
       rules: [(v) => v <= 120 || "과도한 쇼핑은 건강에 해롭습니다."],
