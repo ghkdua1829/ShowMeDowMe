@@ -42,6 +42,7 @@
                   label="새로운 비밀번호"
                   hint="최소 8자로 입력해주세요."
                   @click:append="show1 = !show1"
+                  @keyup="checkSamePW()"
                 ></v-text-field>
                 <v-text-field
                   v-model="checkPWfdsf"
@@ -77,12 +78,20 @@
 <script>
 export default {
   name: "MypageUpdate",
+  methods: {
+    checkSamePW() {
+      if (this.afterPW == this.beforePW) {
+        alert("새로운 비밀번호를 입력해주세요.");
+      }
+    },
+  },
   data() {
     return {
       dialog: false,
       beforePW: "",
       afterPW: "",
       checkPW: "",
+      show1: false,
       rulescheck: {
         required: (value) => !!value || "입력해주세요.",
         match: (v) => v === this.afterPW || "일치하지 않습니다.",
