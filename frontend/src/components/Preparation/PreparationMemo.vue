@@ -48,7 +48,9 @@ export default {
     },
     plusMemo() {
       if (this.memoInput !== " ") {
-        this.memoList.push(this.memoInput);
+        if (this.memoList.includes(this.memoInput) === false) {
+          this.memoList.push(this.memoInput);
+        }
         this.memoInput = "";
       } else {
         alert("추가할 물품을 입력해주세요.");
