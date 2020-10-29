@@ -1,5 +1,6 @@
 <template>
   <div class="shopping">
+    <v-icon class="" @click="$router.push({ path: '/perparation' })"> mdi-arrow-left </v-icon>
     <h1>장보는 중</h1>
     <v-row>
       <v-col cols="2">

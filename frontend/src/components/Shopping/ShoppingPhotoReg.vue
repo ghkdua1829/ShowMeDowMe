@@ -1,6 +1,8 @@
 <template>
   <div class="shoppingPhotoReg">
-    사진 등록
+    <v-btn dark block @click="$router.push({ path: '/shop' })">
+      <h2>이전으로 이동</h2>
+    </v-btn>
       <div class="wrapper">
       <video
         class="video"
