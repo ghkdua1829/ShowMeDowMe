@@ -65,6 +65,7 @@ export default {
   methods: {},
   data() {
     return {
+      amount: 0,
       number: "",
       hour: "",
       minute: "",

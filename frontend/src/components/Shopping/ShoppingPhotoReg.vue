@@ -1,7 +1,7 @@
 <template>
   <div class="shoppingPhotoReg">
     사진 등록
-      <div class="wrapper">
+    <div class="wrapper">
       <video
         class="video"
         :class="facingMode === 'user' ? 'front' : ''"
@@ -20,15 +20,19 @@
       </button>
       <!-- 사진 찍어주는 버튼 -->
       <div class="photo-button-container">
-        <v-icon large color="white" class="button photo-button" @click="TakePhoto">
+        <v-icon
+          large
+          color="white"
+          class="button photo-button"
+          @click="TakePhoto"
+        >
           mdi-circle
           <!-- <b-icon pack="fas" icon="camera" /> -->
         </v-icon>
       </div>
-      <!-- <photos-gallery class="gallery" :photos="photos" /> -->
+      <photos-gallery class="gallery" :photos="photos" />
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -75,13 +79,13 @@ export default {
         id: this.counter++,
         src: canva.toDataURL("image/png"),
       });
-      console.log(this.photos)
+      console.log(this.photos);
     },
     async switchCamera() {
       this.switchingCamera = true;
       const tracks = this.mediaStream.getVideoTracks();
-      console.log(this.mediaStream), "ff"
-      console.log(this.mediaStream.getVideoTracks())
+      console.log(this.mediaStream), "ff";
+      console.log(this.mediaStream.getVideoTracks());
       tracks.forEach((track) => {
         track.stop();
       });
@@ -101,7 +105,6 @@ export default {
       switchingCamera: false,
     };
   },
-
 };
 </script>
 
