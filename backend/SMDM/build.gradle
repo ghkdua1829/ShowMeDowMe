@@ -26,14 +26,6 @@ dependencies {
 	//Spring Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
-	//vision api
-	implementation 'org.springframework.cloud:spring-cloud-gcp-starter-vision'
-
-	implementation fileTree(include: '*.jar', dir: 'libs')
-	compile group: 'org.springframework.cloud', name: 'spring-cloud-context', version: '2.2.5.RELEASE'
-	compile group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
-	compile group: 'org.springframework.cloud', name: 'spring-cloud-gcp-core', version: '1.2.5.RELEASE'
-	compile group: 'org.springframework.cloud', name: 'spring-cloud-gcp-vision', version: '1.2.5.RELEASE'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
