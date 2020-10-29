@@ -49,7 +49,6 @@ export default {
     plusMemo() {
       if (this.memoInput !== " ") {
         if (this.memoList.includes(this.memoInput) === false) {
-          console.log("들어옴");
           this.memoList.push(this.memoInput);
         }
         this.memoInput = "";
