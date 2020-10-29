@@ -1,6 +1,7 @@
 <template>
   <div>
-    가계부
+    <h1 class="mt-5">가계부</h1>
+
     <AccountBookCalendar />
     <AccountBookAnalysis />
     <Navigation />
