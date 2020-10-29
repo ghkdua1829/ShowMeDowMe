@@ -1,5 +1,5 @@
 <template>
-  <div class="accountBookCalendar">
+  <div class="accountBook-calendar">
     <v-row>
       <v-col>
         <v-btn fab text small color="grey darken-2" @click="prev">
@@ -30,28 +30,6 @@
               Today
             </v-btn>
             <v-spacer></v-spacer>
-            <v-menu bottom right>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn outlined color="grey darken-2" v-bind="attrs" v-on="on">
-                  <span>{{ typeToLabel[type] }}</span>
-                  <v-icon right> mdi-menu-down </v-icon>
-                </v-btn>
-              </template>
-              <v-list>
-                <!-- <v-list-item @click="type = 'day'">
-                  <v-list-item-title>Day</v-list-item-title>
-                </v-list-item>
-                <v-list-item @click="type = 'week'">
-                  <v-list-item-title>Week</v-list-item-title>
-                </v-list-item> -->
-                <v-list-item @click="type = 'month'">
-                  <v-list-item-title>Month</v-list-item-title>
-                </v-list-item>
-                <!-- <v-list-item @click="type = '4day'">
-                  <v-list-item-title>4 days</v-list-item-title>
-                </v-list-item> -->
-              </v-list>
-            </v-menu>
           </v-toolbar>
         </v-sheet>
         <v-sheet height="600">
@@ -75,17 +53,7 @@
           >
             <v-card color="grey lighten-4" min-width="350px" flat>
               <v-toolbar :color="selectedEvent.color" dark>
-                <v-btn icon>
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
                 <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn icon>
-                  <v-icon>mdi-heart</v-icon>
-                </v-btn>
-                <v-btn icon>
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
               </v-toolbar>
               <v-card-text>
                 <span v-html="selectedEvent.details"></span>
@@ -112,10 +80,6 @@ export default {
     this.$refs.calendar.checkChange();
   },
   methods: {
-    viewDay({ date }) {
-      this.focus = date;
-      this.type = "day";
-    },
     getEventColor(event) {
       return event.color;
     },
@@ -146,30 +110,41 @@ export default {
 
       nativeEvent.stopPropagation();
     },
-    updateRange({ start, end }) {
+    updateRange() {
       const events = [];
+      for (let ev_n in this.event_data) {
+        const event_data_detail = this.event_data[ev_n];
+        const sdates = this.event_data[ev_n]["sDate"];
+        const syear = sdates.substring(0, 4);
+        const smonth = sdates.substring(4, 6);
+        const sday = sdates.substring(6, 8);
+        const shour = sdates.substring(8, 10);
+        const sminute = sdates.substring(10, 12);
+        const s_date =
+          syear +
+          "/" +
+          smonth +
+          "/" +
+          sday +
+          "/" +
+          shour +
+          ":" +
+          sminute +
+          ":00";
 
-      const min = new Date(`${start.date}T00:00:00`);
-      const max = new Date(`${end.date}T23:59:59`);
-      const days = (max.getTime() - min.getTime()) / 86400000;
-      const eventCount = this.rnd(days, days + 20);
-
-      for (let i = 0; i < eventCount; i++) {
-        const allDay = this.rnd(0, 3) === 0;
-        const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-        const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-        const second = new Date(first.getTime() + secondTimestamp);
+        const first = new Date(s_date);
+        const second = new Date(s_date);
+        const eventname = this.event_data[ev_n]["expense"];
 
         events.push({
-          name: this.names[this.rnd(0, this.names.length - 1)],
+          pk_num: Number(ev_n),
+          name: eventname,
           start: first,
           end: second,
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
-          timed: !allDay,
+          color: this.colors[Number(this.event_data[ev_n]["grade"])],
+          details: event_data_detail["shopList"],
         });
       }
-
       this.events = events;
     },
     rnd(a, b) {
@@ -180,12 +155,6 @@ export default {
     return {
       focus: "",
       type: "month",
-      typeToLabel: {
-        month: "Month",
-        // week: "Week",
-        // day: "Day",
-        // "4day": "4 Days",
-      },
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
@@ -199,6 +168,13 @@ export default {
         "orange",
         "grey darken-1",
       ],
+      eventcategory: {
+        1: "greate",
+        2: "good",
+        3: "general",
+        4: "bad",
+        5: "worst",
+      },
       names: [
         "Meeting",
         "Holiday",
@@ -208,6 +184,20 @@ export default {
         "Birthday",
         "Conference",
         "Party",
+      ],
+      event_data: [
+        {
+          grade: "1",
+          expense: "19,000",
+          shopList: "test1",
+          sDate: "202010300923",
+        },
+        {
+          grade: "2",
+          expense: "23,000",
+          shopList: "test2",
+          sDate: "202010211001",
+        },
       ],
     };
   },
