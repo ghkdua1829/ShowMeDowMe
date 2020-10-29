@@ -65,12 +65,11 @@ export default {
   methods: {},
   data() {
     return {
-      amount: 0,
+      amount: "",
       number: "",
       hour: "",
       minute: "",
       time: "",
-      // diff_time: 0,
       aim_time: "",
     };
   },
