@@ -5,5 +5,8 @@
 
 .shopping {
   margin: $components-margin;
+  .mdi-arrow-left {
+    margin-right: 100vw;
+  }
 }
 
