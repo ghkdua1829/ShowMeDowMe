@@ -20,3 +20,4 @@
 
 - docker
 - PWA
+- JAVA
