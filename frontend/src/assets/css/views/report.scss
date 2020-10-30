@@ -1,0 +1,21 @@
+@import "@/assets/css/components";
+
+.report {
+    margin: $components-margin;
+    font-family: $main-font;
+    .report-title {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: rgb(120, 120, 202);
+    }
+    .content{
+        margin-top: 30px;
+        display: inline-flex;
+    }
+    button {
+        display: inline-flex;
+        margin-top:10vh;
+    }
+
+}
