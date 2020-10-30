@@ -29,4 +29,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# python
+workspace.xml
+
 # End of https://www.toptal.com/developers/gitignore/api/macos
