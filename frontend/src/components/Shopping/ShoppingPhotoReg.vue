@@ -3,7 +3,7 @@
     <v-btn dark block @click="$router.push({ path: '/shop' })">
       <h2>이전으로 이동</h2>
     </v-btn>
-      <div class="wrapper">
+    <div class="wrapper">
       <video
         class="video"
         :class="facingMode === 'user' ? 'front' : ''"
@@ -39,6 +39,7 @@
 
 <script>
 import "@/assets/css/components/Shopping/shoppingPhotoReg.scss";
+import axios from "axios";
 
 export default {
   name: "ShoppingPhotoReg",
@@ -53,7 +54,7 @@ export default {
     async StartRecording(facingMode) {
       this.facingMode = facingMode;
       let video = this.$refs.video;
-      console.log(video);
+      // console.log(video);
       this.mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: facingMode },
       });
@@ -81,13 +82,28 @@ export default {
         id: this.counter++,
         src: canva.toDataURL("image/png"),
       });
+      // const URL = "http://localhost:5000/";
+      // axios.get(URL).then((res) => console.log(res));
+      const URL = "http://localhost:5000/fileUpload";
+      axios
+        .post(
+          URL,
+          { image: this.photos[0].src }
+          // {
+          //   headers: { "Content-Type": "multipart/form-data" },
+          // }
+        )
+        .then((res) => {
+          console.log(res);
+        });
       console.log(this.photos);
+      // this.router.push("/shop");
     },
     async switchCamera() {
       this.switchingCamera = true;
       const tracks = this.mediaStream.getVideoTracks();
-      console.log(this.mediaStream), "ff";
-      console.log(this.mediaStream.getVideoTracks());
+      // console.log(this.mediaStream), "ff";
+      // console.log(this.mediaStream.getVideoTracks());
       tracks.forEach((track) => {
         track.stop();
       });
