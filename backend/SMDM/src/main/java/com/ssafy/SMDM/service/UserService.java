@@ -26,10 +26,11 @@ public class UserService{
 
     //delete
     public void deleteByUserId(String UserId){
+
         userRepository.deleteByUserid(UserId);
     }
 
-    //save 
+    //save
     public User save(User user){
         userRepository.save(user);
         return user;
@@ -43,6 +44,7 @@ public class UserService{
             u.get().setUserpw(Muser.getUserpw());
             u.get().setUserbirth(Muser.getUserbirth());
             u.get().setUserGender(Muser.getUserGender());
+            userRepository.save(u.get());
         }
     }
 
@@ -52,6 +54,8 @@ public class UserService{
 
         if(u.isPresent()){
             u.get().setUserMemo(Memo);
+            userRepository.save(u.get());
         }
+
     }
 }

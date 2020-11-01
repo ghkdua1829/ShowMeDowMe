@@ -69,7 +69,8 @@ public class AccountController {
 
     //메모작성
     @PutMapping("/users/memo")
-    public Object UpdateMemo(@PathVariable String id, String memo){
+    public Object UpdateMemo(@RequestParam("userid") String id,@RequestParam("memo") String memo){
+        System.out.println(id + " " + memo);
         userService.updateByMemo(id,memo);
         return new ResponseEntity<String>(memo,HttpStatus.OK);
 
@@ -79,7 +80,6 @@ public class AccountController {
     @GetMapping("/users/memo")
     public Object GetMemo(@RequestParam("userid") String id){
         Optional<User> u = userService.findByUserId(id);
-
         return new ResponseEntity<String>(u.get().getUserMemo(),HttpStatus.OK);
     }
 }
