@@ -27,9 +27,8 @@ public class UserService{
 
     //delete
     @Transactional
-    public Integer deleteByUserId(String UserId){
+    public void deleteByUserId(String UserId){
         userRepository.deleteByUserid(UserId);
-        return 0;
     }
 
     //save

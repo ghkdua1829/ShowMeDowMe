@@ -1,0 +1,125 @@
+package com.ssafy.SMDM.controller;
+
+import com.ssafy.SMDM.dto.User;
+import com.ssafy.SMDM.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api")
+public class AccountController {
+    @Autowired
+    UserService userService;
+
+    //post 부분은 밑처럼 주면될듯!
+    // {
+    //    "userid":"testid123",
+    //    "userpw":"testpw123"
+    //}
+    //로그인부분 추후에 JWT , Spring Sercurity 필요
+    @PostMapping("/login")
+    public Object login(@RequestBody Map<String,String> param){
+        Optional<User> u = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
+        if(u.isPresent()){
+            //로그인 완료부분
+            return new ResponseEntity<String>(param.get("userid"),HttpStatus.OK);
+        }else{
+            //로그인 실패부분
+            return new ResponseEntity<String>(param.get("userid"),HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //회원가입 , 남과 여 는 0 1 로 설정하였음.
+    @PostMapping("/users")
+    public Object SubmitUser(@RequestBody Map<String,String> param){
+        User user = new User();
+        user.setUserid(param.get("userid"));
+        user.setUserpw(param.get("userpw"));
+        user.setUserbirth(param.get("userbirth"));
+        user.setUserGender(Integer.parseInt(param.get("usergender")));
+        return new ResponseEntity<User>(userService.save(user),HttpStatus.OK);
+    }
+
+    //id 중복체크
+    @PostMapping("/users/id")
+    public Object Idcheck(@RequestBody Map<String,String> param){
+        Optional<User> u = userService.findByUserId(param.get("userid"));
+        if(u.isPresent()) {
+            //아이디가 존재
+            return new ResponseEntity<User>(u.get(),HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<String>(param.get("userid"),HttpStatus.OK);
+        }
+    }
+
+    //여기서부턴 RequestParam!
+    //http://localhost:8080/api/users?userid=
+    //회원삭제
+    @DeleteMapping("/users")
+    public Object DeleteUser(@RequestParam("userid") String id){
+        Optional<User> u = userService.findByUserId(id);
+        System.out.println(id);
+        if(u.isPresent()) {
+
+            System.out.println(id);
+            userService.deleteByUserId(id);
+
+            System.out.println(id);
+            return new ResponseEntity<String>("Delete", HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<String>("Id not Found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //회원정보 가져오기
+    @GetMapping("/users")
+    public Object GetUser(@RequestParam("userid") String id){
+        Optional<User> u = userService.findByUserId(id);
+        if(u.isPresent())
+            return new ResponseEntity<User>(u.get(),HttpStatus.OK);
+        else
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+    }
+    
+    //회원정보수정 -> 이거 user객체로 줄수있으면 이대로 가도 되는데 아니라면, 주석처리한부분 해야할듯?
+    //편한대로 말해주면 수정해줄께 어차피 얼마안걸림!
+    //modified user = Muser
+    @PutMapping("/users")
+    public Object UpdateUser(@RequestParam("userid") String id, User Muser){
+
+
+        /*
+        Optional<User> Muser = userService.findByUserId(id);
+        Muser.get().setUserid(id);
+        Muser.get().setUserpw(pw);
+        Muser.get().setUserbirth(birth);
+        Muser.get().setUserGender(Integer.parseInt(gender));
+
+        userService.updateByUserId(id,Muser.get());
+        */
+        userService.updateByUserId(id,Muser);
+        return new ResponseEntity<User>(Muser,HttpStatus.OK);
+    }
+
+    //메모작성
+    @PutMapping("/users/memo")
+    public Object UpdateMemo(@RequestParam("userid") String id,@RequestParam("memo") String memo){
+        System.out.println(id + " " + memo);
+        userService.updateByMemo(id,memo);
+        return new ResponseEntity<String>(memo,HttpStatus.OK);
+
+    }
+
+    //메모확인
+    @GetMapping("/users/memo")
+    public Object GetMemo(@RequestParam("userid") String id){
+        Optional<User> u = userService.findByUserId(id);
+        return new ResponseEntity<String>(u.get().getUserMemo(),HttpStatus.OK);
+    }
+}
