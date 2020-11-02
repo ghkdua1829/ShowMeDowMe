@@ -101,7 +101,7 @@ public class AccountController {
         Muser.get().setUserbirth(birth);
         Muser.get().setUserGender(Integer.parseInt(gender));
 
-        userService.updateByUserId(id,Muser.get()); 
+        userService.updateByUserId(id,Muser.get());
         */
         userService.updateByUserId(id,Muser);
         return new ResponseEntity<User>(Muser,HttpStatus.OK);
