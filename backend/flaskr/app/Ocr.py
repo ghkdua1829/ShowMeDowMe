@@ -7,7 +7,6 @@ from PIL import Image
 app = Flask(__name__)
 
 
-@app.route('/postImage', methods=['POST'])
 def hello():
     value = request.files['image']
     client = vision.ImageAnnotatorClient()

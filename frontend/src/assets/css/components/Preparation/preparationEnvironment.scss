@@ -1,0 +1,18 @@
+@import "@/assets/css/components";
+
+.preparation-environment {
+  margin: $components-margin;
+  height: 450px;
+  // background-color: rgb(240, 229, 251); // 연보라
+  background-color: rgb(236, 234, 238);
+  border-radius: 2rem;
+  .ready-title {
+    padding: 20px;
+  }
+  .preparation-type {
+    padding-top: 25px;
+  }
+  .col {
+    padding: 5px;
+  }
+}
