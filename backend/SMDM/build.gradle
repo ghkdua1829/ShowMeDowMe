@@ -24,12 +24,17 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
 	//Spring Security
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	//test용 mysql dependency
 	compile 'mysql:mysql-connector-java'
 
+	//jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	//jackson
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mariadb.jdbc:mariadb-java-client'
 	compileOnly 'org.projectlombok:lombok'
