@@ -22,7 +22,7 @@
         width="60%"
         rounded
         dark
-        color="teal"
+        color="teal lighten-2"
         @click="$router.push({ path: '/perparation' })"
         >로그인</v-btn
       >
