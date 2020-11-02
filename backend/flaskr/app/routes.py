@@ -13,7 +13,7 @@ def index():
 
 @app.route('/postImage', methods=['POST'])
 def imageOcr():
-	hello()
+	return hello()
 
 
 # @app.route('/pyapi/image', methods=['POST', 'GET'])

@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="00dbeefb-125d-426d-a657-114aa9fb54c4" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/../flaskr/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/opencv.iml" afterDir="false" />
@@ -23,6 +22,7 @@
       <change beforePath="$PROJECT_DIR$/../flaskr/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../flaskr/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../flaskr/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../flaskr/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../flaskr/app/Ocr.py" beforeDir="false" afterPath="$PROJECT_DIR$/../flaskr/app/Ocr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flaskr/app/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/../flaskr/app/routes.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -230,6 +230,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24983476" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
