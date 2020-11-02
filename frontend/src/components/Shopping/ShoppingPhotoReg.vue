@@ -20,6 +20,10 @@
       >
         <b-icon pack="fas" icon="sync-alt" />
       </button>
+      <div class="box-border">
+        <h4>가격표를 영역 안에 넣어주세요.</h4>
+        <div class="box"></div>
+      </div>
       <!-- 사진 찍어주는 버튼 -->
       <div class="photo-button-container">
         <v-icon
@@ -29,7 +33,6 @@
           @click="TakePhoto"
         >
           mdi-circle
-          <!-- <b-icon pack="fas" icon="camera" /> -->
         </v-icon>
       </div>
       <photos-gallery class="gallery" :photos="photos" />
