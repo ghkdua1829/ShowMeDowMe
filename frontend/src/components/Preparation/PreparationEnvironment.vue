@@ -18,12 +18,21 @@
             {{ ticksLabels[Math.floor(value / 30)] }}
           </template>
         </v-slider>
-        <div class="btn-skip">
-          <v-btn small depressed> skip</v-btn>
-        </div>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <h5 v-if="isSkipTime && value === 0">시간은 넉넉하게 하겠습니다.</h5>
+      </v-col>
+      <div class="btn-skip" v-if="isSkipTime && value === 0">
+        <v-btn small outlined color="primary">SKIP</v-btn>
+      </div>
+      <div v-else class="btn-skip">
+        <v-btn small outlined @click="skipAimTime()"> skip </v-btn>
+      </div>
+    </v-row>
     <hr class="divide-line mb-5 mt-2" />
+
     <v-row>
       <v-col cols="4" class="preparation-type">
         <h3>목표금액</h3>
@@ -39,15 +48,22 @@
       </v-col>
       <v-col cols="2" class="preparation-type"><h3>원</h3></v-col>
     </v-row>
-    <div class="btn-skip">
-      <v-btn small depressed> skip </v-btn>
-    </div>
-
+    <v-row>
+      <v-col>
+        <h5 v-if="isSkipMoney && amount === ''">금액은 상관없습니다.</h5>
+      </v-col>
+      <div class="btn-skip" v-if="isSkipMoney && amount === ''">
+        <v-btn small outlined color="primary">SKIP</v-btn>
+      </div>
+      <div v-else class="btn-skip">
+        <v-btn small outlined @click="skipAimValue()"> skip </v-btn>
+      </div>
+    </v-row>
     <v-btn
       large
       class="ma-10 m-3 0 4"
-      outlined
       @click="$router.push({ path: '/shop' })"
+      color="primary darken-2"
     >
       <h3>장보러 가기</h3>
     </v-btn>
@@ -65,7 +81,16 @@ export default {
     this.minute = today.getMinutes();
     this.time = this.hour + ":" + this.minute + ":00";
   },
-  methods: {},
+  methods: {
+    skipAimTime() {
+      this.isSkipTime = true;
+      this.value = 0;
+    },
+    skipAimValue() {
+      this.isSkipMoney = true;
+      this.amount = "";
+    },
+  },
   data() {
     return {
       amount: "",
@@ -73,11 +98,12 @@ export default {
       hour: "",
       minute: "",
       time: "",
-      aim_time: "",
       value: 0,
+      isSkipTime: false,
+      isSkipMoney: false,
       rules: [(v) => v <= 120 || "과도한 쇼핑은 건강에 해롭습니다."],
       ticksLabels: [
-        "0m",
+        "0",
         "30m",
         "1h",
         "1h30m",
