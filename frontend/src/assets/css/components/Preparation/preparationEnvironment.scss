@@ -4,7 +4,7 @@
   margin: $components-margin;
   height: 450px;
   // background-color: rgb(240, 229, 251); // 연보라
-  background-color: rgb(236, 234, 238);
+  background-color: rgb(230, 243, 239);
   border-radius: 2rem;
   .ready-title {
     padding: 20px;
@@ -14,5 +14,17 @@
   }
   .col {
     padding: 5px;
+  }
+  .btn-skip {
+    text-align: end;
+    margin-right: 20px;
+  }
+  .row {
+    margin: 0px;
+  }
+  .divide-line {
+    width: 85%;
+    margin: 0 auto;
+    background-color: rgb(241, 241, 241);
   }
 }
