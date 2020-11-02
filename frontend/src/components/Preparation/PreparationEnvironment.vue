@@ -5,7 +5,7 @@
       <v-col cols="4" class="preparation-type">
         <h3>목표시간</h3>
       </v-col>
-       <v-col cols="7">
+      <v-col cols="8">
         <v-slider
           v-model="value"
           :thumb-size="40"
@@ -18,17 +18,17 @@
             {{ ticksLabels[Math.floor(value / 30)] }}
           </template>
         </v-slider>
-        <div>
-          <v-btn  depressed> skip </v-btn>
+        <div class="btn-skip">
+          <v-btn small depressed> skip</v-btn>
         </div>
       </v-col>
     </v-row>
+    <hr class="divide-line mb-5 mt-2" />
     <v-row>
-      <v-col cols="4" class="preparation-type"
-        >
+      <v-col cols="4" class="preparation-type">
         <h3>목표금액</h3>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="5">
         <v-text-field
           type="text"
           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
@@ -36,12 +36,12 @@
           outlined
           dense
         ></v-text-field>
-        <div>
-          <v-btn depressed> skip </v-btn>
-        </div>
       </v-col>
-      <v-col cols="1" class="preparation-type"><h4>원</h4></v-col>
+      <v-col cols="2" class="preparation-type"><h3>원</h3></v-col>
     </v-row>
+    <div class="btn-skip">
+      <v-btn small depressed> skip </v-btn>
+    </div>
 
     <v-btn
       large
@@ -76,7 +76,17 @@ export default {
       aim_time: "",
       value: 0,
       rules: [(v) => v <= 120 || "과도한 쇼핑은 건강에 해롭습니다."],
-      ticksLabels: ["0m","30m", "1h", "1h30m", "2h", "2h30m", "3h", "3h30m", "4h",],
+      ticksLabels: [
+        "0m",
+        "30m",
+        "1h",
+        "1h30m",
+        "2h",
+        "2h30m",
+        "3h",
+        "3h30m",
+        "4h",
+      ],
     };
   },
 };
