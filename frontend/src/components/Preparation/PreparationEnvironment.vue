@@ -13,6 +13,8 @@
           step="30"
           v-bind:max="240"
           :rules="rules"
+          thumb-color="teal"
+          track-color="teal lighten-4"
         >
           <template v-slot:thumb-label="{ value }">
             {{ ticksLabels[Math.floor(value / 30)] }}
@@ -25,7 +27,7 @@
         <h5 v-if="isSkipTime && value === 0">시간은 넉넉하게 하겠습니다.</h5>
       </v-col>
       <div class="btn-skip" v-if="isSkipTime && value === 0">
-        <v-btn small outlined color="primary">SKIP</v-btn>
+        <v-btn small outlined color="teal lighten-2">SKIP</v-btn>
       </div>
       <div v-else class="btn-skip">
         <v-btn small outlined @click="skipAimTime()"> skip </v-btn>
@@ -53,7 +55,7 @@
         <h5 v-if="isSkipMoney && amount === ''">금액은 상관없습니다.</h5>
       </v-col>
       <div class="btn-skip" v-if="isSkipMoney && amount === ''">
-        <v-btn small outlined color="primary">SKIP</v-btn>
+        <v-btn small outlined color="teal lighten-2">SKIP</v-btn>
       </div>
       <div v-else class="btn-skip">
         <v-btn small outlined @click="skipAimValue()"> skip </v-btn>
@@ -63,7 +65,8 @@
       large
       class="ma-10 m-3 0 4"
       @click="$router.push({ path: '/shop' })"
-      color="primary darken-2"
+      color="teal lighten-2"
+      dark
     >
       <h3>장보러 가기</h3>
     </v-btn>

@@ -36,11 +36,11 @@ export default {
     color() {
       switch (this.value) {
         case 0:
-          return "blue-grey";
+          return "teal lighten-2";
         case 1:
-          return "teal"; // lighten-2
+          return "teal";
         case 2:
-          return "indigo";
+          return "teal darken-2";
         default:
           return "blue-grey";
       }
