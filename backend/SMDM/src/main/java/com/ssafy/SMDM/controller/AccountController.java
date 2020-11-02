@@ -16,7 +16,8 @@ public class AccountController {
     @Autowired
     UserService userService;
 
-    //post 부분은 밑처럼 주면될듯!
+    // 나지금 mysql로 연동시켜놔서 applicaion.yml에 가서 mariadb나 컴터에있는 디비로 바꿔주면될거야 id 비번?
+    //post 부분은 밑처럼 주면될듯!     이런식으로 json으로
     // {
     //    "userid":"testid123",
     //    "userpw":"testpw123"
