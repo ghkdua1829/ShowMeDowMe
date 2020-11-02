@@ -64,13 +64,8 @@ public class AccountController {
     @DeleteMapping("/users")
     public Object DeleteUser(@RequestParam("userid") String id){
         Optional<User> u = userService.findByUserId(id);
-        System.out.println(id);
         if(u.isPresent()) {
-
-            System.out.println(id);
             userService.deleteByUserId(id);
-
-            System.out.println(id);
             return new ResponseEntity<String>("Delete", HttpStatus.OK);
         }
         else {
@@ -87,7 +82,7 @@ public class AccountController {
         else
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
-    
+
     //회원정보수정 -> 이거 user객체로 줄수있으면 이대로 가도 되는데 아니라면, 주석처리한부분 해야할듯?
     //편한대로 말해주면 수정해줄께 어차피 얼마안걸림!
     //modified user = Muser
@@ -111,7 +106,6 @@ public class AccountController {
     //메모작성
     @PutMapping("/users/memo")
     public Object UpdateMemo(@RequestParam("userid") String id,@RequestParam("memo") String memo){
-        System.out.println(id + " " + memo);
         userService.updateByMemo(id,memo);
         return new ResponseEntity<String>(memo,HttpStatus.OK);
 
