@@ -70,17 +70,10 @@
         <v-radio label="남성" value="남성"></v-radio>
         <v-radio label="여성" value="여성"></v-radio>
       </v-radio-group>
-      <v-btn
-        width="100%"
-        rounded
-        dark
-        color="teal lighten-2"
-        @click="$router.push({ path: '/perparation' })"
+      <v-btn width="100%" rounded dark color="teal lighten-2" @click="signup()"
         >완료</v-btn
       >
     </div>
-
-    <!-- 백에 보낼 데이터 {{ signupData }} -->
   </v-container>
 </template>
 
@@ -101,22 +94,45 @@ export default {
       this.$refs.menu.save(date);
     },
     checkId() {
-      const URL = SERVER.URL + SERVER.ROUTES.idvalidity;
-      const data = {
-        id: this.signupData.userId,
-      };
-      axios
-        .post(URL, data)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => console.log(err));
-      // if (this.signupData.userId) {
-      //   alert("사용가능한 아이디입니다.");
-      // } else {
-      //   this.signupData.userId = "";
-      //   alert("중복된 아이디입니다. 새로운 아이디를 입력해주세요.");
-      // }
+      if (this.signupData.userId) {
+        const URL = SERVER.URL + SERVER.ROUTES.idvalidity;
+        const data = {
+          id: this.signupData.userId,
+        };
+        axios
+          .post(URL, data)
+          .then((res) => {
+            if (res.status === 200) {
+              this.idValidity = true;
+              alert("사용가능한 아이디입니다.");
+            } else {
+              alert("중복된 아이디입니다. 새로운 아이디를 입력해주세요.");
+              this.signupData.userId = "";
+            }
+          })
+          .catch((err) => console.err(err));
+      } else {
+        alert("아이디를 입력해 주세요.");
+      }
+    },
+    signup() {
+      if (this.idValidity) {
+        if (this.signupData.password) {
+          if (this.signupData.birth) {
+            if (this.signupData.gender) {
+              console.log("백엔드에 데이터 보내기");
+            } else {
+              alert("성별을 선택해주세요.");
+            }
+          } else {
+            alert("생일을 입력해주세요.");
+          }
+        } else {
+          alert("비밀번호를 입력해주세요.");
+        }
+      } else {
+        alert("아이디 중복체크를 해주세요.");
+      }
     },
   },
   data() {
@@ -132,6 +148,7 @@ export default {
       password: "",
       show1: false,
       birthCalendar: false,
+      idValidity: false,
       signupData: {
         userId: "",
         password: "",
