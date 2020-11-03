@@ -1,6 +1,11 @@
 <template>
   <div class="preparationMemo">
     <div class="memo">
+      <span v-if="modalCheck" class="back-btn">
+        <v-icon @click="$router.push({ path: '/perparation' })">
+          mdi-arrow-left
+        </v-icon>
+      </span>
       <h1>메모장</h1>
       <v-text-field
         label="장보기 목록에 추가하기"
