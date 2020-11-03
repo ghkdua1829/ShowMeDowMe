@@ -86,6 +86,8 @@
 
 <script>
 import "@/assets/css/components/Home/signup.scss";
+import SERVER from "@/api/spring";
+import axios from "axios";
 
 export default {
   name: "Signup",
@@ -99,12 +101,22 @@ export default {
       this.$refs.menu.save(date);
     },
     checkId() {
-      if (this.signupData.userId) {
-        alert("사용가능한 아이디입니다.");
-      } else {
-        this.signupData.userId = "";
-        alert("중복된 아이디입니다. 새로운 아이디를 입력해주세요.");
-      }
+      const URL = SERVER.URL + SERVER.ROUTES.idvalidity;
+      const data = {
+        id: this.signupData.userId,
+      };
+      axios
+        .post(URL, data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
+      // if (this.signupData.userId) {
+      //   alert("사용가능한 아이디입니다.");
+      // } else {
+      //   this.signupData.userId = "";
+      //   alert("중복된 아이디입니다. 새로운 아이디를 입력해주세요.");
+      // }
     },
   },
   data() {
