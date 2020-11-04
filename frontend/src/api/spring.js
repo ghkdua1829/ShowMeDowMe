@@ -3,7 +3,8 @@ export default {
     ROUTES: {
         users: "/users",
         login: "/login",
-        idvalidity: "/users/id"
+        idvalidity: "/users/id",
+        memo: "/users/memo",
 
     }
 }

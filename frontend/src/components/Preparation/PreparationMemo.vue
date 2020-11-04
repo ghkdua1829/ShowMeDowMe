@@ -34,6 +34,8 @@
 <script>
 import Navigation from "@/components/Navigation";
 import "@/assets/css/components/Preparation/preparationMemo.scss";
+import axios from "axios";
+import SERVER from "@/api/spring";
 
 export default {
   name: "PreparationMemo",
@@ -46,6 +48,12 @@ export default {
     } else {
       this.modalCheck = false;
     }
+    const URL = SERVER.URL + SERVER.ROUTES.memo;
+    const data = {
+      // id: this.$store.state,
+      id: "aaa",
+    };
+    axios.get(URL, data).then((res) => console.log(res));
   },
   methods: {
     deleteMemo(index) {
