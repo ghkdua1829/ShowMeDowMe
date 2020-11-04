@@ -67,14 +67,26 @@
         <template v-slot:label>
           <div>성별</div>
         </template>
-        <v-radio label="남성" value="남성"></v-radio>
-        <v-radio label="여성" value="여성"></v-radio>
+        <v-radio label="남성" value="0"></v-radio>
+        <v-radio label="여성" value="1"></v-radio>
       </v-radio-group>
-      <v-btn width="100%" rounded dark color="teal lighten-2" @click="signup()"
+      <v-btn
+        :disabled="
+          !(
+            idValidity &&
+            this.signupData.userpw &&
+            this.signupData.userbirth &&
+            this.signupData.usergender
+          )
+        "
+        width="100%"
+        rounded
+        color="teal lighten-2"
+        @click="signup(signupData)"
+        class="btn-signup"
         >완료</v-btn
       >
     </div>
-    {{ signupData }}
   </v-container>
 </template>
 
@@ -82,6 +94,7 @@
 import "@/assets/css/components/Home/signup.scss";
 import SERVER from "@/api/spring";
 import axios from "axios";
+import { mapActions } from "vuex";
 
 export default {
   name: "Signup",
@@ -91,6 +104,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["signup"]),
     save(date) {
       this.$refs.menu.save(date);
     },
@@ -114,40 +128,6 @@ export default {
           .catch((err) => console.err(err));
       } else {
         alert("아이디를 입력해 주세요.");
-      }
-    },
-    signup() {
-      if (this.idValidity) {
-        if (this.signupData.userpw) {
-          if (this.signupData.userbirth) {
-            if (this.signupData.usergender) {
-              if (this.signupData.usergender === "남성") {
-                this.signupData.usergender = "0";
-              } else {
-                this.signupData.usergender = "1";
-              }
-              this.signupData.userbirth += " 12:00:00";
-              const URL2 = SERVER.URL + SERVER.ROUTES.users;
-              axios
-                .post(URL2, this.signupData, null)
-                .then((res) => {
-                  if (res.status === 200) {
-                    alert("회원가입을 축하합니다.");
-                    this.$router.push({ path: "/perparation" });
-                  }
-                })
-                .catch((err) => console.err(err));
-            } else {
-              alert("성별을 선택해주세요.");
-            }
-          } else {
-            alert("생일을 입력해주세요.");
-          }
-        } else {
-          alert("비밀번호를 입력해주세요.");
-        }
-      } else {
-        alert("아이디 중복체크를 해주세요.");
       }
     },
   },
