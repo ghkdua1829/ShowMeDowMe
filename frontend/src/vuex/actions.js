@@ -18,5 +18,9 @@ export default {
           data: signupData,
         };
         dispatch("postuserData", info);
-      },
+    },
+    logout({ commit }) {
+        commit("SET_USERID", null);
+        router.push({path: "/"})
+    },
 }

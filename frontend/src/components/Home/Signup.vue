@@ -74,9 +74,9 @@
         :disabled="
           !(
             idValidity &&
-            this.signupData.userpw &&
             this.signupData.userbirth &&
-            this.signupData.usergender
+            this.signupData.usergender &&
+            this.signupData.userpw == this.userpw
           )
         "
         width="100%"

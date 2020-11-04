@@ -6,7 +6,7 @@
         mdi-file-document-edit-outline</v-icon
       >
       <h4>구매 목록 메모</h4>
-      <!-- {{ userid }} -->
+      {{ userid }}
     </span>
     <Navigation />
   </div>
