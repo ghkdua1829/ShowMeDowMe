@@ -6,7 +6,7 @@
       <v-row>
         <v-col>
           <v-text-field
-            v-model="signupData.userId"
+            v-model="signupData.userid"
             label="아이디"
             required
           ></v-text-field>
@@ -19,7 +19,7 @@
       </v-row>
       <!-- 비밀번호 -->
       <v-text-field
-        v-model="password"
+        v-model="userpw"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="[rules.required, rules.min]"
         :type="show1 ? 'text' : 'password'"
@@ -29,7 +29,7 @@
         @click:append="show1 = !show1"
       ></v-text-field>
       <v-text-field
-        v-model="signupData.password"
+        v-model="signupData.userpw"
         :rules="[rulescheck.required, rulescheck.match]"
         name="input-10-1"
         label="비밀번호 확인"
@@ -38,7 +38,7 @@
       <!-- 생일 -->
       <v-menu
         ref="menu"
-        v-model="birthCalendar"
+        v-model="userbirthCalendar"
         :close-on-content-click="false"
         transition="scale-transition"
         offset-y
@@ -46,7 +46,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
-            v-model="signupData.birth"
+            v-model="signupData.userbirth"
             label="생일"
             prepend-icon="mdi-calendar"
             readonly
@@ -56,14 +56,14 @@
         </template>
         <v-date-picker
           ref="picker"
-          v-model="signupData.birth"
+          v-model="signupData.userbirth"
           :max="new Date().toISOString().substr(0, 10)"
           min="1950-01-01"
           @change="save"
         ></v-date-picker>
       </v-menu>
       <!-- 성별 -->
-      <v-radio-group v-model="signupData.gender" :mandatory="false">
+      <v-radio-group v-model="signupData.usergender" :mandatory="false">
         <template v-slot:label>
           <div>성별</div>
         </template>
@@ -74,6 +74,7 @@
         >완료</v-btn
       >
     </div>
+    {{ signupData }}
   </v-container>
 </template>
 
@@ -94,10 +95,10 @@ export default {
       this.$refs.menu.save(date);
     },
     checkId() {
-      if (this.signupData.userId) {
+      if (this.signupData.userid) {
         const URL = SERVER.URL + SERVER.ROUTES.idvalidity;
         const data = {
-          id: this.signupData.userId,
+          id: this.signupData.userid,
         };
         axios
           .post(URL, data)
@@ -107,7 +108,7 @@ export default {
               alert("사용가능한 아이디입니다.");
             } else {
               alert("중복된 아이디입니다. 새로운 아이디를 입력해주세요.");
-              this.signupData.userId = "";
+              this.signupData.userid = "";
             }
           })
           .catch((err) => console.err(err));
@@ -117,10 +118,25 @@ export default {
     },
     signup() {
       if (this.idValidity) {
-        if (this.signupData.password) {
-          if (this.signupData.birth) {
-            if (this.signupData.gender) {
-              console.log("백엔드에 데이터 보내기");
+        if (this.signupData.userpw) {
+          if (this.signupData.userbirth) {
+            if (this.signupData.usergender) {
+              if (this.signupData.usergender === "남성") {
+                this.signupData.usergender = "0";
+              } else {
+                this.signupData.usergender = "1";
+              }
+              this.signupData.userbirth += " 12:00:00";
+              const URL2 = SERVER.URL + SERVER.ROUTES.users;
+              axios
+                .post(URL2, this.signupData, null)
+                .then((res) => {
+                  if (res.status === 200) {
+                    alert("회원가입을 축하합니다.");
+                    this.$router.push({ path: "/perparation" });
+                  }
+                })
+                .catch((err) => console.err(err));
             } else {
               alert("성별을 선택해주세요.");
             }
@@ -139,21 +155,21 @@ export default {
     return {
       rulescheck: {
         required: (value) => !!value || "입력해주세요.",
-        match: (v) => v === this.password || "일치하지 않습니다.",
+        match: (v) => v === this.userpw || "일치하지 않습니다.",
       },
       rules: {
         required: (value) => !!value || "입력해주세요.",
         min: (v) => v.length >= 8 || "최소 8자로 입력해주세요.",
       },
-      password: "",
+      userpw: "",
       show1: false,
-      birthCalendar: false,
+      userbirthCalendar: false,
       idValidity: false,
       signupData: {
-        userId: "",
-        password: "",
-        birth: null,
-        gender: "",
+        userid: "",
+        userpw: "",
+        userbirth: null,
+        usergender: "",
       },
     };
   },
