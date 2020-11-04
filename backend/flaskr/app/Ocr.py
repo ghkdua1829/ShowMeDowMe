@@ -37,7 +37,8 @@ def hello():
         hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')  # 한글과 띄어쓰기를 제외한 모든 글자
         hangulResult = hangul.sub('', text)  # 한글과 띄어쓰기를 제외한 모든 부분을 제거
         if len(hangulResult) > 3:
-            if text.find('가능') == -1 and text.find('개당') == -1 and text.find('g당') == -1 and text.find('기간') == -1 and text.find('추천') == -1:
+            if text.find('가능') == -1 and text.find('개당') == -1 and text.find('g당') == -1 and text.find(
+                    '기간') == -1 and text.find('추천') == -1:
                 print("후보 물건 이름!!! : " + text)
                 result[0] = text
 
