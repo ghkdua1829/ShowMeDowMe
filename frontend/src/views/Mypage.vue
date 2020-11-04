@@ -3,7 +3,7 @@
     <Navigation />
     <div class="mypage">
       <h1>마이페이지</h1>
-      <div class="btn-logout">
+      <div class="btn-logout" @click="logout">
         <v-col>
           <v-icon>mdi-logout</v-icon>
         </v-col>
@@ -23,6 +23,7 @@
 import Navigation from "@/components/Navigation";
 import MypageUpdate from "@/components/Mypage/MypageUpdate";
 import MypageNotice from "@/components/Mypage/MypageNotice";
+import { mapActions } from "vuex";
 import "@/assets/css/views/mypage.scss";
 
 export default {
@@ -31,6 +32,9 @@ export default {
     Navigation,
     MypageUpdate,
     MypageNotice,
+  },
+  methods: {
+    ...mapActions(["logout"]),
   },
 };
 </script>
