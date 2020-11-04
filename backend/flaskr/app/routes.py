@@ -16,25 +16,16 @@ def imageOcr():
 	return hello()
 
 
-# @app.route('/pyapi/image', methods=['POST', 'GET'])
-# def getImage():
-# 	value = request.files["image"]
-# 	print(value)
-# 	return "확인완료"
-
-
 # 파일 업로드 처리
-@app.route('/fileUpload', methods = ['GET', 'POST'])
+@app.route('/pyapi/image', methods = ['GET', 'POST'])
 @cross_origin()
 def upload_file():
 	if request.method == 'POST':
 		f = request.get_data()
 		print(f)
-		# 저장할 경로 + 파일명
-		print("여기3")
 
+		# 저장할 경로 + 파일명
 		# f.save(secure_filename(f.filename))
 		response = jsonify(message="테스트")
 		response.headers.add("Access-Control-Allow-Origin", "*")
 		return response
-
