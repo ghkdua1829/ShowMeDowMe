@@ -4,7 +4,7 @@ import numpy as np
 
 import imutils
 
-image = cv2.imread("kk.jpg")
+image = cv2.imread("3.jpg")
 
 image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
