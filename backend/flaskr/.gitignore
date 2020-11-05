@@ -270,4 +270,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+workspace.xml
+routes.cpython-36.pyc
+
 # End of https://www.toptal.com/developers/gitignore/api/python,opencv,flask,macos,windows
