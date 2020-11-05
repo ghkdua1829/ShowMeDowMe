@@ -1,34 +1,20 @@
 <template>
   <div class="report">
-    <h1 class="report-title">장보기 Report</h1>
-    <h1 class="text-left">
-      오늘
-      <div class="content">
-        장본 시간은
-        <v-sheet
-          color="gray darken-2"
-          elevation="2"
-          height="50"
-          outlined
-          rounded
-          width="120"
-        ></v-sheet>
-      </div>
-      <div class="content">
-        결재한 금액은
-        <v-sheet
-          color="gray darken-2"
-          elevation="2"
-          height="50"
-          outlined
-          rounded
-          width="120"
-        ></v-sheet>
-      </div>
-    </h1>
-    <h5 class="content">예상금액보다 원을 사용하셨습니다.</h5>
+    <h1 class="report-title">오늘의 Report</h1>
+    <h2 class="content">싸피님의 쇼핑 유형은 ~ 유형입니다.</h2>
+    <h2 class="content">장본 시간은 1시간 2분</h2>
+    <h2 class="content">결재한 금액은 54000원</h2>
+
+    <h5 class="content">예상금액보다 12000원을 사용하셨습니다.</h5>
     <br />
-    <v-btn rounded dark @click="$router.push({ path: '/mypage' })">확인</v-btn>
+    <v-btn
+      width="60%"
+      rounded
+      dark
+      color="teal lighten-2"
+      @click="$router.push({ path: '/mypage' })"
+      >확인</v-btn
+    >
   </div>
 </template>
 

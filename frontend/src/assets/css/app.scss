@@ -38,4 +38,14 @@ body {
   h5 {
     font-family: $main-font;
   }
+  @media screen and (min-width: 1000px) {
+    .mobile-size {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 1000px) {
+    .web-size {
+      display: none;
+    }
+  }
 }

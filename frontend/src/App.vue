@@ -1,10 +1,14 @@
 <template>
   <v-app>
-    <!-- <div id="nav">
-      <router-link to="/shop">장보기 화면 보기</router-link> |
-      <router-link to="/user">유저화면</router-link>
-    </div> -->
-    <router-view />
+    <div class="mobile-size">
+      <router-view />
+    </div>
+    <div class="web-size">
+      <v-img
+        src="https://user-images.githubusercontent.com/60081201/97841020-64aeb280-1d28-11eb-80a1-cb26086f08f8.PNG"
+        alt="쇼우미도우미는 모바일 환경에서 서비스를 지원합니다."
+      />
+    </div>
   </v-app>
 </template>
 
