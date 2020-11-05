@@ -3,10 +3,17 @@ server:
 
 spring:
   datasource:
+<<<<<<< HEAD
     url: jdbc:mariadb://k3a301.p.ssafy.io:1827/showmedowme_db
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: sh0wm2d0wm2
+=======
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/showmedowme?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: 1006
+>>>>>>> 5d1b92bbeb4ce599650227971a824d71f6817fdc
 
   jpa:
     open-in-view: false
