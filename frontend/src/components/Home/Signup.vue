@@ -112,7 +112,7 @@ export default {
       if (this.signupData.userid) {
         const URL = SERVER.URL + SERVER.ROUTES.idvalidity;
         const data = {
-          id: this.signupData.userid,
+          userid: this.signupData.userid,
         };
         axios
           .post(URL, data)
