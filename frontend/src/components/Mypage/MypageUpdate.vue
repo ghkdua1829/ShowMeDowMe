@@ -7,9 +7,7 @@
       transition="dialog-bottom-transition"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" outlined color="indigo">
-          개인 정보 설정
-        </v-btn>
+        <v-btn v-bind="attrs" v-on="on" outlined> 개인 정보 설정 </v-btn>
       </template>
       <v-card>
         <v-toolbar dark color="primary">
