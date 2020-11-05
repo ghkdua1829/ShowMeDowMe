@@ -21,7 +21,6 @@ def hello():
     response = client.text_detection(image=image)
     texts = response.text_annotations
     # -*- Encoding:UTF-8 -*- #
-    print(texts[0].description.split("\n"))
     text_arr = texts[0].description.split("\n")
     # s = '123abc.-30=*/-'
 
@@ -32,7 +31,7 @@ def hello():
     for text in text_arr:
         str_num = "".join(re.findall('\d+', text))
         hangul_result = hangul.sub('', text)  # 한글과 띄어쓰기를 제외한 모든 부분을 제거
-        print("[" + str_num + "]")
+        # print("[" + str_num + "]")
         if len(str_num) != 0:
 
             if len(hangul_result) < 3 and 100 < int(str_num) < 500000 and text.find('/') == -1:
