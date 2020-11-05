@@ -82,6 +82,7 @@ export default {
         src: canva.toDataURL("image/png"),
       });
       console.log(this.photos);
+      alert("현재 서비스를 준비중입니다~!")
     },
     async switchCamera() {
       this.switchingCamera = true;
