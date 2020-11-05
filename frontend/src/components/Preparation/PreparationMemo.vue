@@ -1,6 +1,11 @@
 <template>
   <div class="preparationMemo">
     <div class="memo">
+      <span v-if="modalCheck" class="back-btn">
+        <v-icon @click="$router.push({ path: '/perparation' })">
+          mdi-arrow-left
+        </v-icon>
+      </span>
       <h1>메모장</h1>
       <v-text-field
         label="장보기 목록에 추가하기"
@@ -29,6 +34,8 @@
 <script>
 import Navigation from "@/components/Navigation";
 import "@/assets/css/components/Preparation/preparationMemo.scss";
+import axios from "axios";
+import SERVER from "@/api/spring";
 
 export default {
   name: "PreparationMemo",
@@ -41,6 +48,12 @@ export default {
     } else {
       this.modalCheck = false;
     }
+    const URL = SERVER.URL + SERVER.ROUTES.memo;
+    const data = {
+      // id: this.$store.state,
+      id: "aaa",
+    };
+    axios.get(URL, data).then((res) => console.log(res));
   },
   methods: {
     deleteMemo(index) {
