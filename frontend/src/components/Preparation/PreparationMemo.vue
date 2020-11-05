@@ -37,6 +37,8 @@ import "@/assets/css/components/Preparation/preparationMemo.scss";
 import axios from "axios";
 import SERVER from "@/api/spring";
 
+const URL = SERVER.URL + SERVER.ROUTES.memo + "?userid=" + "testmemo";
+
 export default {
   name: "PreparationMemo",
   components: {
@@ -48,21 +50,27 @@ export default {
     } else {
       this.modalCheck = false;
     }
-    const URL = SERVER.URL + SERVER.ROUTES.memo;
-    const data = {
-      // id: this.$store.state,
-      id: "aaa",
-    };
-    axios.get(URL, data).then((res) => console.log(res));
+    axios
+      .get(URL)
+      .then((res) => {
+        this.memoList = res.data.split(",");
+      })
+      .catch((err) => console.err(err));
   },
   methods: {
     deleteMemo(index) {
       this.memoList.splice(index, 1);
+      this.postmemo = this.memoList.join(", ");
+      let updateURL = URL + "&memo=" + this.postmemo;
+      axios.put(updateURL).catch((err) => console.err(err));
     },
     plusMemo() {
       if (this.memoInput !== " ") {
         if (this.memoList.includes(this.memoInput) === false) {
           this.memoList.push(this.memoInput);
+          this.postmemo = this.memoList.join(", ");
+          let updateURL = URL + "&memo=" + this.postmemo;
+          axios.put(updateURL).catch((err) => console.err(err));
         }
         this.memoInput = "";
       } else {
@@ -73,9 +81,10 @@ export default {
   data() {
     return {
       memoInput: "",
-      memoList: ["렌즈세정액", "우유", "당근"], // 사용자가 미리 작성한 리스트
+      memoList: [], // 사용자가 미리 작성한 리스트
       colors: ["green", "purple", "indigo", "cyan", "teal", "orange"],
       modalCheck: false,
+      postmemo: "",
     };
   },
 };
