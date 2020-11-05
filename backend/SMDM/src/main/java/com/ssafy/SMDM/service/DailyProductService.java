@@ -57,9 +57,15 @@ public class DailyProductService {
     }
 
     //read lists
-    public List<String> findByUserid(String UserId){
+    public List<String> findByUser(String UserId){
         List<String> list = new ArrayList<>();
         list = dailyProductRepository.findByUser(UserId);
         return list;
+    }
+
+    //조회
+    public List<DailyProduct> findByUserid(String UserId){
+        List<DailyProduct> d = dailyProductRepository.findByUserid(UserId);
+        return d;
     }
 }

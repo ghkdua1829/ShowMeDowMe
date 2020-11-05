@@ -59,7 +59,6 @@ public class NaverShoppingService {
                     s= array[i + 2];
                 }
             }
-            System.out.println(s);
 
 
 

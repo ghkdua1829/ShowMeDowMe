@@ -37,10 +37,17 @@ public class DailyProductController {
             return new ResponseEntity<DailyProduct>(HttpStatus.NOT_FOUND);
     }
 
+    //카테고리조회
+    @GetMapping("/category")
+    public Object GetCategory(@RequestParam("userid") String id){
+        List<String> list = dailyProductService.findByUser(id);
+        return new ResponseEntity<List>(list,HttpStatus.OK);
+    }
+
     //조회
     @GetMapping
-    public Object GetCategory(@RequestParam("userid") String id){
-        List<String> list = dailyProductService.findByUserid(id);
+    public Object Getdatas(@RequestParam("userid") String id){
+        List<DailyProduct> list = dailyProductService.findByUserid(id);
         return new ResponseEntity<List>(list,HttpStatus.OK);
     }
 
