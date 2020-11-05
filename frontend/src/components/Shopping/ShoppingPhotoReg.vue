@@ -100,7 +100,7 @@ export default {
           console.log(res);
         });
       console.log(this.photos);
-      // this.router.push("/shop");
+      alert("현재 서비스를 준비중입니다~!")
     },
     async switchCamera() {
       this.switchingCamera = true;
