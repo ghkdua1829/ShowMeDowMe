@@ -1,6 +1,8 @@
 <template>
   <div class="shopping">
-    <v-icon class="" @click="$router.push({ path: '/perparation' })"> mdi-arrow-left </v-icon>
+    <v-icon @click="$router.push({ path: '/perparation' })">
+      mdi-arrow-left
+    </v-icon>
     <h1>장보는 중</h1>
     <v-row>
       <v-col cols="2">
@@ -42,18 +44,23 @@
     <v-btn
       class="mt-5"
       dark
-      color="teal"
+      rounded
+      large
+      color="teal lighten-2"
       @click="$router.push({ path: '/camera' })"
     >
       <v-icon>mdi-camera </v-icon>
+
       사진으로 제품 등록
     </v-btn>
-    <v-row class="mt-3">
+    <v-row class="mt-3 final-box">
       <v-col>
         <h4>현재 결재 예상 금액 28000원</h4>
       </v-col>
       <v-col>
-        <v-btn dark @click="$router.push({ path: '/report' })"> 완료 </v-btn>
+        <v-btn dark @click="$router.push({ path: '/report' })">
+          장보기 완료
+        </v-btn>
       </v-col>
     </v-row>
   </div>
