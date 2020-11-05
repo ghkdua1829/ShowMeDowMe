@@ -1,20 +1,30 @@
 package com.ssafy.SMDM.controller;
 
+//import com.ssafy.SMDM.JWT.JwtTokenProvider;
 import com.ssafy.SMDM.dto.User;
 import com.ssafy.SMDM.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class AccountController {
+
+//    private final PasswordEncoder passwordEncoder;
+//    private final JwtTokenProvider jwtTokenProvider;
+
     @Autowired
     UserService userService;
+
 
     // 나지금 mysql로 연동시켜놔서 applicaion.yml에 가서 mariadb나 컴터에있는 디비로 바꿔주면될거야 id 비번?
     //post 부분은 밑처럼 주면될듯!     이런식으로 json으로
@@ -28,7 +38,8 @@ public class AccountController {
         Optional<User> u = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
         if(u.isPresent()){
             //로그인 완료부분
-            return new ResponseEntity<String>(param.get("userid"),HttpStatus.OK);
+//            String token = jwtTokenProvider.createToken(u.get().getUserid(),u.get().getRoles());
+            return new ResponseEntity<String>(HttpStatus.OK);
         }else{
             //로그인 실패부분
             return new ResponseEntity<String>(param.get("userid"),HttpStatus.NOT_FOUND);
@@ -43,6 +54,7 @@ public class AccountController {
         user.setUserpw(param.get("userpw"));
         user.setUserbirth(param.get("userbirth"));
         user.setUserGender(Integer.parseInt(param.get("usergender")));
+//        user.setRoles(Collections.singletonList("ROLE_USER"));
         return new ResponseEntity<User>(userService.save(user),HttpStatus.OK);
     }
 
@@ -117,4 +129,7 @@ public class AccountController {
         Optional<User> u = userService.findByUserId(id);
         return new ResponseEntity<String>(u.get().getUserMemo(),HttpStatus.OK);
     }
+
+    //비밀번호 확인
+    
 }

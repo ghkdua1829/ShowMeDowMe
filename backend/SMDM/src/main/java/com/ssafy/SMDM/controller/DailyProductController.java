@@ -2,12 +2,12 @@ package com.ssafy.SMDM.controller;
 
 import com.ssafy.SMDM.dto.DailyProduct;
 import com.ssafy.SMDM.service.DailyProductService;
-import jdk.jfr.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -18,13 +18,14 @@ public class DailyProductController {
     DailyProductService dailyProductService;
 
     //update date
-    @PutMapping("/")
+    @PutMapping
     public Object UpdateDate(@RequestParam("userid") String id,
                              @RequestParam("categoryid") String categoryid,
                              @RequestParam("date") String date){
+        System.out.println(id + " " +  categoryid);
         Optional<DailyProduct> d = dailyProductService.findByUseridAndCategoryid(id,categoryid);
         if(d.isPresent()) {
-            dailyProductService.updateDate(Optional.of(d.get()), date);
+            dailyProductService.updateDate(d,date);
             return new ResponseEntity<DailyProduct>(d.get(), HttpStatus.OK);
         }
         else
@@ -32,14 +33,14 @@ public class DailyProductController {
     }
 
     //조회
-    @GetMapping("/")
+    @GetMapping
     public Object GetCategory(@RequestParam("userid") String id){
-        dailyProductService.findByUserid(id);
-        return new ResponseEntity<String>(HttpStatus.OK);
+        List<String> list = dailyProductService.findByUserid(id);
+        return new ResponseEntity<List>(list,HttpStatus.OK);
     }
 
     //삭제
-    @DeleteMapping("/")
+    @DeleteMapping
     public Object DeleteCategory(@RequestParam("userid") String id,
                                  @RequestParam("categoryid") String categoryid){
         Optional<DailyProduct> d = dailyProductService.findByUseridAndCategoryid(id,categoryid);
@@ -52,7 +53,7 @@ public class DailyProductController {
 
     }
     //상품추가
-    @PostMapping("/")
+    @PostMapping
     public Object AddProduct(@RequestBody Map<String,String> param){
         DailyProduct d = dailyProductService.addproduct(param.get("userid")
                 ,param.get("categoryid"),param.get("date"));

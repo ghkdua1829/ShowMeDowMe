@@ -11,16 +11,25 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class DailyProduct {
 
-    @EmbeddedId
-    private DailyProductPK dailyproductpk;
+    @Id
+    @Column(name="pid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer pid;
+
+    @Column(name="user_id")
+    private String userid;
+
+    @Column(name="category_id")
+    private String categoryid;
 
     @Column(name="date")
     private String date;
 
     @Builder
-    public DailyProduct(String userid,String categoryid,String date){
-        dailyproductpk.setUserid(userid);
-        dailyproductpk.setCategoryid(categoryid);
+    public DailyProduct(Integer pid,String userid,String categoryid,String date){
+        this.pid = pid;
+        this.userid = userid;
+        this.categoryid = categoryid;
         this.date = date;
     }
 }
