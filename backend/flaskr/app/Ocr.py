@@ -2,7 +2,7 @@
 from google.cloud import vision_v1 as vision
 import io
 import re
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from PIL import Image
 
 app = Flask(__name__)
@@ -38,9 +38,11 @@ def hello():
         hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')  # 한글과 띄어쓰기를 제외한 모든 글자
         hangulResult = hangul.sub('', text)  # 한글과 띄어쓰기를 제외한 모든 부분을 제거
         if len(hangulResult) > 3:
-            if text.find('가능') == -1 and text.find('개당') == -1 and text.find('g당') == -1 and text.find(
-                    '기간') == -1 and text.find('추천') == -1 and text.find(',') == -1:
+            if text.find('가능') == -1 and text.find('원산지') == -1 and text.find('표기') == -1 and text.find(
+                    '용기') == -1 and text.find(
+                    '개당') == -1 and text.find('g당') == -1 and text.find('기간') == -1 and text.find('추천') == -1 and text.find(',') == -1:
                 print("후보 물건 이름!!! : " + text)
+                # if result[0][0]=='|'
                 result[0] = text
 
     # print('Texts:')
@@ -56,7 +58,9 @@ def hello():
             'https://cloud.google.com/apis/design/errors'.format(
                 response.error.message))
 
-    return str(str(result[0]) + " , " + str(result[1]))
+    jsonResponse = {'name': result[0], 'price': result[1]}
+
+    return jsonify(jsonResponse)
 
 
 def detect_text(path):

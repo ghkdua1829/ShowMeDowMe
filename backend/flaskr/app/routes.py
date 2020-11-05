@@ -11,7 +11,7 @@ def index():
 	return "Hello, World!"
 
 
-@app.route('/postImage', methods=['POST'])
+@app.route('/image', methods=['POST'])
 def imageOcr():
 	return hello()
 
