@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.DocFlavor;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
@@ -131,5 +132,15 @@ public class AccountController {
     }
 
     //비밀번호 확인
-    
+    @PostMapping("/users/confirm")
+    public Object confirm(@RequestBody Map<String,String> param){
+        Optional<User> u = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
+        if(u.isPresent()){
+            //로그인 완료부분
+            return new ResponseEntity<String>(HttpStatus.OK);
+        }else{
+            //로그인 실패부분
+            return new ResponseEntity<String>(param.get("userid"),HttpStatus.NOT_FOUND);
+        }
+    }
 }

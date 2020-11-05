@@ -2,6 +2,7 @@ package com.ssafy.SMDM.controller;
 
 import com.ssafy.SMDM.dto.DailyProduct;
 import com.ssafy.SMDM.service.DailyProductService;
+import com.ssafy.SMDM.service.NaverShoppingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +18,17 @@ public class DailyProductController {
     @Autowired
     DailyProductService dailyProductService;
 
+    @Autowired
+    NaverShoppingService naverShoppingService;
+
     //update date
     @PutMapping
     public Object UpdateDate(@RequestParam("userid") String id,
                              @RequestParam("categoryid") String categoryid,
                              @RequestParam("date") String date){
-        System.out.println(id + " " +  categoryid);
-        Optional<DailyProduct> d = dailyProductService.findByUseridAndCategoryid(id,categoryid);
+
+        String s = naverShoppingService.findCategory(categoryid);
+        Optional<DailyProduct> d = dailyProductService.findByUseridAndCategoryid(id,s);
         if(d.isPresent()) {
             dailyProductService.updateDate(d,date);
             return new ResponseEntity<DailyProduct>(d.get(), HttpStatus.OK);
@@ -52,11 +57,13 @@ public class DailyProductController {
             return new ResponseEntity<String>("not found category",HttpStatus.NOT_FOUND);
 
     }
+
     //상품추가
     @PostMapping
     public Object AddProduct(@RequestBody Map<String,String> param){
         DailyProduct d = dailyProductService.addproduct(param.get("userid")
-                ,param.get("categoryid"),param.get("date"));
+                    , naverShoppingService.findCategory(param.get("categoryid")), param.get("date"));
+
         return new ResponseEntity<DailyProduct>(d,HttpStatus.OK);
     }
 }
