@@ -1,88 +1,82 @@
 <template>
   <div class="preparationMemo">
     <div class="memo">
+      <span v-if="modalCheck" class="back-btn">
+        <v-icon @click="$router.push({ path: '/perparation' })">
+          mdi-arrow-left
+        </v-icon>
+      </span>
       <h1>메모장</h1>
-      <div class="text-center">
-        <v-btn
-          v-if="!chip1 && !chip2 && !chip3 && !chip4"
-          close
-          color="primary"
-          dark
-          @click="
-            (chip1 = true), (chip2 = true), (chip3 = true), (chip4 = true)
-          "
-        >
-          Reset Chips
-        </v-btn>
-
-        <v-chip v-if="chip1" class="ma-2" close @click:close="chip1 = false">
-          Closable
-        </v-chip>
-
+      <v-text-field
+        label="장보기 목록에 추가하기"
+        hide-details="auto"
+        class="mb-2"
+        v-model="memoInput"
+        @keyup.enter="plusMemo()"
+        @keyup.space="plusMemo()"
+      ></v-text-field>
+      <span v-for="(memo, index) in memoList" :key="index">
         <v-chip
-          v-if="chip2"
           class="ma-2"
+          :color="`${colors[index % 6]} lighten-3`"
           close
-          color="red"
-          text-color="white"
-          @click:close="chip2 = false"
+          @click:close="deleteMemo(index)"
+          >{{ memo }}</v-chip
         >
-          Remove
-        </v-chip>
-
-        <v-chip
-          v-if="chip3"
-          class="ma-2"
-          close
-          color="green"
-          outlined
-          @click:close="chip3 = false"
-        >
-          Success
-        </v-chip>
-
-        <v-chip
-          v-if="chip4"
-          class="ma-2"
-          close
-          color="orange"
-          label
-          outlined
-          @click:close="chip4 = false"
-        >
-          Complete
-        </v-chip>
-      </div>
+      </span>
     </div>
-    <Navigation />
+    <div v-if="modalCheck">
+      <Navigation />
+    </div>
   </div>
 </template>
 
 <script>
 import Navigation from "@/components/Navigation";
 import "@/assets/css/components/Preparation/preparationMemo.scss";
+import axios from "axios";
+import SERVER from "@/api/spring";
 
 export default {
   name: "PreparationMemo",
   components: {
     Navigation,
   },
+  created() {
+    if (this.$route.name.name === "PreparationMemo") {
+      this.modalCheck = true;
+    } else {
+      this.modalCheck = false;
+    }
+    const URL = SERVER.URL + SERVER.ROUTES.memo;
+    const data = {
+      // id: this.$store.state,
+      id: "aaa",
+    };
+    axios.get(URL, data).then((res) => console.log(res));
+  },
   methods: {
-    remove(item) {
-      this.chips.splice(this.chips.indexOf(item), 1);
-      this.chips = [...this.chips];
+    deleteMemo(index) {
+      this.memoList.splice(index, 1);
+    },
+    plusMemo() {
+      if (this.memoInput !== " ") {
+        if (this.memoList.includes(this.memoInput) === false) {
+          this.memoList.push(this.memoInput);
+        }
+        this.memoInput = "";
+      } else {
+        alert("추가할 물품을 입력해주세요.");
+      }
     },
   },
   data() {
     return {
-      chip1: true,
-      chip2: true,
-      chip3: true,
-      chip4: true,
+      memoInput: "",
+      memoList: ["렌즈세정액", "우유", "당근"], // 사용자가 미리 작성한 리스트
+      colors: ["green", "purple", "indigo", "cyan", "teal", "orange"],
+      modalCheck: false,
     };
   },
 };
 </script>
-
-<style>
-</style>

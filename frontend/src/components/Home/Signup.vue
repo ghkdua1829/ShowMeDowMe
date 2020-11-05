@@ -6,18 +6,20 @@
       <v-row>
         <v-col>
           <v-text-field
-            v-model="signupData.userId"
+            v-model="signupData.userid"
             label="아이디"
             required
           ></v-text-field>
         </v-col>
         <v-col>
-          <v-btn rounded dark color="teal" outlined>중복 체크</v-btn>
+          <v-btn @click="checkId" rounded dark color="teal lighten-2" outlined
+            >중복 체크</v-btn
+          >
         </v-col>
       </v-row>
       <!-- 비밀번호 -->
       <v-text-field
-        v-model="password"
+        v-model="userpw"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="[rules.required, rules.min]"
         :type="show1 ? 'text' : 'password'"
@@ -27,7 +29,7 @@
         @click:append="show1 = !show1"
       ></v-text-field>
       <v-text-field
-        v-model="signupData.password"
+        v-model="signupData.userpw"
         :rules="[rulescheck.required, rulescheck.match]"
         name="input-10-1"
         label="비밀번호 확인"
@@ -36,7 +38,7 @@
       <!-- 생일 -->
       <v-menu
         ref="menu"
-        v-model="birthCalendar"
+        v-model="userbirthCalendar"
         :close-on-content-click="false"
         transition="scale-transition"
         offset-y
@@ -44,7 +46,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
-            v-model="signupData.birth"
+            v-model="signupData.userbirth"
             label="생일"
             prepend-icon="mdi-calendar"
             readonly
@@ -54,36 +56,45 @@
         </template>
         <v-date-picker
           ref="picker"
-          v-model="signupData.birth"
+          v-model="signupData.userbirth"
           :max="new Date().toISOString().substr(0, 10)"
           min="1950-01-01"
           @change="save"
         ></v-date-picker>
       </v-menu>
       <!-- 성별 -->
-      <v-radio-group v-model="signupData.gender" :mandatory="false">
+      <v-radio-group v-model="signupData.usergender" :mandatory="false">
         <template v-slot:label>
           <div>성별</div>
         </template>
-        <v-radio label="남성" value="남성"></v-radio>
-        <v-radio label="여성" value="여성"></v-radio>
+        <v-radio label="남성" value="0"></v-radio>
+        <v-radio label="여성" value="1"></v-radio>
       </v-radio-group>
       <v-btn
+        :disabled="
+          !(
+            idValidity &&
+            this.signupData.userbirth &&
+            this.signupData.usergender &&
+            this.signupData.userpw == this.userpw
+          )
+        "
         width="100%"
         rounded
-        dark
-        color="teal"
-        @click="$router.push({ path: '/perparation' })"
+        color="teal lighten-2"
+        @click="signup(signupData)"
+        class="btn-signup"
         >완료</v-btn
       >
     </div>
-
-    <!-- 백에 보낼 데이터 {{ signupData }} -->
   </v-container>
 </template>
 
 <script>
 import "@/assets/css/components/Home/signup.scss";
+import SERVER from "@/api/spring";
+import axios from "axios";
+import { mapActions } from "vuex";
 
 export default {
   name: "Signup",
@@ -93,28 +104,52 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["signup"]),
     save(date) {
       this.$refs.menu.save(date);
+    },
+    checkId() {
+      if (this.signupData.userid) {
+        const URL = SERVER.URL + SERVER.ROUTES.idvalidity;
+        const data = {
+          userid: this.signupData.userid,
+        };
+        axios
+          .post(URL, data)
+          .then((res) => {
+            if (res.status === 200) {
+              this.idValidity = true;
+              alert("사용가능한 아이디입니다.");
+            } else {
+              alert("중복된 아이디입니다. 새로운 아이디를 입력해주세요.");
+              this.signupData.userid = "";
+            }
+          })
+          .catch((err) => console.err(err));
+      } else {
+        alert("아이디를 입력해 주세요.");
+      }
     },
   },
   data() {
     return {
       rulescheck: {
         required: (value) => !!value || "입력해주세요.",
-        match: (v) => v === this.password || "일치하지 않습니다.",
+        match: (v) => v === this.userpw || "일치하지 않습니다.",
       },
       rules: {
         required: (value) => !!value || "입력해주세요.",
         min: (v) => v.length >= 8 || "최소 8자로 입력해주세요.",
       },
-      password: "",
+      userpw: "",
       show1: false,
-      birthCalendar: false,
+      userbirthCalendar: false,
+      idValidity: false,
       signupData: {
-        userId: "",
-        password: "",
-        birth: null,
-        gender: "",
+        userid: "",
+        userpw: "",
+        userbirth: null,
+        usergender: "",
       },
     };
   },

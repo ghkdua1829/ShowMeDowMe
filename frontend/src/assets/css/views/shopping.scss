@@ -1,0 +1,11 @@
+@import "@/assets/css/components";
+
+.shopping {
+  margin: $components-margin;
+  .mdi-arrow-left {
+    margin-right: 100vw;
+  }
+  .final-box {
+    background-color: rgb(185, 230, 212);
+  }
+}

@@ -1,9 +1,21 @@
 <template>
   <div>
     <Navigation />
-    마이페이지
-    <MypageUpdate />
-    <MypageNotice />
+    <div class="mypage">
+      <h1>마이페이지</h1>
+      <div class="btn-logout" @click="logout">
+        <v-col>
+          <v-icon>mdi-logout</v-icon>
+        </v-col>
+        <small>로그아웃</small>
+      </div>
+      <div class="mt-3">
+        <MypageNotice />
+      </div>
+      <div class="mypage-update-button mt-5">
+        <MypageUpdate />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,6 +23,8 @@
 import Navigation from "@/components/Navigation";
 import MypageUpdate from "@/components/Mypage/MypageUpdate";
 import MypageNotice from "@/components/Mypage/MypageNotice";
+import { mapActions } from "vuex";
+import "@/assets/css/views/mypage.scss";
 
 export default {
   name: "Mypage",
@@ -19,8 +33,8 @@ export default {
     MypageUpdate,
     MypageNotice,
   },
+  methods: {
+    ...mapActions(["logout"]),
+  },
 };
 </script>
-
-<style>
-</style>
