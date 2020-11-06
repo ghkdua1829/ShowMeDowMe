@@ -11,7 +11,7 @@ def index():
 	return "Hello, World!"
 
 
-@app.route('/image', methods=['POST'])
+@app.route('/pyapi/image', methods=['POST'])
 def imageOcr():
 	return hello()
 

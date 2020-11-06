@@ -1,11 +1,14 @@
 absl-py==0.11.0
 astunparse==1.6.3
 autopep8==1.5.4
+bcrypt==3.2.0
 branca==0.4.1
 cachetools==4.1.1
 certifi==2020.6.20
+cffi==1.14.3
 chardet==3.0.4
 click==7.1.2
+cryptography==3.2.1
 cycler==0.10.0
 dataclasses==0.7
 django-cross-origin==0.9.0
@@ -17,8 +20,12 @@ google-api-core==1.23.0
 google-auth==1.22.1
 google-auth-oauthlib==0.4.2
 google-cloud==0.34.0
+google-cloud-core==1.4.3
+google-cloud-storage==1.32.0
 google-cloud-vision==2.0.0
+google-crc32c==1.0.0
 google-pasta==0.2.0
+google-resumable-media==1.1.0
 googleapis-common-protos==1.52.0
 grpcio==1.33.2
 h5py==2.10.0
@@ -40,12 +47,15 @@ oauthlib==3.1.0
 opencv-python @ file:///C:/Users/multicampus/Downloads/opencv_python-4.4.0-cp36-cp36m-win_amd64.whl
 opt-einsum==3.3.0
 pandas==1.1.1
+paramiko==2.7.2
 Pillow==7.2.0
 proto-plus==1.11.0
 protobuf==3.13.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycodestyle==2.6.0
+pycparser==2.20
+PyNaCl==1.4.0
 pyparsing==2.4.7
 python-dateutil==2.8.1
 pytz==2020.1
@@ -56,6 +66,7 @@ rsa==4.6
 scipy==1.5.2
 seaborn==0.10.1
 six==1.15.0
+storage==0.0.4.3
 tensorboard==2.3.0
 tensorboard-plugin-wit==1.7.0
 tensorflow==2.3.1
