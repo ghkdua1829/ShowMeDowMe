@@ -11,13 +11,13 @@ def index():
 	return "Hello, World!"
 
 
-@app.route('/pyapi/image', methods=['POST'])
+@app.route('/image', methods=['POST'])
 def imageOcr():
 	return hello()
 
 
 # 파일 업로드 처리
-@app.route('/pyapi/image', methods = ['GET', 'POST'])
+@app.route('/image', methods = ['GET', 'POST'])
 @cross_origin()
 def upload_file():
 	if request.method == 'POST':

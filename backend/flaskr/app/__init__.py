@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 
 app = Flask(__name__)
+app.config['APPLICATION_ROOT'] = '/pyapi'
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
