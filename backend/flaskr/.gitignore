@@ -3,6 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,opencv,flask,macos,windows
 
 ### Flask ###
+config/*.json
 instance/*
 !instance/.gitignore
 .webassets-cache

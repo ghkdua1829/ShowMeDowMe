@@ -1,20 +1,28 @@
 """Detects text in the file."""
-from google.cloud import vision_v1 as vision
+from google.cloud import vision_v1 as vision3
 import io
 import re
 from flask import Flask, request, jsonify
 from PIL import Image
+from google.cloud import vision
+from google.oauth2 import service_account
+import os
 
 app = Flask(__name__)
 
 
 def hello():
+    creds = service_account.Credentials.from_service_account_file(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config', 'service.json'))
+    client = vision.ImageAnnotatorClient(
+        credentials=creds,
+    )
     value = request.files['image']
-    client = vision.ImageAnnotatorClient()
+    # client = vision.ImageAnnotatorClient()
     img = Image.open(value)
     content = image_to_byte_array(img)
 
-    image = vision.types.Image(content=content)
+    image = vision3.types.Image(content=content)
 
     result = ["", ""]
 

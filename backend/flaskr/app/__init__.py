@@ -7,5 +7,4 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 from app import routes
 
-
-app.run(debug=True) 
+app.run(host='0.0.0.0')
