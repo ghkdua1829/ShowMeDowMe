@@ -10,6 +10,7 @@ import Login from "@/components/Home/Login"
 import Signup from "@/components/Home/Signup"
 import PreparationMemo from '@/components/Preparation/PreparationMemo'
 import ShoppingPhotoReg from '@/components/Shopping/ShoppingPhotoReg'
+import ShoppingPhotoResponse from '@/components/Shopping/ShoppingPhotoResponse'
 import NonMemberPreparationEnvironment from '@/components/NonMember/NonMemberPreparationEnvironment'
 
 NonMemberPreparationEnvironment
@@ -65,6 +66,11 @@ const routes = [
     path: '/camera',
     name: ShoppingPhotoReg,
     component: ShoppingPhotoReg,
+  },
+  {
+    path: '/camera/result',
+    name: ShoppingPhotoResponse,
+    component: ShoppingPhotoResponse,
   },
   {
     path: '/nonMember/perparation',
