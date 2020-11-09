@@ -3,6 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,opencv,flask,macos,windows
 
 ### Flask ###
+service.json
 instance/*
 !instance/.gitignore
 .webassets-cache
@@ -269,5 +270,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+workspace.xml
+routes.cpython-36.pyc
 
 # End of https://www.toptal.com/developers/gitignore/api/python,opencv,flask,macos,windows

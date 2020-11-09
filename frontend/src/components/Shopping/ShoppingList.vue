@@ -1,12 +1,225 @@
 <template>
-  <div>쇼핑 리스트 보여줄 화면</div>
+  <v-data-table
+    :headers="headers"
+    :items="purchasedThings"
+    sort-by="value"
+    class="elevation-1"
+    :mobile-breakpoint="0"
+  >
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-spacer></v-spacer>
+        <v-dialog v-model="dialog" max-width="500px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn class="mb-2" v-bind="attrs" v-on="on" outlined color="teal"
+              >직접추가하기
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="headline">{{ formTitle }}</span>
+            </v-card-title>
+
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="4">
+                    <v-text-field
+                      v-model="editedItem.name"
+                      label="제품명"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                      v-model="editedItem.amount"
+                      label="수량"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="4">
+                    <v-text-field
+                      v-model="editedItem.price"
+                      label="가격"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close"> 닫기 </v-btn>
+              <v-btn color="blue darken-1" text @click="save"> 저장 </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-card>
+            <v-card-title>구매 목록에서 제거할까요?</v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="closeDelete"
+                >취소</v-btn
+              >
+              <v-btn text @click="deleteItemConfirm">확인</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+      <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
 export default {
   name: "ShoppingList",
+  data: () => ({
+    dialog: false,
+    dialogDelete: false,
+    headers: [
+      {
+        text: "제품",
+        align: "start",
+        sortable: false,
+        value: "name",
+      },
+      { text: "수량", value: "amount" },
+      { text: "가격", value: "price" },
+      { text: "편집", value: "actions", sortable: false },
+    ],
+    purchasedThings: [],
+    editedIndex: -1,
+    editedItem: {
+      제품: "",
+      수량: 0,
+      가격: 0,
+    },
+    defaultItem: {
+      제품: "",
+      수량: 0,
+      가격: 0,
+    },
+  }),
+
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? "구입할 제품" : "등록된 제품 수정";
+    },
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+  },
+
+  created() {
+    this.purchasedThings = [
+      {
+        name: "당근",
+        amount: 1,
+        price: 6000,
+      },
+      {
+        name: "고등어",
+        amount: 2,
+        price: 9000,
+      },
+      {
+        name: "한우",
+        amount: 2,
+        price: 16000,
+      },
+      {
+        name: "감자",
+        amount: 3,
+        price: 3700,
+      },
+      {
+        name: "포카칩",
+        amount: 3,
+        price: 1600,
+      },
+      {
+        name: "생수",
+        amount: 1,
+        price: 1000,
+      },
+      {
+        name: "종이컵",
+        amount: 2,
+        price: 2000,
+      },
+      {
+        name: "치약",
+        amount: 1,
+        price: 3200,
+      },
+      {
+        name: "사과",
+        amount: 2,
+        price: 2500,
+      },
+      {
+        name: "귤",
+        amount: 2,
+        price: 2600,
+      },
+    ];
+  },
+
+  methods: {
+    editItem(item) {
+      this.editedIndex = this.purchasedThings.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+
+    deleteItem(item) {
+      this.editedIndex = this.purchasedThings.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+    },
+
+    deleteItemConfirm() {
+      this.purchasedThings.splice(this.editedIndex, 1);
+      this.closeDelete();
+    },
+
+    close() {
+      this.dialog = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    closeDelete() {
+      this.dialogDelete = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.purchasedThings[this.editedIndex], this.editedItem);
+      } else {
+        this.purchasedThings.push(this.editedItem);
+      }
+      this.close();
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

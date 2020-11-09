@@ -1,24 +1,40 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Home from '@/views/Home.vue'
 import Shopping from '@/views/Shopping.vue'
-import User from '@/views/User.vue'
 import AccountBook from '@/views/AccountBook.vue'
 import Preparation from '@/views/Preparation.vue'
 import Mypage from '@/views/Mypage.vue'
 import Report from '@/views/Report.vue'
- 
+import Login from "@/components/Home/Login"
+import Signup from "@/components/Home/Signup"
+import PreparationMemo from '@/components/Preparation/PreparationMemo'
+import ShoppingPhotoReg from '@/components/Shopping/ShoppingPhotoReg'
+import NonMemberPreparationEnvironment from '@/components/NonMember/NonMemberPreparationEnvironment'
+
+NonMemberPreparationEnvironment
 Vue.use(VueRouter)
 
 const routes = [
   {
+    path: "/",
+    name: "Home",
+    component: Home,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/signup",
+    name: "Signup",
+    component: Signup,
+  },
+  {
     path: '/shop',
     name: Shopping,
     component: Shopping
-  },
-  {
-    path: '/user',
-    name: User,
-    component: User,
   },
   {
     path: '/accountbook',
@@ -31,6 +47,11 @@ const routes = [
     component: Preparation,
   },
   {
+    path: '/memo',
+    name: PreparationMemo,
+    component: PreparationMemo,
+  },
+  {
     path: '/mypage',
     name: Mypage,
     component: Mypage,
@@ -39,6 +60,16 @@ const routes = [
     path: '/report',
     name: Report,
     component: Report,
+  },
+  {
+    path: '/camera',
+    name: ShoppingPhotoReg,
+    component: ShoppingPhotoReg,
+  },
+  {
+    path: '/nonMember/perparation',
+    name: NonMemberPreparationEnvironment,
+    component: NonMemberPreparationEnvironment,
   },
 ]
 
