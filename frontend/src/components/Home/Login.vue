@@ -26,6 +26,15 @@
         :disabled="!(this.loginData.userid && this.loginData.userpw)"
         >로그인</v-btn
       >
+      <v-btn
+        color="primary"
+        text
+        @click="
+          dialog = false;
+          $router.push({ name: 'Signup' });
+        "
+        >회원가입하러가기</v-btn
+      >
     </div>
   </v-container>
 </template>

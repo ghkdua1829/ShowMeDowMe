@@ -18,7 +18,8 @@
 </template>
 
 <script>
-import "@/assets/css/components/Mypage/notice.scss";
+import "@/assets/css/components/Mypage/mypageNotice.scss";
+
 export default {
   name: "MypageNotice",
   data() {
