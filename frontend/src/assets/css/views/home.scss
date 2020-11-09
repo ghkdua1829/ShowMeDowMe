@@ -2,6 +2,10 @@
 
 .homepage {
   font-family: $main-font;
+  .info-btn {
+    margin: $components-margin;
+    margin-left: 85vw;
+  }
   div {
     margin: $components-margin;
     .v-btn {

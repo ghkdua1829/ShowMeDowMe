@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="homepage">
+      <v-icon class="info-btn">mdi-alert-circle-outline</v-icon>
+    </div>
     <v-img
       src="https://user-images.githubusercontent.com/60081201/96660569-e562cb80-1384-11eb-9b19-107de574a592.PNG"
       alt="쇼우미도우미 로고"
