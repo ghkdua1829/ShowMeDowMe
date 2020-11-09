@@ -1,21 +1,32 @@
 package com.ssafy.SMDM.controller;
 
+//import com.ssafy.SMDM.JWT.JwtTokenProvider;
 import com.ssafy.SMDM.dto.User;
 import com.ssafy.SMDM.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.DocFlavor;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
 public class AccountController {
+
+//    private final PasswordEncoder passwordEncoder;
+//    private final JwtTokenProvider jwtTokenProvider;
+
     @Autowired
     UserService userService;
+
 
     // 나지금 mysql로 연동시켜놔서 applicaion.yml에 가서 mariadb나 컴터에있는 디비로 바꿔주면될거야 id 비번?
     // post 부분은 밑처럼 주면될듯! 이런식으로 json으로
@@ -44,7 +55,8 @@ public class AccountController {
         user.setUserpw(param.get("userpw"));
         user.setUserbirth(param.get("userbirth"));
         user.setUserGender(Integer.parseInt(param.get("usergender")));
-        return new ResponseEntity<User>(userService.save(user), HttpStatus.OK);
+//        user.setRoles(Collections.singletonList("ROLE_USER"));
+        return new ResponseEntity<User>(userService.save(user),HttpStatus.OK);
     }
 
     // id 중복체크
@@ -65,13 +77,8 @@ public class AccountController {
     @DeleteMapping("/users")
     public Object DeleteUser(@RequestParam("userid") String id) {
         Optional<User> u = userService.findByUserId(id);
-        System.out.println(id);
-        if (u.isPresent()) {
-
-            System.out.println(id);
+        if(u.isPresent()) {
             userService.deleteByUserId(id);
-
-            System.out.println(id);
             return new ResponseEntity<String>("Delete", HttpStatus.OK);
         } else {
             return new ResponseEntity<String>("Id not Found", HttpStatus.NOT_FOUND);
@@ -108,10 +115,9 @@ public class AccountController {
 
     // 메모작성
     @PutMapping("/users/memo")
-    public Object UpdateMemo(@RequestParam("userid") String id, @RequestParam("memo") String memo) {
-        System.out.println(id + " " + memo);
-        userService.updateByMemo(id, memo);
-        return new ResponseEntity<String>(memo, HttpStatus.OK);
+    public Object UpdateMemo(@RequestParam("userid") String id,@RequestParam("memo") String memo){
+        userService.updateByMemo(id,memo);
+        return new ResponseEntity<String>(memo,HttpStatus.OK);
 
     }
 
@@ -120,5 +126,18 @@ public class AccountController {
     public Object GetMemo(@RequestParam("userid") String id) {
         Optional<User> u = userService.findByUserId(id);
         return new ResponseEntity<String>(u.get().getUserMemo(), HttpStatus.OK);
+    }
+
+    //비밀번호 확인
+    @PostMapping("/users/confirm")
+    public Object confirm(@RequestBody Map<String,String> param){
+        Optional<User> u = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
+        if(u.isPresent()){
+            //로그인 완료부분
+            return new ResponseEntity<String>(HttpStatus.OK);
+        }else{
+            //로그인 실패부분
+            return new ResponseEntity<String>(param.get("userid"),HttpStatus.NOT_FOUND);
+        }
     }
 }
