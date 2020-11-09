@@ -7,12 +7,12 @@
     />
     <div class="login">
       <v-text-field
-        v-model="loginData.userId"
+        v-model="loginData.userid"
         label="아이디"
         required
       ></v-text-field>
       <v-text-field
-        v-model="loginData.password"
+        v-model="loginData.userpw"
         type="password"
         label="비밀번호"
         required
@@ -21,9 +21,9 @@
         class="login-btn"
         width="60%"
         rounded
-        dark
         color="teal lighten-2"
-        @click="$router.push({ path: '/perparation' })"
+        @click="login(loginData)"
+        :disabled="!(this.loginData.userid && this.loginData.userpw)"
         >로그인</v-btn
       >
     </div>
@@ -32,14 +32,18 @@
 
 <script>
 import "@/assets/css/components/Home/login.scss";
+import { mapActions } from "vuex";
 
 export default {
   name: "Login",
+  methods: {
+    ...mapActions(["login"]),
+  },
   data() {
     return {
       loginData: {
-        userId: "",
-        password: "",
+        userid: "",
+        userpw: "",
       },
     };
   },

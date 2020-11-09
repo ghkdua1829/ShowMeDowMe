@@ -22,5 +22,14 @@ export default {
     logout({ commit }) {
         commit("SET_USERID", null);
         router.push({path: "/"})
-    },
+  },
+  login({ dispatch }, loginData) {
+    const info = {
+      location: SERVER.URL + SERVER.ROUTES.login,
+      data: loginData,
+    };
+    dispatch("postuserData", info);
+      
+    }
+  
 }

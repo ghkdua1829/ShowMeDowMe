@@ -18,7 +18,7 @@
         @click="switchCamera"
         :disabled="switchingCamera"
       >
-        <b-icon pack="fas" icon="sync-alt" />
+        <v-icon>mdi-unfold-more-vertical</v-icon>
       </button>
       <div class="box-border">
         <h4>가격표를 영역 안에 넣어주세요.</h4>
@@ -91,8 +91,6 @@ export default {
           dw * 1.2,
           dh * 1.2
         ); // 이미지객체, -dx, dy
-
-        // ctx.drawImage(video, (width / 2) * -1, 0.5, width, height);
       } else {
         ctx.drawImage(video, 0, 0);
       }
@@ -101,59 +99,12 @@ export default {
         id: this.counter++,
         src: canva.toDataURL("image/png"),
       };
-      console.log(dx, dy, dw, dh, width, height);
-      console.log(this.photo.src);
-
-      // const body = document.querySelector("body");
-      // let canva2 = this.$refs.canva;
-      // let ctx2 = canva2.getContext("2d");
-      // const image = new Image();
-      // //image객체가 생성되어 속성들을 추가할수 있음
-      // image.src = this.photo.src;
-      // body.appendChild(image);
-      // ctx2.drawImage(image, dx, dy, 1, 1, dw, dh);
-
-      // console.log(image, "wpqkf");
-      //   var image = document.getElementById('myImage'),
-      // canvas = document.createElement('canvas'),
-      // ctx = canvas.getContext('2d');
-      // const URL = "http://localhost:5000/fileUpload";
-      // axios
-      //   .post(
-      //     URL,
-      //     { image: this.photo[0].src }
-      //     // {
-      //     //   headers: { "Content-Type": "multipart/form-data" },
-      //     // }
-      //   )
-      //   .then((res) => {
-      //     console.log(res);
-      //   });
-
-      // ctx.drawImage(this.photo, 33, 71, 104, 124, 21, 20, 87, 104);
-      // console.log(this.photo);
-      // var image = new Image();
-      // image.src = this.photo[0].src;
-      // var croppingCoords = {
-      //   x: this.width / 4,
-      //   y: this.height / 4,
-      //   width: this.width / 2,
-      //   height: this.height / 2,
-      // };
-      // var cc = croppingCoords;
-      // var workCan = document.createElement("canvas"); // create a canvas
-      // workCan.width = Math.floor(cc.width); // set the canvas resolution to the cropped image size
-      // workCan.height = Math.floor(cc.height);
-      // var ctx2 = workCan.getContext("2d"); // get a 2D rendering interface
-      // ctx2.drawImage(image, -Math.floor(cc.x), -Math.floor(cc.y)); // draw the image offset to place it correctly on the cropped region
-      // image.src = workCan.toDataURL(); // set the image source to the canvas as a data URL
-      // console.log(image);
+      this.$router.push({ path: "/camera/result" });
     },
     async switchCamera() {
       this.switchingCamera = true;
       const tracks = this.mediaStream.getVideoTracks();
-      // console.log(this.mediaStream), "ff";
-      // console.log(this.mediaStream.getVideoTracks());
+
       tracks.forEach((track) => {
         track.stop();
       });
