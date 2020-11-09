@@ -15,6 +15,7 @@
         v-model="loginData.userpw"
         type="password"
         label="비밀번호"
+        @keypress.enter="login(loginData)"
         required
       ></v-text-field>
       <v-btn
