@@ -8,6 +8,8 @@ export default {
           .post(info.location, info.data)
           .then((res) => {
             commit("SET_USERID", res.data.userid);
+            // sessionStorage에 유저의 정보를 저장
+            sessionStorage.setItem("userid", res.data.userid);
             router.push({ path: "/perparation" });
           })
           .catch(() => alert("아이디 또는 비밀번호가 틀렸습니다"));

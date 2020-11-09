@@ -9,7 +9,7 @@
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on" outlined> 개인 정보 설정 </v-btn>
       </template>
-      <v-card>
+      <v-card class="mypageUpdate">
         <v-toolbar dark color="primary">
           <v-toolbar-title>
             <v-icon>mdi-wrench</v-icon> 개인 정보 설정</v-toolbar-title
@@ -52,7 +52,7 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-btn color="primary">변경하기</v-btn>
+          <v-btn class="update-btn" rounded color="primary">변경하기</v-btn>
         </v-list>
         <v-divider></v-divider>
         <v-list three-line subheader>
@@ -64,9 +64,24 @@
                 <div>회원님의 가계부 정보가 사라지게 됩니다.</div>
                 <div>회원님이 정말 보고싶을 겁니다.</div>
               </v-list-item-subtitle>
+              <h5 class="mt-3">현재 비밀번호 입력 후</h5>
+              <h5>회원 탈퇴 버튼을 누르면 탈퇴가 완료됩니다.</h5>
+              <v-text-field
+                v-model="deletePW"
+                name="input-10-1"
+                label="현재 비밀번호"
+                type="password"
+              ></v-text-field>
             </v-list-item-content>
           </v-list-item>
-          <v-btn color="red lighten-2" dark>회원 탈퇴</v-btn>
+          <v-btn
+            class="delete-btn"
+            :disabled="!deletePW"
+            color="red lighten-2"
+            rounded
+            @click="deleteUser()"
+            >회원 탈퇴</v-btn
+          >
         </v-list>
       </v-card>
     </v-dialog>
@@ -74,6 +89,10 @@
 </template>
 
 <script>
+import "@/assets/css/components/Mypage/mypageUpdate.scss";
+import SERVER from "@/api/spring";
+import axios from "axios";
+
 export default {
   name: "MypageUpdate",
   methods: {
@@ -82,6 +101,41 @@ export default {
         alert("새로운 비밀번호를 입력해주세요.");
       }
     },
+    deleteUser() {
+      const checkURL = SERVER.URL + SERVER.ROUTES.login;
+      const data = {
+        userid: sessionStorage.userid,
+        userpw: this.deletePW,
+      };
+      axios
+        .post(checkURL, data)
+        .then((res) => {
+          if (res.status === 200) {
+            const URL =
+              SERVER.URL +
+              SERVER.ROUTES.users +
+              "?userid=" +
+              sessionStorage.userid;
+            console.log(URL);
+            axios
+              .delete(URL)
+              .then((res) => {
+                if (res.status === 200) {
+                  alert("탈퇴가 완료되었습니다.");
+                  sessionStorage.removeItem("userid");
+                  this.$router.push({ path: "/" });
+                }
+              })
+              .catch((err) => {
+                console.err(err);
+              });
+          }
+        })
+        .catch(() => {
+          alert("비밀번호를 올바르게 입력해주세요.");
+          this.deletePW = "";
+        });
+    },
   },
   data() {
     return {
@@ -89,6 +143,7 @@ export default {
       beforePW: "",
       afterPW: "",
       checkPW: "",
+      deletePW: "",
       show1: false,
       rulescheck: {
         required: (value) => !!value || "입력해주세요.",
