@@ -13,7 +13,7 @@ import ShoppingPhotoReg from '@/components/Shopping/ShoppingPhotoReg'
 import ShoppingPhotoResponse from '@/components/Shopping/ShoppingPhotoResponse'
 import NonMemberPreparationEnvironment from '@/components/NonMember/NonMemberPreparationEnvironment'
 
-NonMemberPreparationEnvironment
+
 Vue.use(VueRouter)
 
 const routes = [
