@@ -38,13 +38,11 @@ public class UserService{
     }
 
     //modified user for update
-    public void updateByUserId(String UserId, User Muser){
+    public void updateByUserId(String UserId, String Updatepw){
         Optional<User> u = userRepository.findById(UserId);
 
         if(u.isPresent()){
-            u.get().setUserpw(Muser.getUserpw());
-            u.get().setUserbirth(Muser.getUserbirth());
-            u.get().setUserGender(Muser.getUserGender());
+            u.get().setUserpw(Updatepw);
             userRepository.save(u.get());
         }
     }
