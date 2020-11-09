@@ -52,7 +52,9 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-btn class="update-btn" rounded color="primary">변경하기</v-btn>
+          <v-btn class="update-btn" rounded color="primary" @click="changePW()"
+            >변경하기</v-btn
+          >
         </v-list>
         <v-divider></v-divider>
         <v-list three-line subheader>
@@ -116,7 +118,6 @@ export default {
               SERVER.ROUTES.users +
               "?userid=" +
               sessionStorage.userid;
-            console.log(URL);
             axios
               .delete(URL)
               .then((res) => {
@@ -134,6 +135,27 @@ export default {
         .catch(() => {
           alert("비밀번호를 올바르게 입력해주세요.");
           this.deletePW = "";
+        });
+    },
+    changePW() {
+      const changeURL = SERVER.URL + SERVER.ROUTES.update;
+      const updateData = {
+        userid: sessionStorage.userid,
+        userpw: this.beforePW,
+        updatepw: this.afterPW,
+      };
+      axios
+        .post(changeURL, updateData)
+        .then((res) => {
+          if (res.status === 200) {
+            alert("비밀번호 수정이 완료되었습니다.");
+            this.$router.push({ path: "/mypage" });
+          }
+        })
+        .catch(() => {
+          alert("비밀번호를 확인해주세요.");
+          this.beforePW = "";
+          this.afterPW = "";
         });
     },
   },
