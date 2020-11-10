@@ -1,16 +1,19 @@
 package com.ssafy.SMDM.controller;
 
 import com.ssafy.SMDM.dto.Calendar;
-import com.ssafy.SMDM.dto.DailyProduct;
-import com.ssafy.SMDM.dto.User;
 import com.ssafy.SMDM.service.CalendarService;
-import com.ssafy.SMDM.service.DailyProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Year;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/calendar")
@@ -19,31 +22,54 @@ public class CalendarController {
     CalendarService calendarService;
 
     @PostMapping
-    public Object saveCalendar(@RequestBody Map<String,String> t) {
-        Calendar calendar= new Calendar();
-        String Date1 = t.get("date");
-        calendar.setReceiptdate(Date1);
+    public Object saveCalendar(@RequestBody Map<String, String> t) {
+        Calendar calendar = new Calendar();
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        java.util.Date time = new Date();
+        String time1 = format1.format(time);
+        calendar.setReceiptdate(time1);
         calendar.setShoppinglist(t.get("shoppinglist"));
         calendar.setUserid(t.get("userId"));
-        calendar.setMoney(t.get("money"));
+        calendar.setMoney(Integer.parseInt(t.get("money")));
 //        Optional<Calendar> u = calendarService.findByUserId(t.get("userid"));
-        int grade=calendarService.updateGrade(t.get("timecheck"),t.get("moneycheck"));
+        int grade = calendarService.updateGrade(t.get("timecheck"), t.get("moneycheck"));
         calendar.setGrade(grade);
-        return new ResponseEntity<Calendar>(calendarService.saveCalendar(calendar),HttpStatus.OK);
+        return new ResponseEntity<Calendar>(calendarService.saveCalendar(calendar), HttpStatus.OK);
     }
 
     @GetMapping
-    public Object getCalendarByMonth(@RequestBody Map<String,String> t){
-        List<Calendar> list = calendarService.searchMonthReceiptdate(t.get("userId"),t.get("date"));
-        return new ResponseEntity<List>(list,HttpStatus.OK);
+    public Object getCalendarByMonth(@RequestBody Map<String, String> t) {
+        Calendar calendar = new Calendar();
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        java.util.Date time = new Date();
+        try {
+            Date time1 = format1.parse(t.get("date"));
+
+            System.out.println(time1);
+            List<Calendar> list = calendarService.searchMonthReceiptdate(t.get("userId"), time1);
+
+            return new ResponseEntity<List>(list, HttpStatus.OK);
+        }catch (ParseException e){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
 
-
     @GetMapping("/detail")
-    public Object GetCalendar(@RequestBody Map<String,String> t) {
-        Optional<Calendar> u = calendarService.findByReceiptdateAndUserid(t.get("date"),t.get("userId"));
-        return new ResponseEntity<Calendar>(u.get(),HttpStatus.OK);
+    public Object GetCalendar(@RequestBody Map<String, String> t) {
+        Calendar calendar = new Calendar();
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        java.util.Date time = new Date();
+        try {
+            Date time1 = format1.parse(t.get("date"));
+
+            System.out.println(time1);
+            List<Calendar> list = calendarService.findByReceiptdateAndUserid(time1, t.get("userId"));
+
+            return new ResponseEntity<List>(list, HttpStatus.OK);
+        }catch (ParseException e){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
 }

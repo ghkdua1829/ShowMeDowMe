@@ -1,37 +1,29 @@
 package com.ssafy.SMDM.service;
 
 import com.ssafy.SMDM.dto.Calendar;
-import com.ssafy.SMDM.dto.DailyProduct;
-import com.ssafy.SMDM.dto.User;
 import com.ssafy.SMDM.repository.CalendarRepository;
-import com.ssafy.SMDM.repository.DailyProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CalendarService {
     @Autowired
     private CalendarRepository calendarRepository;
 
-    public Optional<Calendar> findByUserId(String userId){
-        Optional<Calendar> Calendar1 =Optional.ofNullable(
-                calendarRepository.findByUserid(userId)
-        );
-        return Calendar1;
-    }
+//    public List<Calendar> findByUserId(String userId){
+//        Optional<Calendar> Calendar1 =Optional.ofNullable(
+//                calendarRepository.findByUserid(userId)
+//        );
+//        return Calendar1;
+//    }
 
     //receiptdate를 통해 찾기
-    public Optional<Calendar> findByReceiptdateAndUserid(Date receiptdate, String userId){
-        Optional<Calendar> Calendar1 = Optional.ofNullable(
-                calendarRepository.findByReceiptdateAndUserid(receiptdate,userId)
-        );
+    public List<Calendar> findByReceiptdateAndUserid(Date receiptdate, String userId){
+        List<Calendar> Calendar1 = calendarRepository.findByReceiptdateAndUserid(receiptdate,userId);
         return Calendar1;
     }
     // 달별로 영수증 뽑기
