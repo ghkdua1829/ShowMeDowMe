@@ -3,11 +3,11 @@
     <Navigation />
     <div class="mypage">
       <h1>마이페이지</h1>
-      <div class="btn-logout" @click="logout">
+      <div class="btn-logout">
         <v-col>
-          <v-icon>mdi-logout</v-icon>
+          <v-icon @click="logout">mdi-logout</v-icon>
         </v-col>
-        <small>로그아웃</small>
+        <small @click="logout">로그아웃</small>
       </div>
       <div class="mt-3">
         <MypageNotice />
