@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository("Calendar")
 public interface CalendarRepository extends JpaRepository<Calendar, String> {
-    @Query("SELECT a FROM Calendar AS a WHERE EXTRACT(YEAR FROM a.receiptdate)=: EXTRACT(YEAR FROM receiptdate) AND EXTRACT(MONTH FROM a.receiptdate)=:EXTRACT(MONTH FROM receiptdate) AND EXTRACT(DAY FROM a.receiptdate)=:EXTRACT(DAY FROM receiptdate) AND a.userid = :userId")
-    public List<Calendar> findByReceiptdateAndUserid(Date receiptdate, String userId);
+    @Query("SELECT a FROM calendar AS a WHERE SUBSTRING(a.receiptdate,1,4) = :year and SUBSTRING(a.receiptdate,6,2) = :month and a.userid =:userId")
+    public List<Calendar> findByReceiptdateAndUserid(String year,String month, String userId);
 
     public void deleteByReceiptdate(Date receiptdate);
 

@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Year;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/calendar")
@@ -49,25 +47,25 @@ public class CalendarController {
             List<Calendar> list = calendarService.searchMonthReceiptdate(t.get("userId"), time1);
 
             return new ResponseEntity<List>(list, HttpStatus.OK);
-        }catch (ParseException e){
+        } catch (ParseException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
 
-    @GetMapping("/detail")
+    @PostMapping("/detail")
     public Object GetCalendar(@RequestBody Map<String, String> t) {
-        Calendar calendar = new Calendar();
+
+        System.out.println();
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        java.util.Date time = new Date();
         try {
             Date time1 = format1.parse(t.get("date"));
 
-            System.out.println(time1);
-            List<Calendar> list = calendarService.findByReceiptdateAndUserid(time1, t.get("userId"));
+            System.out.println(time1 + " : " + t.get("userId"));
+            List<Calendar> list = calendarService.findByReceiptdateAndUserid(String.valueOf(time1.getYear() + 1900), String.valueOf(time1.getMonth() + 1), t.get("userId"));
 
             return new ResponseEntity<List>(list, HttpStatus.OK);
-        }catch (ParseException e){
+        } catch (ParseException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }

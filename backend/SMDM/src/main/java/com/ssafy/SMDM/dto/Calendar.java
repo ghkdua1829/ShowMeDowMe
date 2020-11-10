@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Calendar {
     @Id
-    @Column(name = "receipt_date")
+    @Column(name = "receipt_Date")
     private String receiptdate;
 
     @Column(name = "user_Id")

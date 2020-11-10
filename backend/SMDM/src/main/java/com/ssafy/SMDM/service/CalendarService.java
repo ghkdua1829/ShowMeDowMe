@@ -22,18 +22,19 @@ public class CalendarService {
 //    }
 
     //receiptdate를 통해 찾기
-    public List<Calendar> findByReceiptdateAndUserid(Date receiptdate, String userId){
-        List<Calendar> Calendar1 = calendarRepository.findByReceiptdateAndUserid(receiptdate,userId);
+    public List<Calendar> findByReceiptdateAndUserid(String year, String month, String userId) {
+        List<Calendar> Calendar1 = calendarRepository.findByReceiptdateAndUserid(year, month, userId);
         return Calendar1;
     }
+
     // 달별로 영수증 뽑기
-    public List<Calendar> searchMonthReceiptdate(String userId, Date receiptdate){
-        List<Calendar> Calendar1 = calendarRepository.findByUseridAndReceiptdate(userId,receiptdate);
+    public List<Calendar> searchMonthReceiptdate(String userId, Date receiptdate) {
+        List<Calendar> Calendar1 = calendarRepository.findByUseridAndReceiptdate(userId, receiptdate);
         return Calendar1;
     }
 
     //time, money를 통해 grade 결정
-    public int updateGrade( String timecheck, String moneycheck){
+    public int updateGrade(String timecheck, String moneycheck) {
         if (timecheck.equals('T') && moneycheck.equals('T')) {
             return 1;
         } else if ((timecheck.equals('F') && moneycheck.equals('T')) || (timecheck.equals('T') && moneycheck.equals('F'))) {
@@ -49,14 +50,14 @@ public class CalendarService {
         }
     }
 
-    public Calendar saveCalendar(Calendar calendar){
+    public Calendar saveCalendar(Calendar calendar) {
         calendarRepository.save(calendar);
         return calendar;
     }
 
     //delete
     @Transactional
-    public void deleteByReceiptDate(Date receiptdate){
+    public void deleteByReceiptDate(Date receiptdate) {
         calendarRepository.deleteByReceiptdate(receiptdate);
     }
 
