@@ -7,6 +7,7 @@
         label="알람을 받고 싶은 물품 선택"
         multiple
         chips
+        @change="changeSelect()"
       ></v-select>
       <div>
         <small>이전에 기록이 없는 물품인 경우 </small>
@@ -36,11 +37,22 @@
 
 <script>
 import "@/assets/css/components/Mypage/mypageNotice.scss";
+import SERVER from "@/api/spring";
+import axios from "axios";
 
 export default {
   name: "MypageNotice",
   created() {
     this.username = sessionStorage.userid;
+    axios.get(SERVER.URL + SERVER.ROUTES.getAlarm).then((res) => {
+      console.log(res);
+      // this.selectList = res.data;
+    });
+  },
+  methods: {
+    changeSelect() {
+      console.log("확인", this.selectList);
+    },
   },
   data() {
     return {

@@ -6,6 +6,9 @@ export default {
         login: "/login",
         idvalidity: "/users/id",
         memo: "/users/memo",
-        update: "/users/update"
+        update: "/users/update",
+        alarm: "/users/dailyproduct",
+        getAlarm: "/users/dailyproduct/category",
+        postAlarm: "/users/category"
     }
 }
