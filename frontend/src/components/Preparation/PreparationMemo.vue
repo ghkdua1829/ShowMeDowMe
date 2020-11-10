@@ -37,7 +37,8 @@ import "@/assets/css/components/Preparation/preparationMemo.scss";
 import axios from "axios";
 import SERVER from "@/api/spring";
 
-const URL = SERVER.URL + SERVER.ROUTES.memo + "?userid=" + "testmemo";
+const URL =
+  SERVER.URL + SERVER.ROUTES.memo + "?userid=" + sessionStorage.userid;
 
 export default {
   name: "PreparationMemo",
