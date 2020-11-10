@@ -8,8 +8,8 @@
   .wrapper {
     background-color: black;
     display: grid;
-    width: 100vw;
-    height: 90vh;
+    width: 100%;
+    height: 100%;
     grid-template-columns: [left] 90vw [bs] 5vw [es] 5vw [right];
     grid-template-rows: [top] 5vh [bs] 5vh [es] 60vh [middle] 10vh [bottom] 20vh [end];
     justify-items: center;
@@ -19,20 +19,20 @@
   .box-border {
     grid-column: left / right;
     grid-row: es / middle;
-    width: 80vw;
     height: 20vh;
     z-index: 5;
-    // margin-top: 8vh;
+    margin-top: 8vh;
   }
   .box {
-    // width: 80vw;
-    height: 50vh;
+    width: 80vw;
+    height: 30vh;
     z-index: 5;
     grid-column: left / right;
     grid-row: es / middle;
     border: 5px solid mediumaquamarine;
     margin-top: 2vh;
   }
+
   .video {
     height: 100%;
     grid-column: left/right;

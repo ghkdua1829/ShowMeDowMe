@@ -1,7 +1,6 @@
 <template>
   <div class="report">
     <h1 class="report-title">오늘의 Report</h1>
-    <h2 class="content">싸피님의 쇼핑 유형은 ~ 유형입니다.</h2>
     <h2 class="content">장본 시간은 1시간 2분</h2>
     <h2 class="content">결재한 금액은 54000원</h2>
 

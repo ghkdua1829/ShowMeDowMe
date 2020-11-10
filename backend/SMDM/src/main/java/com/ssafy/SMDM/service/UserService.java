@@ -2,6 +2,7 @@ package com.ssafy.SMDM.service;
 
 import com.ssafy.SMDM.dto.User;
 import com.ssafy.SMDM.repository.UserRepository;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,25 @@ public class UserService{
     @Autowired
     private UserRepository userRepository;
 
-    //id와 비밀번호를 통해 찾기
-    public Optional<User> findByUserIdAndUserPw(String UserId,String UserPw){
-        Optional<User> user = Optional.ofNullable(userRepository.findByUseridAndUserpw(UserId, UserPw));
-        return user;
+
+    private void checkPass(String plainPassword, String hasedPassword)
+    { if (BCrypt.checkpw(plainPassword, hasedPassword)) {
+
+
+        }
+    }
+
+        //id와 비밀번호를 통해 찾기
+    public Boolean findByUserIdAndUserPw(String UserId,String UserPw){
+        Optional<User> user = Optional.ofNullable(userRepository.findByUserid(UserId));
+        if(user.isPresent()){
+            if (BCrypt.checkpw(UserPw, user.get().getUserpw())) {
+                return true;
+            }
+            else
+                return false;
+        }
+        return false;
     }
 
     //id로 찾기
@@ -38,13 +54,11 @@ public class UserService{
     }
 
     //modified user for update
-    public void updateByUserId(String UserId, User Muser){
+    public void updateByUserId(String UserId, String Updatepw){
         Optional<User> u = userRepository.findById(UserId);
 
         if(u.isPresent()){
-            u.get().setUserpw(Muser.getUserpw());
-            u.get().setUserbirth(Muser.getUserbirth());
-            u.get().setUserGender(Muser.getUserGender());
+            u.get().setUserpw(Updatepw);
             userRepository.save(u.get());
         }
     }

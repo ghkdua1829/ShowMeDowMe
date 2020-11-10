@@ -120,12 +120,12 @@ export default {
             if (res.status === 200) {
               this.idValidity = true;
               alert("사용가능한 아이디입니다.");
-            } else {
-              alert("중복된 아이디입니다. 새로운 아이디를 입력해주세요.");
-              this.signupData.userid = "";
             }
           })
-          .catch((err) => console.err(err));
+          .catch(() => {
+            alert("중복된 아이디입니다. 새로운 아이디를 입력해주세요.");
+            this.signupData.userid = "";
+          });
       } else {
         alert("아이디를 입력해 주세요.");
       }
