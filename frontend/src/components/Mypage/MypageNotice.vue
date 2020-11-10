@@ -1,32 +1,36 @@
 <template>
-  <div class="notice">
-    <div class="mb-3">
-      <h3>
-        <v-icon color="orange lighten-2">mdi-bell</v-icon>{{ username }} 님을
-        위한 맞춤 알람
-      </h3>
-      <h5>꾸준한 구매가 필요한 품목을 선택하여</h5>
-      <h5>자신만을 위한 알람을 받으세요.</h5>
-    </div>
-    <div v-if="noticeList.length">
-      <div v-for="(noticeItem, index) in noticeList" :key="index">
-        <v-alert colored-border type="info" elevation="1">
-          {{ noticeItem }}
-        </v-alert>
-      </div>
-    </div>
-    <div v-else>현재 알림이 없습니다.</div>
-    <v-select
-      v-model="selectList"
-      :items="productList"
-      label="알람을 받고 싶은 물품 선택"
-      multiple
-      chips
-    ></v-select>
+  <div>
     <div>
-      <small>이전에 기록이 없는 물품인 경우 </small>
+      <v-select
+        v-model="selectList"
+        :items="productList"
+        label="알람을 받고 싶은 물품 선택"
+        multiple
+        chips
+      ></v-select>
+      <div>
+        <small>이전에 기록이 없는 물품인 경우 </small>
+      </div>
+      <small>소비자의 평균 주기를 기준으로 제공합니다.</small>
     </div>
-    <small>소비자의 평균 주기를 기준으로 제공합니다.</small>
+    <div class="notice mt-4">
+      <div class="mb-3">
+        <h3>
+          <v-icon color="orange lighten-2">mdi-bell</v-icon>{{ username }} 님을
+          위한 맞춤 알람
+        </h3>
+        <h5>꾸준한 구매가 필요한 품목을 선택하여</h5>
+        <h5>자신만을 위한 알람을 받으세요.</h5>
+      </div>
+      <div v-if="noticeList.length">
+        <div v-for="(noticeItem, index) in noticeList" :key="index">
+          <v-alert colored-border type="info" elevation="1">
+            {{ noticeItem }}
+          </v-alert>
+        </div>
+      </div>
+      <div v-else>현재 알림이 없습니다.</div>
+    </div>
   </div>
 </template>
 
