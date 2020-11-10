@@ -1,10 +1,11 @@
 export default {
-    URL: "http://localhost:8080/api",
+    URL: "https://k3a301.p.ssafy.io/api",
     ROUTES: {
         users: "/users",
         login: "/login",
         idvalidity: "/users/id",
         memo: "/users/memo",
+        update: "/users/update"
 
     }
 }

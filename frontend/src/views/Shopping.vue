@@ -58,7 +58,7 @@
         <h4>현재 결재 예상 금액 28000원</h4>
       </v-col>
       <v-col>
-        <v-btn dark @click="$router.push({ path: '/report' })">
+        <v-btn outlined @click="$router.push({ path: '/report' })">
           장보기 완료
         </v-btn>
       </v-col>
@@ -164,5 +164,3 @@ export default {
 };
 </script>
 
-<style>
-</style>
