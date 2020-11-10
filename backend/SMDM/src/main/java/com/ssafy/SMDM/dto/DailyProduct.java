@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity(name="daily_products")
 @Data
@@ -25,11 +26,23 @@ public class DailyProduct {
     @Column(name="date")
     private String date;
 
+    @Column(name="period")
+    private Integer period;
+
+    @Column(name="alarm")
+    private Integer alarm;
+
+    @Column(name="alarm2")
+    private Integer alarm2;
+
     @Builder
-    public DailyProduct(Integer pid,String userid,String categoryid,String date){
+    public DailyProduct(Integer pid,String userid,String categoryid,String date,Integer period,Integer alarm,Integer alarm2){
         this.pid = pid;
         this.userid = userid;
         this.categoryid = categoryid;
         this.date = date;
+        this.period = period;
+        this.alarm = alarm;
+        this.alarm2 = alarm2;
     }
 }
