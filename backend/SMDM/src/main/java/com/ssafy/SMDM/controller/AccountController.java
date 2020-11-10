@@ -4,6 +4,7 @@ package com.ssafy.SMDM.controller;
 import com.ssafy.SMDM.dto.User;
 import com.ssafy.SMDM.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,8 @@ public class AccountController {
 //    private final PasswordEncoder passwordEncoder;
 //    private final JwtTokenProvider jwtTokenProvider;
 
+
+
     @Autowired
     UserService userService;
 
@@ -37,8 +40,8 @@ public class AccountController {
     // 로그인부분 추후에 JWT , Spring Sercurity 필요
     @PostMapping("/login")
     public Object login(@RequestBody Map<String, String> param) {
-        Optional<User> u = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
-        if (u.isPresent()) {
+        boolean userfind = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
+        if (userfind) {
             // 로그인 완료부분
             return new ResponseEntity<String>(param.get("userid"), HttpStatus.OK);
         } else {
@@ -52,7 +55,9 @@ public class AccountController {
     public Object SubmitUser(@RequestBody Map<String, String> param) {
         User user = new User();
         user.setUserid(param.get("userid"));
-        user.setUserpw(param.get("userpw"));
+        String CryptPw = BCrypt.hashpw(param.get("userpw"), BCrypt.gensalt());
+        System.out.println(CryptPw);
+        user.setUserpw(CryptPw);
         user.setUserbirth(param.get("userbirth"));
         user.setUserGender(Integer.parseInt(param.get("usergender")));
         userService.save(user);
@@ -117,12 +122,13 @@ public class AccountController {
          *
          * userService.updateByUserId(id,Muser.get());
          */
-        Optional<User> u = userService.findByUserIdAndUserPw(param.get("userid"),param.get("userpw"));
-        if(u.isPresent()){
-            userService.updateByUserId(param.get("userid"),param.get("updatepw"));
-            return new ResponseEntity<String>(param.get("userid"),HttpStatus.OK);
-        }else{
-            return new ResponseEntity<String>(param.get("userid"),HttpStatus.NOT_FOUND);
+        boolean userfind = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
+        if (userfind) {
+            // 로그인 완료부분
+            return new ResponseEntity<String>(param.get("userid"), HttpStatus.OK);
+        } else {
+            // 로그인 실패부분
+            return new ResponseEntity<String>(param.get("userid"), HttpStatus.NOT_FOUND);
         }
     }
     // 메모작성
@@ -143,13 +149,13 @@ public class AccountController {
     //비밀번호 확인
     @PostMapping("/users/confirm")
     public Object confirm(@RequestBody Map<String,String> param){
-        Optional<User> u = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
-        if(u.isPresent()){
-            //로그인 완료부분
-            return new ResponseEntity<String>(HttpStatus.OK);
-        }else{
-            //로그인 실패부분
-            return new ResponseEntity<String>(param.get("userid"),HttpStatus.NOT_FOUND);
+        boolean userfind = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
+        if (userfind) {
+            // 로그인 완료부분
+            return new ResponseEntity<String>(param.get("userid"), HttpStatus.OK);
+        } else {
+            // 로그인 실패부분
+            return new ResponseEntity<String>(param.get("userid"), HttpStatus.NOT_FOUND);
         }
     }
 }

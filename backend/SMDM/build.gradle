@@ -25,6 +25,9 @@ dependencies {
 
 	//Spring Security
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
+	
+	//비밀번호암호화
+	implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
 
 	//test용 mysql dependency
 	implementation 'org.mariadb.jdbc:mariadb-java-client'
