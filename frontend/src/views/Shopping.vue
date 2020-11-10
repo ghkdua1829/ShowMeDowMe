@@ -4,7 +4,6 @@
       mdi-arrow-left
     </v-icon>
     <h1>장보는 중</h1>
-
     <v-row>
       <v-col cols="2">
         <ShoppingMemo />
@@ -124,7 +123,7 @@ export default {
     });
   },
   computed: {
-    ...mapState(["aimTime"]),
+    ...mapState(["aimTime", "aimExpense"]),
     timeLeft: function () {
       if (this.hours !== 0) {
         return (
