@@ -15,6 +15,7 @@
         v-model="loginData.userpw"
         type="password"
         label="비밀번호"
+        @keypress.enter="login(loginData)"
         required
       ></v-text-field>
       <v-btn
@@ -25,6 +26,15 @@
         @click="login(loginData)"
         :disabled="!(this.loginData.userid && this.loginData.userpw)"
         >로그인</v-btn
+      >
+      <v-btn
+        color="primary"
+        text
+        @click="
+          dialog = false;
+          $router.push({ name: 'Signup' });
+        "
+        >회원가입하러가기</v-btn
       >
     </div>
   </v-container>

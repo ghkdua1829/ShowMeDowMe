@@ -7,7 +7,7 @@
       </v-col>
       <v-col cols="8">
         <v-slider
-          v-model="value"
+          v-model="setData.value"
           :thumb-size="40"
           thumb-label="always"
           step="30"
@@ -43,7 +43,7 @@
         <v-text-field
           type="text"
           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-          v-model="amount"
+          v-model="setData.amount"
           outlined
           dense
         ></v-text-field>
@@ -64,7 +64,7 @@
     <v-btn
       large
       class="ma-10 m-3 0 4"
-      @click="$router.push({ path: '/shop' })"
+      @click="setShop(setData)"
       color="teal lighten-2"
       dark
     >
@@ -75,6 +75,7 @@
 
 <script>
 import "@/assets/css/components/Preparation/preparationEnvironment.scss";
+import { mapActions } from "vuex";
 
 export default {
   name: "PreparationEnvironment",
@@ -85,6 +86,7 @@ export default {
     this.time = this.hour + ":" + this.minute + ":00";
   },
   methods: {
+    ...mapActions(["setShop"]),
     skipAimTime() {
       this.isSkipTime = true;
       this.value = 0;
@@ -96,12 +98,14 @@ export default {
   },
   data() {
     return {
-      amount: "",
       number: "",
       hour: "",
       minute: "",
       time: "",
-      value: 0,
+      setData: {
+        amount: "",
+        value: 0,
+      },
       isSkipTime: false,
       isSkipMoney: false,
       rules: [(v) => v <= 120 || "과도한 쇼핑은 건강에 해롭습니다."],

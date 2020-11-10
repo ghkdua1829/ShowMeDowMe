@@ -37,7 +37,8 @@ import "@/assets/css/components/Preparation/preparationMemo.scss";
 import axios from "axios";
 import SERVER from "@/api/spring";
 
-const URL = SERVER.URL + SERVER.ROUTES.memo + "?userid=" + "testmemo";
+const URL =
+  SERVER.URL + SERVER.ROUTES.memo + "?userid=" + sessionStorage.userid;
 
 export default {
   name: "PreparationMemo",
@@ -53,7 +54,9 @@ export default {
     axios
       .get(URL)
       .then((res) => {
-        this.memoList = res.data.split(",");
+        if (res.data !== "") {
+          this.memoList = res.data.split(",");
+        }
       })
       .catch((err) => console.err(err));
   },
