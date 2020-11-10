@@ -34,7 +34,6 @@
         >
           mdi-circle
         </v-icon>
-        <input type="file" @change="testImage()" id="inputImage" />
       </div>
     </div>
   </div>
@@ -44,6 +43,7 @@
 import "@/assets/css/components/Shopping/shoppingPhotoReg.scss";
 import axios from "axios";
 import SERVER from "@/api/spring";
+
 
 export default {
   name: "ShoppingPhotoReg",
@@ -55,21 +55,24 @@ export default {
     );
   },
   methods: {
-    testImage() {
-      const formdata = new FormData();
-      formdata.append("image", document.getElementById("inputImage").files[0]);
-      axios
-        .post(SERVER.CAMERAURL, formdata, {
-          "Content-Type": "multipart/form-data",
-        })
-        .then((res) => {
-          console.log(res);
-        });
+     dataURLtoFile(dataurl, fileName) {
+ 
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), 
+            n = bstr.length, 
+            u8arr = new Uint8Array(n);
+            
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        
+        return new File([u8arr], fileName, {type:mime});
     },
+    
     async StartRecording(facingMode) {
       this.facingMode = facingMode;
       let video = this.$refs.video;
-      // console.log(video);
       this.mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: facingMode },
       });
@@ -93,7 +96,6 @@ export default {
 
       if (this.facingMode === "user") {
         ctx.scale(-1, 1);
-        // ctx.drawImage(video, width * -1, 0, width, height);
         ctx.drawImage(
           video,
           200,
@@ -112,20 +114,14 @@ export default {
       this.photo = {
         src: canva.toDataURL("image/png"),
       };
-      // const formData = new FormData();
-      // formData.append("image", )
-      console.log(this.photo, typeof this.photo);
-      // this.photo = canva.toDataURL({ format: "png" });
-      const file = new File();
-      file.src = this.photo.src;
-      console.log(file, typeof file);
-
-      // formData.append("image", this.photo);
+      const formData = new FormData();
+      var priceImage = this.dataURLtoFile(this.photo.src,'price.png');
+      formData.append("image", priceImage)
       axios
-        .post(SERVER.CAMERAURL, file, {
+        .post(SERVER.CAMERAURL, formData, {
           "Content-Type": "multipart/form-data",
         })
-        .then((res) => console.log(res));
+        .then((res) => console.log(res)).catch((error)=> console.log(error));
 
       // this.$router.push({ path: "/camera/result" });
     },
