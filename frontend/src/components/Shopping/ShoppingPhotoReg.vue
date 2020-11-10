@@ -56,21 +56,14 @@ export default {
   },
   methods: {
     testImage() {
-      // const selectedFile = document.getElementById("inputImage").files[0];
-      // console.log("111111111111");
-      // console.log(selectedFile);
-      console.log(document.getElementById("inputImage").files[0]);
+      const formdata = new FormData();
+      formdata.append("image", document.getElementById("inputImage").files[0]);
       axios
-        .post(
-          SERVER.CAMERAURL,
-          { image: document.getElementById("inputImage").files[0] },
-          {
-            "Content-Type": "multipart/form-data",
-          }
-        )
+        .post(SERVER.CAMERAURL, formdata, {
+          "Content-Type": "multipart/form-data",
+        })
         .then((res) => {
           console.log(res);
-          console.log("222222");
         });
     },
     async StartRecording(facingMode) {
@@ -119,11 +112,14 @@ export default {
       this.photo = {
         src: canva.toDataURL("image/png"),
       };
+      // const formData = new FormData();
+      // formData.append("image", )
       console.log(this.photo, typeof this.photo);
       // this.photo = canva.toDataURL({ format: "png" });
-      const file = new Image();
+      const file = new File();
       file.src = this.photo.src;
       console.log(file, typeof file);
+
       // formData.append("image", this.photo);
       axios
         .post(SERVER.CAMERAURL, file, {
