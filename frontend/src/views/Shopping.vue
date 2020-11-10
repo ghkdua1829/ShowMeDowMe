@@ -4,11 +4,12 @@
       mdi-arrow-left
     </v-icon>
     <h1>장보는 중</h1>
+
     <v-row>
       <v-col cols="2">
         <ShoppingMemo />
       </v-col>
-      <v-col>
+      <v-col v-if="aimTime">
         <v-row>
           <v-col>
             <h5>남은시간</h5>
@@ -31,15 +32,15 @@
           </v-col>
         </v-row>
         <v-progress-linear
-          color="light-green darken-4"
+          :color="timerColor"
           height="10"
-          value="20"
+          :value="timer"
           striped
         ></v-progress-linear>
       </v-col>
     </v-row>
+    <!-- <h4>방금 추가된 제품</h4> -->
     <ShoppingList />
-    <!-- <ShoppingReceipe /> -->
 
     <v-btn
       class="mt-5"
@@ -70,56 +71,32 @@
 import "@/assets/css/views/shopping.scss";
 import ShoppingList from "@/components/Shopping/ShoppingList";
 import ShoppingMemo from "@/components/Shopping/ShoppingMemo";
-// import ShoppingReceipe from "@/components/Shopping/ShoppingRecipe";
+import { mapState } from "vuex";
 
 export default {
   name: "Shopping",
   components: {
     ShoppingMemo,
-    // ShoppingReceipe,
     ShoppingList,
   },
   props: {
-    hours: {
-      default: 2,
-    },
-
-    minutes: {
-      default: 30,
-    },
-
-    seconds: {
-      default: 5,
-    },
-
     endpoint: {},
   },
-
-  data() {
-    return {
-      hoursLeft: this.hours,
-      minutesLeft: this.minutes,
-      secondsLeft: this.seconds,
-    };
+  created() {
+    this.hoursLeft = parseInt(this.aimTime / 60);
+    this.minutesLeft = this.aimTime % 60;
   },
-
-  methods: {
-    resetTimer() {
-      this.hoursLeft = this.hours;
-      this.minutesLeft = this.minutes;
-      this.secondsLeft = this.seconds;
-    },
-
-    zeroPad(input, length) {
-      return (Array(length + 1).join("0") + input).slice(-length);
-    },
-  },
-
   mounted() {
-    this.resetTimer();
-
     this.$nextTick(function () {
       window.setInterval(() => {
+        this.timer = parseInt(
+          ((this.aimTime - this.hoursLeft * 60 - this.minutesLeft) /
+            this.aimTime) *
+            100
+        );
+        if (this.hoursLeft === 0 && this.minutesLeft === 10) {
+          this.timerColor = "red lighten-1";
+        }
         if (this.secondsLeft > 0) {
           this.secondsLeft--;
         } else if (this.secondsLeft == 0 && this.minutesLeft > 0) {
@@ -138,13 +115,16 @@ export default {
           this.minutesLeft == 0 &&
           this.hoursLeft == 0
         ) {
-          alert("쇼핑시간이 초과하였습니다");
-          this.secondsLeft--;
+          if (this.aimTime !== 0) {
+            alert("쇼핑시간이 초과하였습니다");
+            this.secondsLeft--;
+          }
         }
       }, 1000);
     });
   },
   computed: {
+    ...mapState(["aimTime"]),
     timeLeft: function () {
       if (this.hours !== 0) {
         return (
@@ -160,6 +140,20 @@ export default {
         return this.secondsLeft;
       }
     },
+  },
+  methods: {
+    zeroPad(input, length) {
+      return (Array(length + 1).join("0") + input).slice(-length);
+    },
+  },
+  data() {
+    return {
+      hoursLeft: 0,
+      minutesLeft: 0,
+      secondsLeft: 0,
+      timer: 0,
+      timerColor: "teal lighten-2",
+    };
   },
 };
 </script>

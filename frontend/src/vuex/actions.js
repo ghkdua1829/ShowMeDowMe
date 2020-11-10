@@ -38,5 +38,9 @@ export default {
       data: loginData,
     };
     dispatch("postuserData", info);
-  }
+  },
+  setShop({ commit }, time) {
+    commit("SET_TIME", time);
+    router.push({ path: "/shop" });
+  },
 }

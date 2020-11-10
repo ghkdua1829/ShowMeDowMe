@@ -64,7 +64,7 @@
     <v-btn
       large
       class="ma-10 m-3 0 4"
-      @click="$router.push({ path: '/shop' })"
+      @click="setShop(value)"
       color="teal lighten-2"
       dark
     >
@@ -75,6 +75,7 @@
 
 <script>
 import "@/assets/css/components/Preparation/preparationEnvironment.scss";
+import { mapActions } from "vuex";
 
 export default {
   name: "PreparationEnvironment",
@@ -85,6 +86,7 @@ export default {
     this.time = this.hour + ":" + this.minute + ":00";
   },
   methods: {
+    ...mapActions(["setShop"]),
     skipAimTime() {
       this.isSkipTime = true;
       this.value = 0;
