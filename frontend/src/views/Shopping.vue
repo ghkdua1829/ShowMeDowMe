@@ -32,13 +32,14 @@
           </v-col>
         </v-row>
         <v-progress-linear
-          color="teal lighten-1"
+          :color="timerColor"
           height="10"
-          value="50"
+          :value="timer"
           striped
         ></v-progress-linear>
       </v-col>
     </v-row>
+    <!-- <h4>방금 추가된 제품</h4> -->
     <ShoppingList />
 
     <v-btn
@@ -88,6 +89,14 @@ export default {
   mounted() {
     this.$nextTick(function () {
       window.setInterval(() => {
+        this.timer = parseInt(
+          ((this.aimTime - this.hoursLeft * 60 - this.minutesLeft) /
+            this.aimTime) *
+            100
+        );
+        if (this.hoursLeft === 0 && this.minutesLeft === 10) {
+          this.timerColor = "red lighten-1";
+        }
         if (this.secondsLeft > 0) {
           this.secondsLeft--;
         } else if (this.secondsLeft == 0 && this.minutesLeft > 0) {
@@ -106,8 +115,10 @@ export default {
           this.minutesLeft == 0 &&
           this.hoursLeft == 0
         ) {
-          alert("쇼핑시간이 초과하였습니다");
-          this.secondsLeft--;
+          if (this.aimTime !== 0) {
+            alert("쇼핑시간이 초과하였습니다");
+            this.secondsLeft--;
+          }
         }
       }, 1000);
     });
@@ -137,12 +148,11 @@ export default {
   },
   data() {
     return {
-      hoursLeft: 1,
+      hoursLeft: 0,
       minutesLeft: 0,
       secondsLeft: 0,
-      // hours: 0,
-      // minutes: 0,
-      // seconds: 0,
+      timer: 0,
+      timerColor: "teal lighten-2",
     };
   },
 };
