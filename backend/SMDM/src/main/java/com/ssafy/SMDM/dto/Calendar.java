@@ -26,6 +26,9 @@ public class Calendar {
     @Column(name="shopping_list")
     private String shoppinglist;
 
+    @Column(name="money")
+    private Integer money;
+
     @Column(name="grade")
     private Integer grade;
 
@@ -34,6 +37,7 @@ public class Calendar {
         receiptdate = receiptDate;
         userid = userId;
         shoppinglist = shoppingList;
+        money = money;
         this.grade = grade;
 
     }

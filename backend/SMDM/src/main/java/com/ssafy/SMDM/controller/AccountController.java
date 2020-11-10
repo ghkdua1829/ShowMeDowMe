@@ -96,12 +96,6 @@ public class AccountController {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
 
-    //회원정보수정 -> 이거 user객체로 줄수있으면 이대로 가도 되는데 아니라면, 주석처리한부분 해야할듯?
-    //편한대로 말해주면 수정해줄께 어차피 얼마안걸림!
-    //modified user = Muser
-    @PutMapping("/users")
-    public Object UpdateUser(@RequestParam("userid") String id, User Muser){
-
     // 회원정보수정 -> 이거 user객체로 줄수있으면 이대로 가도 되는데 아니라면, 주석처리한부분 해야할듯?
     // 편한대로 말해주면 수정해줄께 어차피 얼마안걸림!
     // modified user = Muser

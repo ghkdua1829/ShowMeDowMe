@@ -2,6 +2,7 @@ package com.ssafy.SMDM.service;
 
 import com.ssafy.SMDM.dto.Calendar;
 import com.ssafy.SMDM.dto.DailyProduct;
+import com.ssafy.SMDM.dto.User;
 import com.ssafy.SMDM.repository.CalendarRepository;
 import com.ssafy.SMDM.repository.DailyProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,25 +27,29 @@ public class CalendarService {
         return Calendar1;
     }
 
-
     //receiptdate를 통해 찾기
-    public Optional<Calendar> findByReceiptDate(Date receiptdate){
+    public Optional<Calendar> findByReceiptdateAndUserid(Date receiptdate, String userId){
         Optional<Calendar> Calendar1 = Optional.ofNullable(
-                calendarRepository.findByReceiptDate(receiptdate)
+                calendarRepository.findByReceiptdateAndUserid(receiptdate,userId)
         );
+        return Calendar1;
+    }
+    // 달별로 영수증 뽑기
+    public List<Calendar> searchMonthReceiptdate(String userId, Date receiptdate){
+        List<Calendar> Calendar1 = calendarRepository.findByUseridAndReceiptdate(userId,receiptdate);
         return Calendar1;
     }
 
     //time, money를 통해 grade 결정
-    public int updateGrade( Integer timecheck, Integer moneycheck){
-        if (timecheck == 1 && moneycheck == 1) {
+    public int updateGrade( String timecheck, String moneycheck){
+        if (timecheck.equals('T') && moneycheck.equals('T')) {
             return 1;
-        } else if ((timecheck == 2 && moneycheck == 1) || (timecheck == 1 && moneycheck == 2)) {
+        } else if ((timecheck.equals('F') && moneycheck.equals('T')) || (timecheck.equals('T') && moneycheck.equals('F'))) {
             return 2;
-        } else if (timecheck == 2 && moneycheck == 2) {
+        } else if (timecheck.equals('F') && moneycheck.equals('T')) {
             return 3;
         } else {
-            if (timecheck == 1 || moneycheck == 1) {
+            if (moneycheck.equals('T') || timecheck.equals('T')) {
                 return 1;
             } else {
                 return 3;

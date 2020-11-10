@@ -1,6 +1,8 @@
 package com.ssafy.SMDM.controller;
 
+import com.ssafy.SMDM.dto.Calendar;
 import com.ssafy.SMDM.dto.DailyProduct;
+import com.ssafy.SMDM.dto.User;
 import com.ssafy.SMDM.service.CalendarService;
 import com.ssafy.SMDM.service.DailyProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/calendar")
@@ -17,47 +18,32 @@ public class CalendarController {
     @Autowired
     CalendarService calendarService;
 
-    @GetMapping("/")
-    public object 
-    //update date
-    @PutMapping("/")
-    public Object UpdateDate(@RequestParam("userid") String id,
-                             @RequestParam("categoryid") String categoryid,
-                             @RequestParam("date") String date){
-        Optional<DailyProduct> d = dailyProductService.findByUseridAndCategoryid(id,categoryid);
-        if(d.isPresent()) {
-            dailyProductService.updateDate(Optional.of(d.get()), date);
-            return new ResponseEntity<DailyProduct>(d.get(), HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<DailyProduct>(HttpStatus.NOT_FOUND);
+    @PostMapping
+    public Object saveCalendar(@RequestBody Map<String,String> t) {
+        Calendar calendar= new Calendar();
+        String Date1 = t.get("date");
+        calendar.setReceiptdate(Date1);
+        calendar.setShoppinglist(t.get("shoppinglist"));
+        calendar.setUserid(t.get("userId"));
+        calendar.setMoney(t.get("money"));
+//        Optional<Calendar> u = calendarService.findByUserId(t.get("userid"));
+        int grade=calendarService.updateGrade(t.get("timecheck"),t.get("moneycheck"));
+        calendar.setGrade(grade);
+        return new ResponseEntity<Calendar>(calendarService.saveCalendar(calendar),HttpStatus.OK);
     }
 
-    //조회
-    @GetMapping("/")
-    public Object GetCategory(@RequestParam("userid") String id){
-        dailyProductService.findByUserid(id);
-        return new ResponseEntity<String>(HttpStatus.OK);
+    @GetMapping
+    public Object getCalendarByMonth(@RequestBody Map<String,String> t){
+        List<Calendar> list = calendarService.searchMonthReceiptdate(t.get("userId"),t.get("date"));
+        return new ResponseEntity<List>(list,HttpStatus.OK);
     }
 
-    //삭제
-    @DeleteMapping("/")
-    public Object DeleteCategory(@RequestParam("userid") String id,
-                                 @RequestParam("categoryid") String categoryid){
-        Optional<DailyProduct> d = dailyProductService.findByUseridAndCategoryid(id,categoryid);
-        if(d.isPresent()){
-            dailyProductService.deleteByUseridAndCategoryid(id,categoryid);
-            return new ResponseEntity<String>("Delete",HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<String>("not found category",HttpStatus.NOT_FOUND);
 
+
+    @GetMapping("/detail")
+    public Object GetCalendar(@RequestBody Map<String,String> t) {
+        Optional<Calendar> u = calendarService.findByReceiptdateAndUserid(t.get("date"),t.get("userId"));
+        return new ResponseEntity<Calendar>(u.get(),HttpStatus.OK);
     }
-    //상품추가
-    @PostMapping("/")
-    public Object AddProduct(@RequestBody Map<String,String> param){
-        DailyProduct d = dailyProductService.addproduct(param.get("userid")
-                ,param.get("categoryid"),param.get("date"));
-        return new ResponseEntity<DailyProduct>(d,HttpStatus.OK);
-    }
+
 }
