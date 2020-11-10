@@ -19,20 +19,20 @@
   .box-border {
     grid-column: left / right;
     grid-row: es / middle;
-    width: 80vw;
     height: 20vh;
     z-index: 5;
-    // margin-top: 8vh;
+    margin-top: 8vh;
   }
   .box {
-    // width: 80vw;
-    height: 50vh;
+    width: 80vw;
+    height: 30vh;
     z-index: 5;
     grid-column: left / right;
     grid-row: es / middle;
     border: 5px solid mediumaquamarine;
     margin-top: 2vh;
   }
+
   .video {
     height: 100%;
     grid-column: left/right;

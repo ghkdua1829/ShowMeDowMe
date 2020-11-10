@@ -99,7 +99,8 @@ export default {
         id: this.counter++,
         src: canva.toDataURL("image/png"),
       };
-      this.$router.push({ path: "/camera/result" });
+      console.log(this.photo);
+      // this.$router.push({ path: "/camera/result" });
     },
     async switchCamera() {
       this.switchingCamera = true;
