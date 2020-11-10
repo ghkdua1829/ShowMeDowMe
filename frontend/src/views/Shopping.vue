@@ -4,11 +4,12 @@
       mdi-arrow-left
     </v-icon>
     <h1>장보는 중</h1>
+
     <v-row>
       <v-col cols="2">
         <ShoppingMemo />
       </v-col>
-      <v-col>
+      <v-col v-if="aimTime">
         <v-row>
           <v-col>
             <h5>남은시간</h5>
@@ -78,26 +79,13 @@ export default {
     ShoppingList,
   },
   props: {
-    hours: {
-      default: 2,
-    },
-
-    minutes: {
-      default: 30,
-    },
-
-    seconds: {
-      default: 5,
-    },
-
     endpoint: {},
   },
   created() {
-    this.timer = this.aimTime;
+    this.hoursLeft = parseInt(this.aimTime / 60);
+    this.minutesLeft = this.aimTime % 60;
   },
   mounted() {
-    this.resetTimer();
-
     this.$nextTick(function () {
       window.setInterval(() => {
         if (this.secondsLeft > 0) {
@@ -143,22 +131,18 @@ export default {
     },
   },
   methods: {
-    resetTimer() {
-      this.hoursLeft = this.hours;
-      this.minutesLeft = this.minutes;
-      this.secondsLeft = this.seconds;
-    },
-
     zeroPad(input, length) {
       return (Array(length + 1).join("0") + input).slice(-length);
     },
   },
   data() {
     return {
-      hoursLeft: this.hours,
-      minutesLeft: this.minutes,
-      secondsLeft: this.seconds,
-      timer: "",
+      hoursLeft: 1,
+      minutesLeft: 0,
+      secondsLeft: 0,
+      // hours: 0,
+      // minutes: 0,
+      // seconds: 0,
     };
   },
 };
