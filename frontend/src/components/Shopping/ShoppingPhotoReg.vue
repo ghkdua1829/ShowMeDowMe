@@ -41,7 +41,9 @@
   
   <script>
 import "@/assets/css/components/Shopping/shoppingPhotoReg.scss";
-// import axios from "axios";
+import axios from "axios";
+import SERVER from "@/api/spring";
+
 
 export default {
   name: "ShoppingPhotoReg",
@@ -53,16 +55,31 @@ export default {
     );
   },
   methods: {
+     dataURLtoFile(dataurl, fileName) {
+ 
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), 
+            n = bstr.length, 
+            u8arr = new Uint8Array(n);
+            
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        
+        return new File([u8arr], fileName, {type:mime});
+    },
+    
     async StartRecording(facingMode) {
       this.facingMode = facingMode;
       let video = this.$refs.video;
-      // console.log(video);
       this.mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: facingMode },
       });
       video.srcObject = this.mediaStream;
       return await video.play();
     },
+    checkimage() {},
     async TakePhoto() {
       let video = this.$refs.video;
       let canva = this.$refs.canva;
@@ -79,7 +96,6 @@ export default {
 
       if (this.facingMode === "user") {
         ctx.scale(-1, 1);
-        // ctx.drawImage(video, width * -1, 0, width, height);
         ctx.drawImage(
           video,
           200,
@@ -96,10 +112,18 @@ export default {
       }
       ctx.restore();
       this.photo = {
-        id: this.counter++,
         src: canva.toDataURL("image/png"),
       };
-      this.$router.push({ path: "/camera/result" });
+      const formData = new FormData();
+      var priceImage = this.dataURLtoFile(this.photo.src,'price.png');
+      formData.append("image", priceImage)
+      axios
+        .post(SERVER.CAMERAURL, formData, {
+          "Content-Type": "multipart/form-data",
+        })
+        .then((res) => console.log(res)).catch((error)=> console.log(error));
+
+      // this.$router.push({ path: "/camera/result" });
     },
     async switchCamera() {
       this.switchingCamera = true;
