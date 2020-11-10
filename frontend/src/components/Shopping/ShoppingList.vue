@@ -121,61 +121,6 @@ export default {
     },
   },
 
-  created() {
-    this.purchasedThings = [
-      {
-        name: "당근",
-        amount: 1,
-        price: 6000,
-      },
-      {
-        name: "고등어",
-        amount: 2,
-        price: 9000,
-      },
-      {
-        name: "한우",
-        amount: 2,
-        price: 16000,
-      },
-      {
-        name: "감자",
-        amount: 3,
-        price: 3700,
-      },
-      {
-        name: "포카칩",
-        amount: 3,
-        price: 1600,
-      },
-      {
-        name: "생수",
-        amount: 1,
-        price: 1000,
-      },
-      {
-        name: "종이컵",
-        amount: 2,
-        price: 2000,
-      },
-      {
-        name: "치약",
-        amount: 1,
-        price: 3200,
-      },
-      {
-        name: "사과",
-        amount: 2,
-        price: 2500,
-      },
-      {
-        name: "귤",
-        amount: 2,
-        price: 2600,
-      },
-    ];
-  },
-
   methods: {
     editItem(item) {
       this.editedIndex = this.purchasedThings.indexOf(item);

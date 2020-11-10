@@ -75,6 +75,7 @@ public class AccountController {
     @PostMapping("/users/id")
     public Object Idcheck(@RequestBody Map<String, String> param) {
         Optional<User> u = userService.findByUserId(param.get("userid"));
+        System.out.println(param.get("userid"));
         if (u.isPresent()) {
             // 아이디가 존재
             return new ResponseEntity<User>(u.get(), HttpStatus.NOT_FOUND);
