@@ -31,15 +31,14 @@
           </v-col>
         </v-row>
         <v-progress-linear
-          color="light-green darken-4"
+          color="teal lighten-1"
           height="10"
-          value="20"
+          value="50"
           striped
         ></v-progress-linear>
       </v-col>
     </v-row>
     <ShoppingList />
-    <!-- <ShoppingReceipe /> -->
 
     <v-btn
       class="mt-5"
@@ -70,13 +69,12 @@
 import "@/assets/css/views/shopping.scss";
 import ShoppingList from "@/components/Shopping/ShoppingList";
 import ShoppingMemo from "@/components/Shopping/ShoppingMemo";
-// import ShoppingReceipe from "@/components/Shopping/ShoppingRecipe";
+import { mapState } from "vuex";
 
 export default {
   name: "Shopping",
   components: {
     ShoppingMemo,
-    // ShoppingReceipe,
     ShoppingList,
   },
   props: {
@@ -94,27 +92,9 @@ export default {
 
     endpoint: {},
   },
-
-  data() {
-    return {
-      hoursLeft: this.hours,
-      minutesLeft: this.minutes,
-      secondsLeft: this.seconds,
-    };
+  created() {
+    this.timer = this.aimTime;
   },
-
-  methods: {
-    resetTimer() {
-      this.hoursLeft = this.hours;
-      this.minutesLeft = this.minutes;
-      this.secondsLeft = this.seconds;
-    },
-
-    zeroPad(input, length) {
-      return (Array(length + 1).join("0") + input).slice(-length);
-    },
-  },
-
   mounted() {
     this.resetTimer();
 
@@ -145,6 +125,7 @@ export default {
     });
   },
   computed: {
+    ...mapState(["aimTime"]),
     timeLeft: function () {
       if (this.hours !== 0) {
         return (
@@ -160,6 +141,25 @@ export default {
         return this.secondsLeft;
       }
     },
+  },
+  methods: {
+    resetTimer() {
+      this.hoursLeft = this.hours;
+      this.minutesLeft = this.minutes;
+      this.secondsLeft = this.seconds;
+    },
+
+    zeroPad(input, length) {
+      return (Array(length + 1).join("0") + input).slice(-length);
+    },
+  },
+  data() {
+    return {
+      hoursLeft: this.hours,
+      minutesLeft: this.minutes,
+      secondsLeft: this.seconds,
+      timer: "",
+    };
   },
 };
 </script>
