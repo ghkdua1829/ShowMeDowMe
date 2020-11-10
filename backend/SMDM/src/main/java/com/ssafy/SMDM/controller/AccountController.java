@@ -4,6 +4,7 @@ package com.ssafy.SMDM.controller;
 import com.ssafy.SMDM.dto.User;
 import com.ssafy.SMDM.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,8 @@ public class AccountController {
 //    private final PasswordEncoder passwordEncoder;
 //    private final JwtTokenProvider jwtTokenProvider;
 
+
+
     @Autowired
     UserService userService;
 
@@ -37,14 +40,13 @@ public class AccountController {
     // 로그인부분 추후에 JWT , Spring Sercurity 필요
     @PostMapping("/login")
     public Object login(@RequestBody Map<String, String> param) {
-        Optional<User> u = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
-        if(u.isPresent()){
-            //로그인 완료부분
-//            String token = jwtTokenProvider.createToken(u.get().getUserid(),u.get().getRoles());
-            return new ResponseEntity<String>(HttpStatus.OK);
-        }else{
-            //로그인 실패부분
-            return new ResponseEntity<String>(param.get("userid"),HttpStatus.NOT_FOUND);
+        boolean userfind = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
+        if (userfind) {
+            // 로그인 완료부분
+            return new ResponseEntity<String>(param.get("userid"), HttpStatus.OK);
+        } else {
+            // 로그인 실패부분
+            return new ResponseEntity<String>(param.get("userid"), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -53,11 +55,20 @@ public class AccountController {
     public Object SubmitUser(@RequestBody Map<String, String> param) {
         User user = new User();
         user.setUserid(param.get("userid"));
-        user.setUserpw(param.get("userpw"));
+        String CryptPw = BCrypt.hashpw(param.get("userpw"), BCrypt.gensalt());
+        System.out.println(CryptPw);
+        user.setUserpw(CryptPw);
         user.setUserbirth(param.get("userbirth"));
         user.setUserGender(Integer.parseInt(param.get("usergender")));
-//        user.setRoles(Collections.singletonList("ROLE_USER"));
-        return new ResponseEntity<User>(userService.save(user),HttpStatus.OK);
+        userService.save(user);
+//        userService.save(User.builder().
+//                userid(param.get("userid")).
+//                userpw(param.get("userpw")).
+//                userbirth(param.get("userbirth")).
+//                UserGender(Integer.parseInt(param.get("usergender"))).
+//                roles(Collections.singletonList("ROLE_USER"))
+//                .build()).getUserid();
+        return new ResponseEntity<User>(HttpStatus.OK);
     }
 
     // id 중복체크
@@ -97,30 +108,30 @@ public class AccountController {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
 
-    //회원정보수정 -> 이거 user객체로 줄수있으면 이대로 가도 되는데 아니라면, 주석처리한부분 해야할듯?
-    //편한대로 말해주면 수정해줄께 어차피 얼마안걸림!
-    //modified user = Muser
-    @PutMapping("/users")
-    public Object UpdateUser(@RequestParam("userid") String id, User Muser){
-
     // 회원정보수정 -> 이거 user객체로 줄수있으면 이대로 가도 되는데 아니라면, 주석처리한부분 해야할듯?
     // 편한대로 말해주면 수정해줄께 어차피 얼마안걸림!
     // modified user = Muser
-    @PutMapping("/users")
-    public Object UpdateUser(@RequestParam("userid") String id, User Muser) {
+    //비밀번호 수정만!
+    @PostMapping("/users/update")
+    public Object UpdateUser(@RequestBody Map<String, String> param) {
 
         /*
          * Optional<User> Muser = userService.findByUserId(id);
          * Muser.get().setUserid(id); Muser.get().setUserpw(pw);
          * Muser.get().setUserbirth(birth);
          * Muser.get().setUserGender(Integer.parseInt(gender));
-         * 
+         *
          * userService.updateByUserId(id,Muser.get());
          */
-        userService.updateByUserId(id, Muser);
-        return new ResponseEntity<User>(Muser, HttpStatus.OK);
+        boolean userfind = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
+        if (userfind) {
+            // 로그인 완료부분
+            return new ResponseEntity<String>(param.get("userid"), HttpStatus.OK);
+        } else {
+            // 로그인 실패부분
+            return new ResponseEntity<String>(param.get("userid"), HttpStatus.NOT_FOUND);
+        }
     }
-
     // 메모작성
     @PutMapping("/users/memo")
     public Object UpdateMemo(@RequestParam("userid") String id,@RequestParam("memo") String memo){
@@ -139,13 +150,14 @@ public class AccountController {
     //비밀번호 확인
     @PostMapping("/users/confirm")
     public Object confirm(@RequestBody Map<String,String> param){
-        Optional<User> u = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
-        if(u.isPresent()){
-            //로그인 완료부분
-            return new ResponseEntity<String>(HttpStatus.OK);
-        }else{
-            //로그인 실패부분
-            return new ResponseEntity<String>(param.get("userid"),HttpStatus.NOT_FOUND);
+        boolean userfind = userService.findByUserIdAndUserPw(param.get("userid"), param.get("userpw"));
+        if (userfind) {
+            // 로그인 완료부분
+            return new ResponseEntity<String>(param.get("userid"), HttpStatus.OK);
+        } else {
+            // 로그인 실패부분
+            return new ResponseEntity<String>(param.get("userid"), HttpStatus.NOT_FOUND);
         }
     }
+
 }
