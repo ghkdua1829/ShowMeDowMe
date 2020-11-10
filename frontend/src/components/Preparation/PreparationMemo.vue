@@ -54,7 +54,9 @@ export default {
     axios
       .get(URL)
       .then((res) => {
-        this.memoList = res.data.split(",");
+        if (res.data !== "") {
+          this.memoList = res.data.split(",");
+        }
       })
       .catch((err) => console.err(err));
   },
