@@ -34,6 +34,7 @@
         >
           mdi-circle
         </v-icon>
+        <input type="file" @change="testImage()" id="inputImage" />
       </div>
     </div>
   </div>
@@ -41,7 +42,8 @@
   
   <script>
 import "@/assets/css/components/Shopping/shoppingPhotoReg.scss";
-// import axios from "axios";
+import axios from "axios";
+import SERVER from "@/api/spring";
 
 export default {
   name: "ShoppingPhotoReg",
@@ -53,6 +55,24 @@ export default {
     );
   },
   methods: {
+    testImage() {
+      // const selectedFile = document.getElementById("inputImage").files[0];
+      // console.log("111111111111");
+      // console.log(selectedFile);
+      console.log(document.getElementById("inputImage").files[0]);
+      axios
+        .post(
+          SERVER.CAMERAURL,
+          { image: document.getElementById("inputImage").files[0] },
+          {
+            "Content-Type": "multipart/form-data",
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          console.log("222222");
+        });
+    },
     async StartRecording(facingMode) {
       this.facingMode = facingMode;
       let video = this.$refs.video;
@@ -63,6 +83,7 @@ export default {
       video.srcObject = this.mediaStream;
       return await video.play();
     },
+    checkimage() {},
     async TakePhoto() {
       let video = this.$refs.video;
       let canva = this.$refs.canva;
@@ -96,10 +117,20 @@ export default {
       }
       ctx.restore();
       this.photo = {
-        id: this.counter++,
         src: canva.toDataURL("image/png"),
       };
-      console.log(this.photo);
+      console.log(this.photo, typeof this.photo);
+      // this.photo = canva.toDataURL({ format: "png" });
+      const file = new Image();
+      file.src = this.photo.src;
+      console.log(file, typeof file);
+      // formData.append("image", this.photo);
+      axios
+        .post(SERVER.CAMERAURL, file, {
+          "Content-Type": "multipart/form-data",
+        })
+        .then((res) => console.log(res));
+
       // this.$router.push({ path: "/camera/result" });
     },
     async switchCamera() {
