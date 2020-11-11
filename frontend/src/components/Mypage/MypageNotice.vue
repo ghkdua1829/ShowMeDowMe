@@ -25,7 +25,12 @@
       </div>
       <div v-if="noticeList.length">
         <div v-for="(noticeItem, index) in noticeList" :key="index">
-          <v-alert colored-border type="info" elevation="1">
+          <v-alert
+            @click="offAlarm(noticeItem)"
+            colored-border
+            type="info"
+            elevation="1"
+          >
             {{ noticeItem }}
           </v-alert>
         </div>
@@ -45,34 +50,40 @@ export default {
   created() {
     this.username = sessionStorage.userid;
     const StartURL =
-      SERVER.URL + SERVER.ROUTES.alarm + "?userid=" + sessionStorage.userid;
-    axios.get(StartURL).then((res) => {
-      console.log(res);
-      // this.selectList = res.data;
-    });
+      SERVER.URL + SERVER.ROUTES.alarm + "?userid=" + this.username;
+    axios
+      .get(StartURL)
+      .then((res) => {
+        for (let j = 0; j < res.data.length; j++) {
+          this.selectList.push(res.data[j].categoryid);
+        }
+      })
+      .catch((err) => console.err(err));
   },
   methods: {
+    offAlarm(notice) {
+      console.log(notice);
+    },
     changeSelect() {
       const SelectURL = SERVER.URL + SERVER.ROUTES.alarm;
       const data = [];
       for (let i = 0; i < this.productList.length; i++) {
         if (this.selectList.includes(this.productList[i])) {
           data.push({
-            username: sessionStorage.userid,
+            userid: sessionStorage.userid,
             categoryid: this.productList[i],
             check: "Y",
           });
         } else {
           data.push({
-            username: sessionStorage.userid,
+            userid: sessionStorage.userid,
             categoryid: this.productList[i],
             check: "N",
           });
         }
       }
-
-      axios.post(SelectURL, data).then((res) => {
-        console.log(res);
+      axios.post(SelectURL, data).catch((err) => {
+        console.err(err);
       });
     },
   },
@@ -88,18 +99,14 @@ export default {
         "렌즈세정액",
         "칫솔",
         "치약",
-        "마스크",
-        "비누",
+        "클렌징비누",
         "린스",
         "샴푸",
         "쌀",
         "생수",
         "화장지",
         "라면",
-        "계란",
         "즉석밥",
-        "면도용품",
-        "면봉",
       ],
     };
   },
