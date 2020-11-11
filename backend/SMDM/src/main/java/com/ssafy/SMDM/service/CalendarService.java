@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.awt.desktop.SystemSleepEvent;
 import java.util.Date;
 import java.util.List;
 
@@ -35,14 +36,21 @@ public class CalendarService {
 
     //time, money를 통해 grade 결정
     public int updateGrade(String timecheck, String moneycheck) {
-        if (timecheck.equals('T') && moneycheck.equals('T')) {
+        System.out.println(timecheck);
+        System.out.println(moneycheck);
+        System.out.println(timecheck.equals("T"));
+        System.out.println(moneycheck.equals("T"));
+        if (timecheck.equals("T") && moneycheck.equals("T")) {
             return 1;
-        } else if ((timecheck.equals('F') && moneycheck.equals('T')) || (timecheck.equals('T') && moneycheck.equals('F'))) {
+        } else if ((timecheck.equals("F") && moneycheck.equals("T")) || (timecheck.equals("T") && moneycheck.equals("F"))) {
             return 2;
-        } else if (timecheck.equals('F') && moneycheck.equals('T')) {
+        } else if (timecheck.equals("F") && moneycheck.equals("F")) {
             return 3;
-        } else {
-            if (moneycheck.equals('T') || timecheck.equals('T')) {
+        } else if (timecheck.equals("X") && moneycheck.equals("X")){
+            return 1;
+        }
+        else {
+            if (moneycheck.equals("T") || timecheck.equals("T")) {
                 return 1;
             } else {
                 return 3;
@@ -57,8 +65,15 @@ public class CalendarService {
 
     //delete
     @Transactional
-    public void deleteByReceiptDate(String year, String month,String day,String hour,String min ,String userId) {
-        calendarRepository.deleteByReceiptdate(year,month,day,hour,min,userId);
+    public void deleteByReceiptdate(String receiptdate){
+        calendarRepository.deleteByReceiptdate(receiptdate);
+    }
+
+
+
+    public Calendar searchDelete(String year, String month,String day,String hour,String min ,String userId) {
+        Calendar calendar1 = calendarRepository.searchdelete(year,month,day,hour,min,userId);
+        return calendar1;
     }
 
 }

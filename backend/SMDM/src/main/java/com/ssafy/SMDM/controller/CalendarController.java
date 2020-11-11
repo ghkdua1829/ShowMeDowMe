@@ -13,7 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
+
 @RequestMapping("/api/calendar")
 public class CalendarController {
     @Autowired
@@ -30,8 +32,10 @@ public class CalendarController {
         calendar.setUserid(t.get("userId"));
         calendar.setMoney(Integer.parseInt(t.get("money")));
 //        Optional<Calendar> u = calendarService.findByUserId(t.get("userid"));
+        System.out.println(t.get("timecheck")+' '+t.get("moneycheck"));
         int grade = calendarService.updateGrade(t.get("timecheck"), t.get("moneycheck"));
         calendar.setGrade(grade);
+        calendarService.saveCalendar(calendar);
         return new ResponseEntity<Calendar>(calendarService.saveCalendar(calendar), HttpStatus.OK);
     }
 
@@ -69,8 +73,8 @@ public class CalendarController {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date time1 = format1.parse(t.get("date"));
-            calendarService.deleteByReceiptDate(String.valueOf(time1.getYear() + 1900), String.format("%02d",(time1.getMonth() + 1)),String.format("%02d",time1.getDate()),String.format("%02d",time1.getHours()),String.valueOf(time1.getMinutes()), t.get("userId"));
-
+            Calendar calendar2 = calendarService.searchDelete(String.valueOf(time1.getYear() + 1900), String.format("%02d",(time1.getMonth() + 1)),String.format("%02d",time1.getDate()),String.format("%02d",time1.getHours()),String.valueOf(time1.getMinutes()), t.get("userId"));
+            calendarService.deleteByReceiptdate(calendar2.getReceiptdate());
             return new ResponseEntity<List>(HttpStatus.OK);
         } catch (ParseException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
