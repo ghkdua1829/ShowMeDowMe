@@ -44,14 +44,36 @@ export default {
   name: "MypageNotice",
   created() {
     this.username = sessionStorage.userid;
-    axios.get(SERVER.URL + SERVER.ROUTES.getAlarm).then((res) => {
+    const StartURL =
+      SERVER.URL + SERVER.ROUTES.alarm + "?userid=" + sessionStorage.userid;
+    axios.get(StartURL).then((res) => {
       console.log(res);
       // this.selectList = res.data;
     });
   },
   methods: {
     changeSelect() {
-      console.log("확인", this.selectList);
+      const SelectURL = SERVER.URL + SERVER.ROUTES.alarm;
+      const data = [];
+      for (let i = 0; i < this.productList.length; i++) {
+        if (this.selectList.includes(this.productList[i])) {
+          data.push({
+            username: sessionStorage.userid,
+            categoryid: this.productList[i],
+            check: "Y",
+          });
+        } else {
+          data.push({
+            username: sessionStorage.userid,
+            categoryid: this.productList[i],
+            check: "N",
+          });
+        }
+      }
+
+      axios.post(SelectURL, data).then((res) => {
+        console.log(res);
+      });
     },
   },
   data() {

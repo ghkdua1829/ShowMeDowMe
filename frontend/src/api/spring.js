@@ -7,8 +7,8 @@ export default {
         idvalidity: "/users/id",
         memo: "/users/memo",
         update: "/users/update",
-        alarm: "/users/dailyproduct",
-        getAlarm: "/users/dailyproduct/category",
+        alarm: "/users/dailyproducts",
+        getAlarm: "/users/dailyproducts/category",
         postAlarm: "/users/category"
     }
 }
