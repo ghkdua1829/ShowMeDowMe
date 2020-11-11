@@ -25,7 +25,12 @@
       </div>
       <div v-if="noticeList.length">
         <div v-for="(noticeItem, index) in noticeList" :key="index">
-          <v-alert colored-border type="info" elevation="1">
+          <v-alert
+            @click="offAlarm(noticeItem)"
+            colored-border
+            type="info"
+            elevation="1"
+          >
             {{ noticeItem }}
           </v-alert>
         </div>
@@ -44,14 +49,45 @@ export default {
   name: "MypageNotice",
   created() {
     this.username = sessionStorage.userid;
-    axios.get(SERVER.URL + SERVER.ROUTES.getAlarm).then((res) => {
-      console.log(res);
-      // this.selectList = res.data;
-    });
+    const StartURL =
+      SERVER.URL + SERVER.ROUTES.alarm + "?userid=" + this.username;
+    axios
+      .get(StartURL)
+      .then((res) => {
+        for (let j = 0; j < res.data.length; j++) {
+          this.selectList.push(res.data[j].categoryid);
+        }
+        console.log(res);
+        // this.selectList = res.data;
+      })
+      .catch((err) => console.log(err));
   },
   methods: {
+    offAlarm(notice) {
+      console.log(notice);
+    },
     changeSelect() {
-      console.log("확인", this.selectList);
+      const SelectURL = SERVER.URL + SERVER.ROUTES.alarm;
+      const data = [];
+      for (let i = 0; i < this.productList.length; i++) {
+        if (this.selectList.includes(this.productList[i])) {
+          data.push({
+            userid: sessionStorage.userid,
+            categoryid: this.productList[i],
+            check: "Y",
+          });
+        } else {
+          data.push({
+            userid: sessionStorage.userid,
+            categoryid: this.productList[i],
+            check: "N",
+          });
+        }
+      }
+      console.log(data);
+      axios.post(SelectURL, data).then((res) => {
+        console.log(res);
+      });
     },
   },
   data() {
