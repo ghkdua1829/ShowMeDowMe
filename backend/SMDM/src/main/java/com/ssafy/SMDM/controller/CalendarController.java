@@ -37,14 +37,12 @@ public class CalendarController {
 
     @GetMapping
     public Object getCalendarByMonth(@RequestBody Map<String, String> t) {
-        Calendar calendar = new Calendar();
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        java.util.Date time = new Date();
         try {
             Date time1 = format1.parse(t.get("date"));
 
             System.out.println(time1);
-            List<Calendar> list = calendarService.searchMonthReceiptdate(t.get("userId"), time1);
+            List<Calendar> list = calendarService.searchMonthReceiptdate(String.valueOf(time1.getYear() + 1900), String.valueOf(time1.getMonth() + 1),t.get("userId"));
 
             return new ResponseEntity<List>(list, HttpStatus.OK);
         } catch (ParseException e) {
@@ -54,17 +52,26 @@ public class CalendarController {
 
 
     @PostMapping("/detail")
-    public Object GetCalendar(@RequestBody Map<String, String> t) {
-
-        System.out.println();
+    public Object getCalendarByDay(@RequestBody Map<String, String> t) {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date time1 = format1.parse(t.get("date"));
-
-            System.out.println(time1 + " : " + t.get("userId"));
-            List<Calendar> list = calendarService.findByReceiptdateAndUserid(String.valueOf(time1.getYear() + 1900), String.valueOf(time1.getMonth() + 1), t.get("userId"));
+            List<Calendar> list = calendarService.searchDayReceiptdate(String.valueOf(time1.getYear() + 1900), String.format("%02d",(time1.getMonth()+1)),String.format("%02d",time1.getDate()), t.get("userId"));
 
             return new ResponseEntity<List>(list, HttpStatus.OK);
+        } catch (ParseException e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping
+    public Object deleteCalendar(@RequestBody Map<String,String> t){
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date time1 = format1.parse(t.get("date"));
+            calendarService.deleteByReceiptDate(String.valueOf(time1.getYear() + 1900), String.format("%02d",(time1.getMonth() + 1)),String.format("%02d",time1.getDate()),String.format("%02d",time1.getHours()),String.valueOf(time1.getMinutes()), t.get("userId"));
+
+            return new ResponseEntity<List>(HttpStatus.OK);
         } catch (ParseException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

@@ -22,14 +22,14 @@ public class CalendarService {
 //    }
 
     //receiptdate를 통해 찾기
-    public List<Calendar> findByReceiptdateAndUserid(String year, String month, String userId) {
-        List<Calendar> Calendar1 = calendarRepository.findByReceiptdateAndUserid(year, month, userId);
+    public List<Calendar> searchDayReceiptdate(String year, String month,String day, String userId) {
+        List<Calendar> Calendar1 = calendarRepository.findByReceiptdateAndUserid(year, month,day, userId);
         return Calendar1;
     }
 
     // 달별로 영수증 뽑기
-    public List<Calendar> searchMonthReceiptdate(String userId, Date receiptdate) {
-        List<Calendar> Calendar1 = calendarRepository.findByUseridAndReceiptdate(userId, receiptdate);
+    public List<Calendar> searchMonthReceiptdate(String year, String month, String userId) {
+        List<Calendar> Calendar1 = calendarRepository.findByUseridAndReceiptdate(year,month,userId);
         return Calendar1;
     }
 
@@ -57,8 +57,8 @@ public class CalendarService {
 
     //delete
     @Transactional
-    public void deleteByReceiptDate(Date receiptdate) {
-        calendarRepository.deleteByReceiptdate(receiptdate);
+    public void deleteByReceiptDate(String year, String month,String day,String hour,String min ,String userId) {
+        calendarRepository.deleteByReceiptdate(year,month,day,hour,min,userId);
     }
 
 }
