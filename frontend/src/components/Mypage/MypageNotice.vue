@@ -57,10 +57,8 @@ export default {
         for (let j = 0; j < res.data.length; j++) {
           this.selectList.push(res.data[j].categoryid);
         }
-        console.log(res);
-        // this.selectList = res.data;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.err(err));
   },
   methods: {
     offAlarm(notice) {
@@ -84,9 +82,8 @@ export default {
           });
         }
       }
-      console.log(data);
-      axios.post(SelectURL, data).then((res) => {
-        console.log(res);
+      axios.post(SelectURL, data).catch((err) => {
+        console.err(err);
       });
     },
   },
@@ -102,18 +99,14 @@ export default {
         "렌즈세정액",
         "칫솔",
         "치약",
-        "마스크",
-        "비누",
+        "클렌징비누",
         "린스",
         "샴푸",
         "쌀",
         "생수",
         "화장지",
         "라면",
-        "계란",
         "즉석밥",
-        "면도용품",
-        "면봉",
       ],
     };
   },
