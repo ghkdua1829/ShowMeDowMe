@@ -43,4 +43,16 @@ export default {
     commit("SET_ENVIRONMENT", setData);
     router.push({ path: "/shop" });
   },
+  saveCameraData({ commit }, saveData) {
+    commit("SAVE_SHOPDATA", saveData)
+    router.push({ path: "/shop" });
+  },
+  editShopItem({ commit }, editData, editIndex) {
+    const editInfo = {
+      editData: editData,
+      editIndex: editIndex
+    }
+    commit("EDIT_SHOPDATA", editInfo)
+  }
+  // save
 }

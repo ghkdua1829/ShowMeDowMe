@@ -4,6 +4,8 @@
       mdi-arrow-left
     </v-icon>
     <h1>장보는 중</h1>
+    {{ recentItem }}
+    {{ shoppingList }}
     <v-row>
       <v-col cols="2">
         <ShoppingMemo />
@@ -55,7 +57,7 @@
     </v-btn>
     <v-row class="mt-3 final-box">
       <v-col>
-        <h4>현재 결재 예상 금액 28000원</h4>
+        <h4>현재 결재 예상 금액 {{ nowExpense }}원</h4>
       </v-col>
       <v-col>
         <v-btn outlined @click="$router.push({ path: '/report' })">
@@ -81,6 +83,7 @@ export default {
   props: {
     endpoint: {},
   },
+
   created() {
     this.hoursLeft = parseInt(this.aimTime / 60);
     this.minutesLeft = this.aimTime % 60;
@@ -123,7 +126,13 @@ export default {
     });
   },
   computed: {
-    ...mapState(["aimTime", "aimExpense"]),
+    ...mapState([
+      "aimTime",
+      "aimExpense",
+      "nowExpense",
+      "recentItem",
+      "shoppingList",
+    ]),
     timeLeft: function () {
       if (this.hours !== 0) {
         return (

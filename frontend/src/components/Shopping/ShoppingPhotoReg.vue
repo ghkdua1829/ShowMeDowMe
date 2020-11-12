@@ -43,7 +43,7 @@
 import "@/assets/css/components/Shopping/shoppingPhotoReg.scss";
 import axios from "axios";
 import SERVER from "@/api/spring";
-
+import { mapActions } from "vuex";
 
 export default {
   name: "ShoppingPhotoReg",
@@ -55,21 +55,21 @@ export default {
     );
   },
   methods: {
-     dataURLtoFile(dataurl, fileName) {
- 
-        var arr = dataurl.split(','),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), 
-            n = bstr.length, 
-            u8arr = new Uint8Array(n);
-            
-        while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        
-        return new File([u8arr], fileName, {type:mime});
+    ...mapActions(["saveCameraData"]),
+    dataURLtoFile(dataurl, fileName) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], fileName, { type: mime });
     },
-    
+
     async StartRecording(facingMode) {
       this.facingMode = facingMode;
       let video = this.$refs.video;
@@ -115,13 +115,24 @@ export default {
         src: canva.toDataURL("image/png"),
       };
       const formData = new FormData();
-      var priceImage = this.dataURLtoFile(this.photo.src,'price.png');
-      formData.append("image", priceImage)
+      var priceImage = this.dataURLtoFile(this.photo.src, "price.png");
+      formData.append("image", priceImage);
       axios
         .post(SERVER.CAMERAURL, formData, {
           "Content-Type": "multipart/form-data",
         })
-        .then((res) => console.log(res)).catch((error)=> console.log(error));
+        .then((res) => {
+          if (res.status === 200) {
+            this.saveData = res.data;
+            this.saveData.amount = 1;
+            // console.log(this.saveData);
+            this.saveCameraData(this.saveData);
+          }
+        })
+        .catch((error) => {
+          alert("인식을 하지 못하였습니다. 다시 한번 촬영해주세요.");
+          console.err(error);
+        });
 
       // this.$router.push({ path: "/camera/result" });
     },
@@ -146,6 +157,7 @@ export default {
       facingMode: "environment",
       counter: 0,
       switchingCamera: false,
+      saveData: [],
     };
   },
 };
