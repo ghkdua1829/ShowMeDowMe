@@ -8,10 +8,13 @@ export default {
     },
     SAVE_SHOPDATA(state, saveData) {
         state.recentItem = saveData
+        console.log(state.recentItem.price, state.recentItem)
+        state.nowExpense = state.nowExpense + state.nowExpense.price
         state.shoppingList.push(state.recentItem)
     },
-    // EDIT_SHOPDATA(state, editInfo) {
-    //     state.shoppingList[editInfo.editIndex] = editInfo.editData
-    //     console.log("dhkte", editInfo.editIndex, state.shoppingList)
-    // }
+    EDIT_SHOPDATA(state, editInfo) {
+        state.nowExpense = []
+        state.shoppingList[editInfo.editIndex] = editInfo.editData
+        console.log("dhkte", editInfo.editIndex, state.shoppingList)
+    }
 }

@@ -47,12 +47,7 @@ export default {
     commit("SAVE_SHOPDATA", saveData)
     router.push({ path: "/shop" });
   },
-  editShopItem({ commit }, editData, editIndex) {
-    const editInfo = {
-      editData: editData,
-      editIndex: editIndex
-    }
+  editShopItem({ commit }, editInfo) {
     commit("EDIT_SHOPDATA", editInfo)
   }
-  // save
 }

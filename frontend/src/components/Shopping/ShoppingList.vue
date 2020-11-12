@@ -49,7 +49,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn text @click="close"> 닫기 </v-btn>
-              <v-btn text @click="save"> 저장 </v-btn>
+              <v-btn text color="teal" @click="save"> 저장 </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -59,7 +59,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn text @click="closeDelete">취소</v-btn>
-              <v-btn text @click="deleteItemConfirm">확인</v-btn>
+              <v-btn text color="teal" @click="deleteItemConfirm">확인</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -81,7 +81,7 @@ export default {
   name: "ShoppingList",
 
   computed: {
-    ...mapState(["shoppingList"]),
+    ...mapState(["shoppingList", "nowExpense"]),
     formTitle() {
       return this.editedIndex === -1 ? "구입할 제품" : "등록된 제품 수정";
     },
@@ -110,7 +110,7 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.purchasedThings.splice(this.editedIndex, 1);
+      this.shoppingList.splice(this.editedIndex, 1);
       this.closeDelete();
     },
 
@@ -132,15 +132,13 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        // this.editShopItem(
-        //   Object.assign(this.shoppingList[this.editedIndex], this.e0ditedItem),
-        //   this.editedIndex
-        // );
-        Object.assign(this.shoppingList[this.editedIndex], this.editedItem);
-        // console.log(
-        //   Object.assign(this.shoppingList[this.editedIndex], this.editedItem)
-        // );
-        console.log("dddddd");
+        const editInfo = {
+          editData: this.editedItem,
+          editIndex: this.editedIndex,
+        };
+        this.editShopItem(editInfo);
+
+        // Object.assign(this.shoppingList[this.editedIndex], this.editedItem);
       } else {
         this.shoppingList.push(this.editedItem);
       }
@@ -161,12 +159,11 @@ export default {
       { text: "가격", value: "price" },
       { text: "편집", value: "actions", sortable: false },
     ],
-    purchasedThings: [],
     editedIndex: -1,
     editedItem: {},
     defaultItem: {
       name: "",
-      amount: 0,
+      amount: 1,
       price: 0,
     },
   }),

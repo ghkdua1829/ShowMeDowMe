@@ -1,11 +1,17 @@
 <template>
   <div class="shopping">
-    <v-icon @click="$router.push({ path: '/perparation' })">
-      mdi-arrow-left
-    </v-icon>
+    <div v-if="member">
+      <v-icon @click="$router.push({ path: '/perparation' })">
+        mdi-arrow-left
+      </v-icon>
+    </div>
+    <div v-else>
+      <v-icon @click="$router.push({ path: '/nonMember/perparation' })">
+        mdi-arrow-left
+      </v-icon>
+    </div>
     <h1>장보는 중</h1>
-    {{ recentItem }}
-    {{ shoppingList }}
+
     <v-row>
       <v-col cols="2">
         <ShoppingMemo />
@@ -40,9 +46,13 @@
         ></v-progress-linear>
       </v-col>
     </v-row>
-    <!-- <h4>방금 추가된 제품</h4> -->
-    <ShoppingList />
-
+    <div v-if="recentItem.length">
+      <h4>방금 추가된 제품</h4>
+      <div>제품명 : {{ recentItem.name }}</div>
+      <div>가격 : {{ recentItem.price }}</div>
+    </div>
+    {{ recentItem }}
+    {{ shoppingList }}
     <v-btn
       class="mt-5"
       dark
@@ -55,6 +65,8 @@
 
       사진으로 제품 등록
     </v-btn>
+    <ShoppingList />
+
     <v-row class="mt-3 final-box">
       <v-col>
         <h4>현재 결재 예상 금액 {{ nowExpense }}원</h4>
@@ -85,6 +97,9 @@ export default {
   },
 
   created() {
+    if (sessionStorage.length === 0) {
+      this.member = false;
+    }
     this.hoursLeft = parseInt(this.aimTime / 60);
     this.minutesLeft = this.aimTime % 60;
   },
@@ -161,6 +176,7 @@ export default {
       secondsLeft: 0,
       timer: 0,
       timerColor: "teal lighten-2",
+      member: true,
     };
   },
 };
