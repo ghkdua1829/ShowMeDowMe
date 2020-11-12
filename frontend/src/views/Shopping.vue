@@ -69,7 +69,7 @@
 
     <v-row class="mt-3 final-box">
       <v-col>
-        <h4>현재 결재 예상 금액 {{ nowExpense }}원</h4>
+        <h4>현재 결제 예상 금액 {{ nowExpense }}원</h4>
       </v-col>
       <v-col>
         <v-btn outlined @click="$router.push({ path: '/report' })">
