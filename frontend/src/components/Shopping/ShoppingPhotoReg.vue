@@ -123,9 +123,9 @@ export default {
         })
         .then((res) => {
           if (res.status === 200) {
-            this.saveData = res.data;
+            this.saveData.name = res.data.name;
+            this.saveData.price = res.data.price;
             this.saveData.amount = 1;
-            // console.log(this.saveData);
             this.saveCameraData(this.saveData);
           }
         })
@@ -157,7 +157,7 @@ export default {
       facingMode: "environment",
       counter: 0,
       switchingCamera: false,
-      saveData: [],
+      saveData: {},
     };
   },
 };
