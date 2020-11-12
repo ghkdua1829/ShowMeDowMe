@@ -10,10 +10,12 @@
         @change="changeSelect()"
       ></v-select>
       <div>
-        <small>이전에 기록이 없는 물품인 경우 </small>
+        <small>이전에 구매 기록이 없는 물품인 경우 </small>
       </div>
       <small>소비자의 평균 주기를 기준으로 제공합니다.</small>
     </div>
+    <small>구입 이후 자신의 소비 패턴에 맞춰 제공합니다.</small>
+
     <div class="notice mt-4">
       <div class="mb-3">
         <h3>
@@ -23,15 +25,13 @@
         <h5>꾸준한 구매가 필요한 품목을 선택하여</h5>
         <h5>자신만을 위한 알람을 받으세요.</h5>
       </div>
-      <div v-if="noticeList.length">
-        <div v-for="(noticeItem, index) in noticeList" :key="index">
-          <v-alert
-            @click="offAlarm(noticeItem)"
-            colored-border
-            type="info"
-            elevation="1"
-          >
-            {{ noticeItem }}
+      <div v-if="alarmList.length">
+        <div v-for="(alarmItem, index) in alarmList" :key="index">
+          <v-alert colored-border type="info" elevation="1">
+            {{ alarmItem[0] }} {{ alarmItem[1] }}
+            <div class="btn-close">
+              <v-icon small @click="offAlarm(alarmItem[0])">mdi-close</v-icon>
+            </div>
           </v-alert>
         </div>
       </div>
@@ -55,14 +55,25 @@ export default {
       .get(StartURL)
       .then((res) => {
         for (let j = 0; j < res.data.length; j++) {
+          if ((res.data[j].alarm && res.data[j].alarm2) === 0) {
+            this.alarmList.push([
+              res.data[j].categoryid,
+              this.noticeList[j % 3],
+            ]);
+          }
           this.selectList.push(res.data[j].categoryid);
         }
       })
       .catch((err) => console.err(err));
   },
   methods: {
-    offAlarm(notice) {
-      console.log(notice);
+    offAlarm(alarmItem) {
+      // const AlarmURL = SERVER.URL + SERVER.ROUTES.offAlarm;
+      // const alarmData = {
+      //   userid:  this.username,
+      //   categoryid: this.SERVER
+      // }
+      console.log(alarmItem);
     },
     changeSelect() {
       const SelectURL = SERVER.URL + SERVER.ROUTES.alarm;
@@ -90,8 +101,9 @@ export default {
   data() {
     return {
       noticeList: [
-        "휴지를 구매한지 한달이 넘었습니다.",
-        "렌즈세정액을 구입을 잊지 않으셨나요?",
+        " 곧 구입이 필요하지 않으신가요?",
+        " 구입해야 합니다.",
+        " 구입을 잊지 않으셨나요?",
       ],
       username: "",
       selectList: [],
@@ -108,6 +120,7 @@ export default {
         "라면",
         "즉석밥",
       ],
+      alarmList: [],
     };
   },
 };
