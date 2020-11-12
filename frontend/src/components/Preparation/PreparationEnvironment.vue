@@ -25,9 +25,11 @@
     </v-row>
     <v-row>
       <v-col>
-        <h5 v-if="isSkipTime && value === 0">시간은 넉넉하게 하겠습니다.</h5>
+        <h5 v-if="isSkipTime && setData.value === 0">
+          시간은 넉넉하게 하겠습니다.
+        </h5>
       </v-col>
-      <div class="btn-skip" v-if="isSkipTime && value === 0">
+      <div class="btn-skip" v-if="isSkipTime && setData.value === 0">
         <v-btn small outlined color="teal lighten-2">SKIP</v-btn>
       </div>
       <div v-else class="btn-skip">
@@ -53,9 +55,11 @@
     </v-row>
     <v-row>
       <v-col>
-        <h5 v-if="isSkipMoney && amount === ''">금액은 상관없습니다.</h5>
+        <h5 v-if="isSkipMoney && setData.amount === ''">
+          금액은 상관없습니다.
+        </h5>
       </v-col>
-      <div class="btn-skip" v-if="isSkipMoney && amount === ''">
+      <div class="btn-skip" v-if="isSkipMoney && setData.amount === ''">
         <v-btn small outlined color="teal lighten-2">SKIP</v-btn>
       </div>
       <div v-else class="btn-skip">
@@ -92,11 +96,11 @@ export default {
     ...mapActions(["setShop"]),
     skipAimTime() {
       this.isSkipTime = true;
-      this.value = 0;
+      this.setData.value = 0;
     },
     skipAimValue() {
       this.isSkipMoney = true;
-      this.amount = "";
+      this.setData.amount = "";
     },
   },
   data() {
