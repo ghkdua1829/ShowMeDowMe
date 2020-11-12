@@ -2,12 +2,12 @@
 
 .preparation-environment {
   margin: $components-margin;
-  height: 450px;
+  height: 460px;
   // background-color: rgb(240, 229, 251); // 연보라
   background-color: rgb(230, 243, 239);
   border-radius: 2rem;
   .ready-title {
-    padding: 20px;
+    padding: 15px;
   }
   .preparation-type {
     padding-top: 25px;
@@ -26,5 +26,8 @@
     width: 85%;
     margin: 0 auto;
     background-color: rgb(241, 241, 241);
+  }
+  .set-btn {
+    color: white;
   }
 }

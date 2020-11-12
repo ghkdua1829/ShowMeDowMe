@@ -73,11 +73,50 @@
 
 <script>
 import "@/assets/css/components/AccountBook/accountBookCalendar.scss";
+import SERVER from "@/api/spring";
+import axios from "axios";
+// import vueMoment from 'vue-moment'
 
 export default {
   name: "AccountBookCalendar",
   mounted() {
     this.$refs.calendar.checkChange();
+  },
+  created() {
+    let todate = new Date();
+    let month = todate.getUTCMonth() + 1;
+    let year = todate.getUTCFullYear();
+    // console.log("date : " + year + month);
+    const DATE = year + "" + month;
+    const URL = SERVER.URL + SERVER.ROUTES.getCalendar + "/date/" + DATE;
+
+    axios.post(URL, {
+      userId : sessionStorage.userid
+    })
+    .then((res) => {
+      this.event_data = res.data;
+      // this.event_data = [
+      //   {
+      //     grade: "1",
+      //     money: "19,000",
+      //     shoppinglist: "test1",
+      //     sDate: "2020-11-09 13:43:03.0",
+      //   },
+      //   {
+      //     grade: "2",
+      //     money: "23,000",
+      //     shoppinglist: "test2",
+      //     sDate: "2020-11-13 13:43:03.0",
+      //   },
+      // ],
+      // console.log(this.event_data)
+      console.log(res)
+      // console.log(this.billList)
+    })
+    .catch((err) => {
+      console.err(err)
+    })
+
   },
   methods: {
     getEventColor(event) {
@@ -114,12 +153,14 @@ export default {
       const events = [];
       for (let ev_n in this.event_data) {
         const event_data_detail = this.event_data[ev_n];
-        const sdates = this.event_data[ev_n]["sDate"];
+        let sdates = this.event_data[ev_n]["receiptdate"];
+        sdates = sdates.replace(/[^0-9]/g,'');
         const syear = sdates.substring(0, 4);
         const smonth = sdates.substring(4, 6);
         const sday = sdates.substring(6, 8);
         const shour = sdates.substring(8, 10);
         const sminute = sdates.substring(10, 12);
+        console.log("test")
         const s_date =
           syear +
           "/" +
@@ -134,7 +175,7 @@ export default {
 
         const first = new Date(s_date);
         const second = new Date(s_date);
-        const eventname = this.event_data[ev_n]["expense"];
+        const eventname = this.event_data[ev_n]["money"];
 
         events.push({
           pk_num: Number(ev_n),
@@ -142,7 +183,7 @@ export default {
           start: first,
           end: second,
           color: this.colors[Number(this.event_data[ev_n]["grade"])],
-          details: event_data_detail["shopList"],
+          details: event_data_detail["shoppinglist"],
         });
       }
       this.events = events;
@@ -162,7 +203,7 @@ export default {
       colors: [
         "blue",
         "indigo",
-        "deep-purple",
+        "purple",
         "cyan",
         "green",
         "orange",
@@ -175,29 +216,20 @@ export default {
         4: "bad",
         5: "worst",
       },
-      names: [
-        "Meeting",
-        "Holiday",
-        "PTO",
-        "Travel",
-        "Event",
-        "Birthday",
-        "Conference",
-        "Party",
-      ],
+      billList: [],
       event_data: [
-        {
-          grade: "1",
-          expense: "19,000",
-          shopList: "test1",
-          sDate: "202010300923",
-        },
-        {
-          grade: "2",
-          expense: "23,000",
-          shopList: "test2",
-          sDate: "202010211001",
-        },
+      //   {
+      //     grade: "1",
+      //     money: "19,000",
+      //     shoppinglist: "test1",
+      //     receiptdate: "2020-11-09 13:43:03.0",
+      //   },
+      //   {
+      //     grade: "2",
+      //     money: "23,000",
+      //     shoppinglist: "test2",
+      //     receiptdate: "2020-11-13 13:43:03.0",
+      //   },
       ],
     };
   },
