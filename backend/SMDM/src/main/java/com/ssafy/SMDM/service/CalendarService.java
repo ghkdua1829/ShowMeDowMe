@@ -1,4 +1,4 @@
-package com.ssafy.SMDM.service;
+// package com.ssafy.SMDM.service;
 
 import com.ssafy.SMDM.dto.Calendar;
 import com.ssafy.SMDM.repository.CalendarRepository;
@@ -10,10 +10,10 @@ import java.awt.desktop.SystemSleepEvent;
 import java.util.Date;
 import java.util.List;
 
-@Service
-public class CalendarService {
-    @Autowired
-    private CalendarRepository calendarRepository;
+// @Service
+// public class CalendarService {
+//     @Autowired
+//     private CalendarRepository calendarRepository;
 
 //    public List<Calendar> findByUserId(String userId){
 //        Optional<Calendar> Calendar1 =Optional.ofNullable(

@@ -1,4 +1,4 @@
-package com.ssafy.SMDM.repository;
+// package com.ssafy.SMDM.repository;
 
 import com.ssafy.SMDM.dto.Calendar;
 import org.springframework.data.jpa.repository.JpaRepository;
