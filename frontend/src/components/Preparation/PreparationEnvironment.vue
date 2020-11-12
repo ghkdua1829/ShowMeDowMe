@@ -1,7 +1,8 @@
 <template>
   <div class="preparation-environment">
     <h2 class="ready-title">장보기 준비</h2>
-    <v-row class="mt-10">
+    <small>설정을 원하지 않으면 SKIP을 눌러주세요.</small>
+    <v-row class="mt-13">
       <v-col cols="4" class="preparation-type">
         <h3>목표시간</h3>
       </v-col>
@@ -63,10 +64,12 @@
     </v-row>
     <v-btn
       large
-      class="ma-10 m-3 0 4"
+      class="ma-10 m-3 0 4 set-btn"
       @click="setShop(setData)"
       color="teal lighten-2"
-      dark
+      :disabled="
+        !((isSkipMoney || setData.value) && (isSkipTime || setData.amount))
+      "
     >
       <h3>장보러 가기</h3>
     </v-btn>
