@@ -9,5 +9,6 @@ export default {
         update: "/users/update",
         alarm: "/users/dailyproducts",
         offAlarm: "/users/dailyproducts/updatealarm",
+        saveShopData: "/calendar"
     }
 }

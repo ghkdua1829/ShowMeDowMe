@@ -5,4 +5,8 @@ export default {
     shoppingList: [],
     recentItem: [],
     nowExpense: 0,
+    check: {
+        moneycheck: "X",
+        timecheck: "X"
+    }
 }
