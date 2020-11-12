@@ -53,10 +53,33 @@
           >
             <v-card color="grey lighten-4" min-width="350px" flat>
               <v-toolbar :color="selectedEvent.color" dark>
-                <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+                <h2>결제 금액 {{ selectedEvent.name }}</h2>
               </v-toolbar>
               <v-card-text>
-                <span v-html="selectedEvent.details"></span>
+                <v-btn color="error lighten-2" @click="deleteBill()">삭제</v-btn>
+                 <v-simple-table>
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th class="text-left">
+                          제품명
+                        </th>
+                        <th class="text-left">
+                          가격
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(deatil, index) in selectedEvent.details"
+                        :key="index"
+                      >
+                        <td>{{ deatil.name }}</td>
+                        <td>{{ deatil.price}}</td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="secondary" @click="selectedOpen = false">
@@ -84,10 +107,10 @@ export default {
   },
   created() {
     let todate = new Date();
-    let month = todate.getUTCMonth() + 1;
-    let year = todate.getUTCFullYear();
+    // let month = todate.getUTCMonth() + 1;
+    // let year = todate.getUTCFullYear();
     // console.log("date : " + year + month);
-    const DATE = year + "" + month;
+    const DATE = this.dateToString(todate).substring(0, 6);
     const URL = SERVER.URL + SERVER.ROUTES.getCalendar + "/date/" + DATE;
 
     axios.post(URL, {
@@ -95,23 +118,7 @@ export default {
     })
     .then((res) => {
       this.event_data = res.data;
-      // this.event_data = [
-      //   {
-      //     grade: "1",
-      //     money: "19,000",
-      //     shoppinglist: "test1",
-      //     sDate: "2020-11-09 13:43:03.0",
-      //   },
-      //   {
-      //     grade: "2",
-      //     money: "23,000",
-      //     shoppinglist: "test2",
-      //     sDate: "2020-11-13 13:43:03.0",
-      //   },
-      // ],
-      // console.log(this.event_data)
-      console.log(res)
-      // console.log(this.billList)
+      this.updateRange()
     })
     .catch((err) => {
       console.err(err)
@@ -119,6 +126,39 @@ export default {
 
   },
   methods: {
+    dateToString(date) {
+      const year = date.getUTCFullYear();
+      let month = date.getUTCMonth() + 1;
+      let day = date.getDate();
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      month = (month > 9)? month : "0" + month;
+      day = (day > 9)? day : "0" + day;
+      hours = (hours > 9)? hours : "0" + hours;
+      minutes = (minutes > 9)? minutes : "0" + minutes;
+
+      return year + "" + month + "" + day + "" + hours + "" + minutes;
+    },
+
+    deleteBill() {
+      const thisDate = this.selectedEvent.end;
+      const stringDate = this.dateToString(thisDate);
+      const URL = SERVER.URL + SERVER.ROUTES.getCalendar + "/" + stringDate;
+
+      axios.delete(URL, {
+        data: {
+          userId : sessionStorage.userid
+        }
+      })
+      .then((res) => {
+        this.event_data = res.data;
+        this.updateRange()
+      })
+      .catch((err) => {
+        console.err(err)
+      })
+        this.selectedOpen = false
+    },
     getEventColor(event) {
       return event.color;
     },
@@ -132,8 +172,14 @@ export default {
       this.$refs.calendar.next();
     },
     showEvent({ nativeEvent, event }) {
+      this.selectedEvent = event;
+      let splitList = this.selectedEvent.details.split(',')
+      let tableList = []
+      for (let i = 0; i < splitList.length; i +=2) {
+        tableList.push({name: splitList[i], price: splitList[i+1]})
+      }
+      this.selectedEvent.details = tableList
       const open = () => {
-        this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
         setTimeout(() => {
           this.selectedOpen = true;
@@ -179,7 +225,7 @@ export default {
 
         events.push({
           pk_num: Number(ev_n),
-          name: eventname,
+          name: String(eventname),
           start: first,
           end: second,
           color: this.colors[Number(this.event_data[ev_n]["grade"])],
@@ -216,21 +262,8 @@ export default {
         4: "bad",
         5: "worst",
       },
-      billList: [],
-      event_data: [
-      //   {
-      //     grade: "1",
-      //     money: "19,000",
-      //     shoppinglist: "test1",
-      //     receiptdate: "2020-11-09 13:43:03.0",
-      //   },
-      //   {
-      //     grade: "2",
-      //     money: "23,000",
-      //     shoppinglist: "test2",
-      //     receiptdate: "2020-11-13 13:43:03.0",
-      //   },
-      ],
+      // billList: [],
+      event_data: [],
     };
   },
 };
