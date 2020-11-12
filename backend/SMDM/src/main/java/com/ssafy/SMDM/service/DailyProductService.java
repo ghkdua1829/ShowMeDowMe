@@ -112,9 +112,17 @@ public class DailyProductService {
     public void updateAlarm(String UserId, String CategoryID, Integer alarm){
         Optional<DailyProduct> d = Optional.ofNullable(dailyProductRepository.findByUseridAndCategoryid(UserId, CategoryID));
         if(d.isPresent()){
-            d.get().setAlarm2(alarm);
+            d.get().setAlarm(alarm);
             dailyProductRepository.save(d.get());
         }
     }
 
+    //알람바꾸기
+    public void updateAlarm2(String UserId, String CategoryID, Integer alarm){
+        Optional<DailyProduct> d = Optional.ofNullable(dailyProductRepository.findByUseridAndCategoryid(UserId, CategoryID));
+        if(d.isPresent()){
+            d.get().setAlarm2(alarm);
+            dailyProductRepository.save(d.get());
+        }
+    }
 }
