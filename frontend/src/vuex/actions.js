@@ -43,4 +43,8 @@ export default {
     commit("SET_ENVIRONMENT", setData);
     router.push({ path: "/shop" });
   },
+  saveShopData({ commit }, saveData) {
+    commit("SAVE_SHOPDATA", saveData)
+    router.push({ path: "/shop" });
+  }
 }

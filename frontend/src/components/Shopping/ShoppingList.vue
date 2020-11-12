@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="purchasedThings"
+    :items="shoppingList"
     sort-by="value"
     class="elevation-1"
     :mobile-breakpoint="0"
@@ -76,42 +76,17 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "ShoppingList",
-  data: () => ({
-    dialog: false,
-    dialogDelete: false,
-    headers: [
-      {
-        text: "제품",
-        align: "start",
-        sortable: false,
-        value: "name",
-      },
-      { text: "수량", value: "amount" },
-      { text: "가격", value: "price" },
-      { text: "편집", value: "actions", sortable: false },
-    ],
-    purchasedThings: [],
-    editedIndex: -1,
-    editedItem: {
-      제품: "",
-      수량: 0,
-      가격: 0,
-    },
-    defaultItem: {
-      제품: "",
-      수량: 0,
-      가격: 0,
-    },
-  }),
 
   computed: {
+    ...mapState(["shoppingList"]),
     formTitle() {
       return this.editedIndex === -1 ? "구입할 제품" : "등록된 제품 수정";
     },
   },
-
   watch: {
     dialog(val) {
       val || this.close();
@@ -164,6 +139,33 @@ export default {
       this.close();
     },
   },
+  data: () => ({
+    dialog: false,
+    dialogDelete: false,
+    headers: [
+      {
+        text: "제품",
+        align: "start",
+        sortable: false,
+        value: "name",
+      },
+      { text: "수량", value: "amount" },
+      { text: "가격", value: "price" },
+      { text: "편집", value: "actions", sortable: false },
+    ],
+    purchasedThings: [],
+    editedIndex: -1,
+    editedItem: {
+      제품: "",
+      수량: 0,
+      가격: 0,
+    },
+    defaultItem: {
+      제품: "",
+      수량: 0,
+      가격: 0,
+    },
+  }),
 };
 </script>
 

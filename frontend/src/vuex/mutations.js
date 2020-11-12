@@ -5,5 +5,9 @@ export default {
     SET_ENVIRONMENT(state, setData) {
         state.aimTime = setData.value
         state.aimExpense = setData.amount
+    },
+    SAVE_SHOPDATA(state, saveData) {
+        state.recentItem = saveData
+        state.shoppingList.push(state.recentItem)
     }
 }
