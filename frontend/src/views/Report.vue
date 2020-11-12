@@ -6,14 +6,33 @@
 
     <h5 class="content">예상금액보다 12000원을 사용하셨습니다.</h5>
     <br />
-    <v-btn
-      width="60%"
-      rounded
-      dark
-      color="teal lighten-2"
-      @click="$router.push({ path: '/mypage' })"
-      >확인</v-btn
+    <div v-if="member">
+      <v-btn
+        width="60%"
+        rounded
+        dark
+        color="teal lighten-2"
+        @click="$router.push({ path: '/mypage' })"
+        >확인</v-btn
+      >
+    </div>
+    <div v-else>
+      <v-btn
+        width="60%"
+        rounded
+        dark
+        color="teal lighten-2"
+        @click="$router.push({ path: '/' })"
+        >확인</v-btn
+      >
+    </div>
+    <div
+      style="padding: 5px"
+      v-if="!member"
+      @click="$router.push({ name: 'Signup' })"
     >
+      회원가입 하러가기
+    </div>
   </div>
 </template>
 
@@ -22,6 +41,16 @@ import "@/assets/css/views/report.scss";
 
 export default {
   name: "Report",
+  data() {
+    return {
+      member: true,
+    };
+  },
+  created() {
+    if (sessionStorage.length === 0) {
+      this.member = false;
+    }
+  },
 };
 </script>
 
