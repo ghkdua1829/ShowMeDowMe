@@ -52,6 +52,9 @@ export default {
   editShopItem({ commit }, editInfo) {
     commit("EDIT_SHOPDATA", editInfo)
     commit("SUM_PRICE")
-    console.log("ddd")
+  },
+  addUserShopItem({ commit }, editItem) {
+    commit("ADD_USER_SHOPDATA", editItem)
+    commit("SUM_PRICE")
   }
 }

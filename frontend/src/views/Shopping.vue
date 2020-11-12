@@ -51,10 +51,10 @@
       <div>제품명 : {{ recentItem.name }}</div>
       <div>가격 : {{ recentItem.price }}</div>
     </div>
-    {{ recentItem }}
-    {{ shoppingList }}
+    <!-- {{ recentItem }} -->
+    <!-- {{ shoppingList }} -->
     <v-btn
-      class="mt-5"
+      class="camera-btn"
       dark
       rounded
       large
@@ -65,6 +65,7 @@
 
       사진으로 제품 등록
     </v-btn>
+    <small class="camera-btn">사진으로 간편하게 제품을 등록하세요.</small>
     <ShoppingList />
 
     <v-row class="mt-3 final-box">

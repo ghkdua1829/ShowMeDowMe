@@ -6,29 +6,25 @@ export default {
         state.aimTime = setData.value
         state.aimExpense = setData.amount
     },
-    SAVE_SHOPDATA(state, saveData) {
+    SAVE_SHOPDATA(state, saveData) { // 카메라로 찍은 쇼핑 데이터 저장
         state.recentItem = saveData
-        console.log(state.recentItem.price, state.recentItem)
         state.shoppingList.push(state.recentItem)
-        // state.nowExpense = 0
-        // for (let i = 0; i < state.shoppingList.length; i++) {
-        //     state.nowExpense = parseInt(state.nowExpense) + parseInt(state.shoppingList[i].price)
-        // }
     },
-    EDIT_SHOPDATA(state, editInfo) {
+    EDIT_SHOPDATA(state, editInfo) { // 입력된 쇼핑 데이터 수정
+        console.log(editInfo)
+        console.log("before", state.shoppingList)
         state.shoppingList[editInfo.editIndex] = editInfo.editData
-        // this.SUM_PRICE()
-        // state.nowExpense = 0
-        // for (let i = 0; i < state.shoppingList.length; i++) {
-        //     state.nowExpense = parseInt(state.nowExpense) + parseInt(state.shoppingList[i].price)
-        // }
-        // console.log("dhkte", editInfo.editIndex, state.shoppingList)
+        console.log("after", state.shoppingList)
+
     },
-    SUM_PRICE(state) {
-        console.log("왓다")
+    SUM_PRICE(state) { // 현재 결제 금액 계산
         state.nowExpense = 0
         for (let i = 0; i < state.shoppingList.length; i++) {
-            state.nowExpense = parseInt(state.nowExpense) + parseInt(state.shoppingList[i].price)
+            state.nowExpense = parseInt(state.nowExpense) + (parseInt(state.shoppingList[i].price) * parseInt(state.shoppingList[i].amount))
         }
+    },
+    ADD_USER_SHOPDATA(state, editItem) {
+        state.shoppingList.push(editItem)
+        console.log(editItem)
     }
 }

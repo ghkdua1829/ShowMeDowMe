@@ -12,8 +12,14 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn class="mb-2" v-bind="attrs" v-on="on" outlined color="teal"
-              >직접추가하기 {{ nowExpense }}
+            <v-btn
+              class="mb-2"
+              rounded
+              v-bind="attrs"
+              v-on="on"
+              outlined
+              color="teal"
+              >직접추가하기
             </v-btn>
           </template>
           <v-card>
@@ -66,6 +72,7 @@
         </v-dialog>
       </v-toolbar>
     </template>
+    <!-- 입력된 데이터 수정 / 삭제 -->
     <template v-slot:item.actions="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
       <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
@@ -81,7 +88,7 @@ export default {
   name: "ShoppingList",
 
   computed: {
-    ...mapState(["shoppingList", "nowExpense"]),
+    ...mapState(["shoppingList"]),
     formTitle() {
       return this.editedIndex === -1 ? "구입할 제품" : "등록된 제품 수정";
     },
@@ -96,7 +103,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["editShopItem"]),
+    ...mapActions(["editShopItem", "addUserShopItem"]),
     editItem(item) {
       this.editedIndex = this.shoppingList.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -136,13 +143,9 @@ export default {
           editData: this.editedItem,
           editIndex: this.editedIndex,
         };
-        // this.shoppingList[this.editIndex] = this.editData;
-
         this.editShopItem(editInfo);
-        console.log(this.editInfo);
-        // Object.assign(this.shoppingList[this.editedIndex], this.editedItem);
       } else {
-        this.shoppingList.push(this.editedItem);
+        this.addUserShopItem(this.editedItem);
       }
       this.close();
     },
