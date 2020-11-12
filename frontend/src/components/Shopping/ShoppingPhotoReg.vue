@@ -55,7 +55,7 @@ export default {
     );
   },
   methods: {
-    ...mapActions(["saveShopData"]),
+    ...mapActions(["saveCameraData"]),
     dataURLtoFile(dataurl, fileName) {
       var arr = dataurl.split(","),
         mime = arr[0].match(/:(.*?);/)[1],
@@ -124,9 +124,9 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             this.saveData = res.data;
-            // console.log(this.saveData);
             this.saveData.amount = 1;
-            this.saveShopData(this.saveData);
+            // console.log(this.saveData);
+            this.saveCameraData(this.saveData);
           }
         })
         .catch((error) => {
