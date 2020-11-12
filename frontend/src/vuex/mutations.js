@@ -15,6 +15,6 @@ export default {
     EDIT_SHOPDATA(state, editInfo) {
         state.nowExpense = []
         state.shoppingList[editInfo.editIndex] = editInfo.editData
-        console.log("dhkte", editInfo.editIndex, state.shoppingList)
+        // console.log("dhkte", editInfo.editIndex, state.shoppingList)
     }
 }

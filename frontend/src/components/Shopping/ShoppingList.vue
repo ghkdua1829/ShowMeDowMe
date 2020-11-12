@@ -136,8 +136,10 @@ export default {
           editData: this.editedItem,
           editIndex: this.editedIndex,
         };
-        this.editShopItem(editInfo);
+        // this.shoppingList[this.editIndex] = this.editData;
 
+        this.editShopItem(editInfo);
+        console.log(this.editInfo);
         // Object.assign(this.shoppingList[this.editedIndex], this.editedItem);
       } else {
         this.shoppingList.push(this.editedItem);
