@@ -1,41 +1,41 @@
-// package com.ssafy.SMDM.dto;
+package com.ssafy.SMDM.dto;
 
-// import lombok.Builder;
-// import lombok.Data;
-// import lombok.NoArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-// import javax.persistence.Column;
-// import javax.persistence.Convert;
-// import javax.persistence.Entity;
-// import javax.persistence.Id;
-// import javax.persistence.criteria.CriteriaBuilder;
-// import java.util.Date;
-// import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-// @Entity(name="calendar")
-// @Data
-// @NoArgsConstructor
-// public class Calendar {
-//     @Id
-//     @Column(name="receipt_date")
-//     private Date receiptdate;
+@Entity(name = "calendar")
+@Data
+@NoArgsConstructor
+public class Calendar {
+    @Id
+    @Column(name = "receipt_Date")
+    private String receiptdate;
 
-//     @Column(name="user_Id")
-//     private String userid;
+    @Column(name = "user_Id")
+    private String userid;
 
-//     @Column(name="shopping_list")
-//     private String shoppinglist;
+    @Column(name = "shopping_list")
+    private String shoppinglist;
 
-//     @Column(name="grade")
-//     private Integer grade;
+    @Column(name = "money")
+    private Integer money;
 
-//     @Builder
-//     public Calendar(Date receiptDate, String userId, String shoppingList, Integer grade) {
-//         receiptdate = receiptDate;
-//         userid = userId;
-//         shoppinglist = shoppingList;
-//         this.grade = grade;
+    @Column(name = "grade")
+    private Integer grade;
 
-//     }
+    @Builder
+    public Calendar(String receiptDate, String userId, String shoppingList, Integer money, Integer grade) {
+        receiptdate = receiptDate;
+        userid = userId;
+        shoppinglist = shoppingList;
+        this.money = money;
+        this.grade = grade;
 
-// }
+    }
+
+}

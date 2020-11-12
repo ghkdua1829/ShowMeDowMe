@@ -111,7 +111,9 @@ public class DailyProductController {
     @PostMapping("/updatealarm")
     public Object UpdateAlarm(@RequestBody Map<String,String> param){
         String navercategory = naverShoppingService.findCategory(param.get("categoryid"));
-        dailyProductService.updateAlarm(param.get("userid"),navercategory,Integer.parseInt(param.get("alarm")));
+        dailyProductService.updateAlarm2(param.get("userid"),navercategory,Integer.parseInt(param.get("alarm")));
         return new ResponseEntity<String>("ok",HttpStatus.OK);
     }
+
+
 }
