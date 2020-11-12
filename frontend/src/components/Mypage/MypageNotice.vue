@@ -30,7 +30,7 @@
           <v-alert colored-border type="info" elevation="1">
             {{ alarmItem[0] }} {{ alarmItem[1] }}
             <div class="btn-close">
-              <v-icon small @click="offAlarm(alarmItem[0])">mdi-close</v-icon>
+              <v-icon small @click="offAlarm(alarmItem[0])">mdi-check</v-icon>
             </div>
           </v-alert>
         </div>
@@ -49,13 +49,13 @@ export default {
   name: "MypageNotice",
   created() {
     this.username = sessionStorage.userid;
-    const StartURL =
+    this.StartURL =
       SERVER.URL + SERVER.ROUTES.alarm + "?userid=" + this.username;
     axios
-      .get(StartURL)
+      .get(this.StartURL)
       .then((res) => {
         for (let j = 0; j < res.data.length; j++) {
-          if ((res.data[j].alarm && res.data[j].alarm2) === 0) {
+          if (res.data[j].alarm === 1 && res.data[j].alarm2 === 1) {
             this.alarmList.push([
               res.data[j].categoryid,
               this.noticeList[j % 3],
@@ -68,12 +68,33 @@ export default {
   },
   methods: {
     offAlarm(alarmItem) {
-      // const AlarmURL = SERVER.URL + SERVER.ROUTES.offAlarm;
-      // const alarmData = {
-      //   userid:  this.username,
-      //   categoryid: this.SERVER
-      // }
-      console.log(alarmItem);
+      const AlarmURL = SERVER.URL + SERVER.ROUTES.offAlarm;
+      const alarmData = {
+        userid: this.username,
+        categoryid: alarmItem,
+        alarm: 0,
+      };
+      axios.post(AlarmURL, alarmData).then(() => {
+        const alertText = alarmItem + "에 대한 알람 확인했습니다.";
+        alert(alertText);
+        axios
+          .get(this.StartURL)
+          .then((res) => {
+            this.selectList = [];
+            this.alarmList = [];
+            for (let j = 0; j < res.data.length; j++) {
+              if (res.data[j].alarm === 0 && res.data[j].alarm2 === 1) {
+                this.alarmList.push([
+                  res.data[j].categoryid,
+                  this.noticeList[j % 3],
+                ]);
+              }
+              this.selectList.push(res.data[j].categoryid);
+            }
+          })
+          .catch((err) => console.err(err));
+      });
+      console.log(alarmData, AlarmURL);
     },
     changeSelect() {
       const SelectURL = SERVER.URL + SERVER.ROUTES.alarm;
@@ -121,6 +142,7 @@ export default {
         "즉석밥",
       ],
       alarmList: [],
+      StartURL: "",
     };
   },
 };
