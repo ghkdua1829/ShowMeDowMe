@@ -33,7 +33,7 @@ public class DailyProductController {
         String s = naverShoppingService.findCategory(categoryid);
         Optional<DailyProduct> d = dailyProductService.findByUseridAndCategoryid(id,s);
         if(d.isPresent()) {
-            dailyProductService.updateDate(d);
+            dailyProductService.updateDate(id,s);
             return new ResponseEntity<DailyProduct>(d.get(), HttpStatus.OK);
         }
         else
