@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="purchasedThings"
+    :items="shoppingList"
     sort-by="value"
     class="elevation-1"
     :mobile-breakpoint="0"
@@ -48,8 +48,8 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close"> 닫기 </v-btn>
-              <v-btn color="blue darken-1" text @click="save"> 저장 </v-btn>
+              <v-btn text @click="close"> 닫기 </v-btn>
+              <v-btn text @click="save"> 저장 </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -58,9 +58,7 @@
             <v-card-title>구매 목록에서 제거할까요?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete"
-                >취소</v-btn
-              >
+              <v-btn text @click="closeDelete">취소</v-btn>
               <v-btn text @click="deleteItemConfirm">확인</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
@@ -76,42 +74,18 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { mapActions } from "vuex";
+
 export default {
   name: "ShoppingList",
-  data: () => ({
-    dialog: false,
-    dialogDelete: false,
-    headers: [
-      {
-        text: "제품",
-        align: "start",
-        sortable: false,
-        value: "name",
-      },
-      { text: "수량", value: "amount" },
-      { text: "가격", value: "price" },
-      { text: "편집", value: "actions", sortable: false },
-    ],
-    purchasedThings: [],
-    editedIndex: -1,
-    editedItem: {
-      제품: "",
-      수량: 0,
-      가격: 0,
-    },
-    defaultItem: {
-      제품: "",
-      수량: 0,
-      가격: 0,
-    },
-  }),
 
   computed: {
+    ...mapState(["shoppingList"]),
     formTitle() {
       return this.editedIndex === -1 ? "구입할 제품" : "등록된 제품 수정";
     },
   },
-
   watch: {
     dialog(val) {
       val || this.close();
@@ -122,14 +96,15 @@ export default {
   },
 
   methods: {
+    ...mapActions(["editShopItem"]),
     editItem(item) {
-      this.editedIndex = this.purchasedThings.indexOf(item);
+      this.editedIndex = this.shoppingList.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      this.editedIndex = this.purchasedThings.indexOf(item);
+      this.editedIndex = this.shoppingList.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
@@ -157,13 +132,44 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.purchasedThings[this.editedIndex], this.editedItem);
+        // this.editShopItem(
+        //   Object.assign(this.shoppingList[this.editedIndex], this.e0ditedItem),
+        //   this.editedIndex
+        // );
+        Object.assign(this.shoppingList[this.editedIndex], this.editedItem);
+        // console.log(
+        //   Object.assign(this.shoppingList[this.editedIndex], this.editedItem)
+        // );
+        console.log("dddddd");
       } else {
-        this.purchasedThings.push(this.editedItem);
+        this.shoppingList.push(this.editedItem);
       }
       this.close();
     },
   },
+  data: () => ({
+    dialog: false,
+    dialogDelete: false,
+    headers: [
+      {
+        text: "제품",
+        align: "start",
+        sortable: false,
+        value: "name",
+      },
+      { text: "수량", value: "amount" },
+      { text: "가격", value: "price" },
+      { text: "편집", value: "actions", sortable: false },
+    ],
+    purchasedThings: [],
+    editedIndex: -1,
+    editedItem: {},
+    defaultItem: {
+      name: "",
+      amount: 0,
+      price: 0,
+    },
+  }),
 };
 </script>
 
