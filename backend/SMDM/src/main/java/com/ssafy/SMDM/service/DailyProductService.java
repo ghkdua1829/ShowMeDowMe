@@ -24,6 +24,9 @@ public class DailyProductService {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private NaverShoppingService naverShoppingService;
+
     //id와 categoryid를 통해 찾기
     public Optional<DailyProduct> findByUseridAndCategoryid(String UserId,String CategoryId){
         Optional<DailyProduct> dailyProduct1 = Optional.ofNullable(
@@ -33,9 +36,10 @@ public class DailyProductService {
     }
 
     //update date
-    public void updateDate(Optional<DailyProduct> d){
-        if(d.isPresent()){
+    public void updateDate(String Userid, String CategoryId){
 
+        Optional<DailyProduct> d = Optional.ofNullable(dailyProductRepository.findByUseridAndCategoryid(Userid, naverShoppingService.findCategory(CategoryId)));
+        if(d.isPresent()){
             SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd");
             java.util.Date time = new Date();
             String time1 = format1.format(time);
