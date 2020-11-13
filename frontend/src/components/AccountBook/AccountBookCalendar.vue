@@ -56,11 +56,10 @@
                 <h2>결제 금액 {{ selectedEvent.name }}</h2>
               </v-toolbar>
               <v-card-text>
-                <v-img :src="gradeImgae[selectedEvent.grade]" />
-                <a href="https://kr.freepik.com/vectors/heart">Heart 벡터는 </a>
-                <v-btn color="error lighten-2" @click="deleteBill()"
-                  >삭제</v-btn
-                >
+                <v-avatar size="55" class="mb-3">
+                  <img alt="user" :src="gradeImgae[selectedEvent.grade]" />
+                </v-avatar>
+
                 <v-simple-table>
                   <template v-slot:default>
                     <thead>
@@ -80,10 +79,19 @@
                     </tbody>
                   </template>
                 </v-simple-table>
+                <small>이미지는 rawpixel.com - kr.freepik.com가 제작함 </small>
+                <div>
+                  <v-btn
+                    class="delete-btn"
+                    color="error lighten-1"
+                    @click="deleteBill()"
+                    >삭제</v-btn
+                  >
+                </div>
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="secondary" @click="selectedOpen = false">
-                  Cancel
+                  닫기
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -139,23 +147,34 @@ export default {
 
       return year + "" + month + "" + day + "" + hours + "" + minutes;
     },
-
     deleteBill() {
       const thisDate = this.selectedEvent.end;
       const stringDate = this.dateToString(thisDate);
       const URL = SERVER.URL + SERVER.ROUTES.getCalendar + "/" + stringDate;
-
       axios
         .delete(URL, {
           data: {
             userId: sessionStorage.userid,
           },
         })
-        .then((res) => {
-          this.event_data = res.data;
+        .then(() => {
           alert("삭제되었습니다.");
           this.selectedOpen = false;
-          this.updateRange();
+          let todate = new Date();
+          const DATE = this.dateToString(todate).substring(0, 6);
+          const URL = SERVER.URL + SERVER.ROUTES.getCalendar + "/date/" + DATE;
+
+          axios
+            .post(URL, {
+              userId: sessionStorage.userid,
+            })
+            .then((res) => {
+              this.event_data = res.data;
+              this.updateRange();
+            })
+            .catch((err) => {
+              console.err(err);
+            });
         })
         .catch((err) => {
           alert("죄송합니다. 시스템 오류입니다.");
@@ -209,7 +228,6 @@ export default {
         const sday = sdates.substring(6, 8);
         const shour = sdates.substring(8, 10);
         const sminute = sdates.substring(10, 12);
-        console.log("test");
         const s_date =
           syear +
           "/" +
@@ -225,6 +243,7 @@ export default {
         const first = new Date(s_date);
         const second = new Date(s_date);
         const eventname = this.event_data[ev_n]["money"];
+        const grade = this.event_data[ev_n]["grade"];
 
         events.push({
           pk_num: Number(ev_n),
@@ -233,6 +252,7 @@ export default {
           end: second,
           color: this.colors[Number(this.event_data[ev_n]["grade"])],
           details: event_data_detail["shoppinglist"],
+          grade: grade,
         });
       }
       this.events = events;
