@@ -99,12 +99,35 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <div class="chart">
+
+    <div class="chart mt-3">
       <v-toolbar-title v-if="$refs.calendar" class="calendar-date">
         <h3>월별 장보기 분석</h3>
         {{ $refs.calendar.title }}
       </v-toolbar-title>
-      <doughnut-chart :chart-data="datacollection"></doughnut-chart>
+      <doughnut-chart
+        class="mt-3"
+        :chart-data="datacollection"
+      ></doughnut-chart>
+      <div class="mt-5">
+        <hr />
+        <v-simple-table>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">구매 품목</th>
+                <th class="text-left">월 소비 비용(%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in labelList" :key="index">
+                <td>{{ item }}</td>
+                <td>{{ analyzeData[index] }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+      </div>
     </div>
   </div>
 </template>
@@ -126,13 +149,14 @@ export default {
     this.fillData();
   },
   created() {
+    this.username = sessionStorage.userid;
     let todate = new Date();
     const DATE = this.dateToString(todate).substring(0, 6);
     const URL = SERVER.URL + SERVER.ROUTES.getCalendar + "/date/" + DATE;
-
+    const AnalyzeURL = SERVER.URL + SERVER.ROUTES.analyze + "/" + DATE;
     axios
       .post(URL, {
-        userId: sessionStorage.userid,
+        userId: this.username,
       })
       .then((res) => {
         this.event_data = res.data;
@@ -141,6 +165,16 @@ export default {
       .catch((err) => {
         console.err(err);
       });
+    axios
+      .post(AnalyzeURL, { userId: this.username })
+      .then((res) => {
+        for (const [key, value] of Object.entries(res.data)) {
+          this.labelList.push(key);
+          this.analyzeData.push(parseInt(value));
+        }
+        this.fillData();
+      })
+      .catch((err) => console.err(err));
   },
   computed: {
     ...mapState(["gradeImage"]),
@@ -279,7 +313,7 @@ export default {
     // 차트 관련 methods
     fillData() {
       this.datacollection = {
-        labels: ["생필품", "화장지", "갈비", "생선"],
+        labels: this.labelList,
         datasets: [
           {
             label: "통계내역",
@@ -296,7 +330,7 @@ export default {
               "#f8ecc9",
               "#b87978",
             ],
-            data: [20, 50, 10, 20], // 42, 19 (61)/ 21,13 (34)
+            data: this.analyzeData, // 42, 19 (61)/ 21,13 (34)
           },
         ],
       };
@@ -307,6 +341,7 @@ export default {
   },
   data() {
     return {
+      username: "",
       focus: "",
       type: "month",
       selectedEvent: {},
@@ -333,6 +368,8 @@ export default {
       // 차트 관련 데이터
       datacollection: null,
       todayMonth: "",
+      labelList: [],
+      analyzeData: [],
     };
   },
 };
