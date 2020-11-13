@@ -41,8 +41,6 @@
             :event-color="getEventColor"
             :type="type"
             @click:event="showEvent"
-            @click:more="viewDay"
-            @click:date="viewDay"
             @change="updateRange"
           ></v-calendar>
           <v-menu
