@@ -25,11 +25,11 @@
     </v-row>
     <v-row>
       <v-col>
-        <h5 v-if="isSkipTime && setData.value === 0">
+        <h5 v-if="setData.isSkipTime && setData.value === 0">
           시간은 넉넉하게 하겠습니다.
         </h5>
       </v-col>
-      <div class="btn-skip" v-if="isSkipTime && setData.value === 0">
+      <div class="btn-skip" v-if="setData.isSkipTime && setData.value === 0">
         <v-btn small outlined color="teal lighten-2">SKIP</v-btn>
       </div>
       <div v-else class="btn-skip">
@@ -55,11 +55,11 @@
     </v-row>
     <v-row>
       <v-col>
-        <h5 v-if="isSkipMoney && setData.amount === ''">
+        <h5 v-if="setData.isSkipMoney && setData.amount === ''">
           금액은 상관없습니다.
         </h5>
       </v-col>
-      <div class="btn-skip" v-if="isSkipMoney && setData.amount === ''">
+      <div class="btn-skip" v-if="setData.isSkipMoney && setData.amount === ''">
         <v-btn small outlined color="teal lighten-2">SKIP</v-btn>
       </div>
       <div v-else class="btn-skip">
@@ -72,7 +72,10 @@
       @click="setShop(setData)"
       color="teal lighten-2"
       :disabled="
-        !((isSkipMoney || setData.value) && (isSkipTime || setData.amount))
+        !(
+          (setData.isSkipMoney || setData.amount) &&
+          (setData.isSkipTime || setData.value)
+        )
       "
     >
       <h3>장보러 가기</h3>
@@ -95,11 +98,11 @@ export default {
   methods: {
     ...mapActions(["setShop"]),
     skipAimTime() {
-      this.isSkipTime = true;
+      this.setData.isSkipTime = true;
       this.setData.value = 0;
     },
     skipAimValue() {
-      this.isSkipMoney = true;
+      this.setData.isSkipMoney = true;
       this.setData.amount = "";
     },
   },
@@ -110,11 +113,11 @@ export default {
       minute: "",
       time: "",
       setData: {
-        amount: "",
-        value: 0,
+        amount: "", // 목표 금액
+        value: 0, // 목표 시간
+        isSkipTime: false,
+        isSkipMoney: false,
       },
-      isSkipTime: false,
-      isSkipMoney: false,
       rules: [(v) => v <= 120 || "과도한 쇼핑은 건강에 해롭습니다."],
       ticksLabels: [
         "0",

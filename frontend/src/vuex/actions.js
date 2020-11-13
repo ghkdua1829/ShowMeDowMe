@@ -56,5 +56,14 @@ export default {
   addUserShopItem({ commit }, editItem) {
     commit("ADD_USER_SHOPDATA", editItem)
     commit("SUM_PRICE")
+  },
+  failTime({ commit }) {
+    commit("FAIL_TIME")
+  },
+  saveGrade({ commit }, grade) {
+    commit("SAVE_GRADE", grade)
+  },
+  removeData({ commit }) {
+    commit("REMOVE_SHOPDATA")
   }
 }
