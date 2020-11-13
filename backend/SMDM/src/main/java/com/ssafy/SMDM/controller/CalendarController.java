@@ -52,8 +52,23 @@ public class CalendarController {
         return new ResponseEntity<Calendar>(calendarService.saveCalendar(calendar), HttpStatus.OK);
     }
 
+
     @PostMapping("/date/{date}")
     public Object getCalendarByMonth(@RequestBody Map<String, String> t , @PathVariable String date) {
+        try {
+            Map<String,Integer> buyByMonth = new HashMap<String, Integer>();
+            List<Calendar> list = calendarService.searchMonthReceiptdate(date.substring(0,4), date.substring(4,6),t.get("userId"));
+            return new ResponseEntity<List>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
+
+    @PostMapping("/date/analyze/{date}")
+    public Object analyzeMonth(@RequestBody Map<String, String> t , @PathVariable String date) {
         try {
             Map<String,Integer> buyByMonth = new HashMap<String, Integer>();
             List<Calendar> list = calendarService.searchMonthReceiptdate(date.substring(0,4), date.substring(4,6),t.get("userId"));
@@ -78,13 +93,7 @@ public class CalendarController {
             for ( String key : buyByMonth.keySet()){
                 buyByMonth1.put(key,String.format("%.2f",(buyByMonth.get(key)/result1)*100));
             }
-
-            JSONObject main = new JSONObject();
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("Calendar",list);
-            jsonObject.put("buyByMonth",buyByMonth1);
-            return new ResponseEntity<JSONObject>(jsonObject, HttpStatus.OK);
+            return new ResponseEntity( buyByMonth1, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
