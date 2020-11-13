@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity(name = "calendar")
 @Data
@@ -28,13 +29,17 @@ public class Calendar {
     @Column(name = "grade")
     private Integer grade;
 
+    @Column(name = "dumpshopping_list")
+    private String dumpshoppinglist;
+
     @Builder
-    public Calendar(String receiptDate, String userId, String shoppingList, Integer money, Integer grade) {
+    public Calendar(String receiptDate, String userId, String shoppingList, Integer money, Integer grade, String dumpshoppinglist) {
         receiptdate = receiptDate;
         userid = userId;
         shoppinglist = shoppingList;
         this.money = money;
         this.grade = grade;
+        this.dumpshoppinglist=dumpshoppinglist;
 
     }
 
