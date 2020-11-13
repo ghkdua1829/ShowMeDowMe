@@ -25,7 +25,7 @@ public class CategoryController {
 
     @PostMapping
     public Object saveCategory(@RequestBody Map<String, String> param){
-        categoryService.addCategory(naverShoppingService.findCategory(param.get("categoryid")),Integer.parseInt(param.get("period")));
+        categoryService.addCategory(naverShoppingService.findCategory(param.get("categoryid")).get(1),Integer.parseInt(param.get("period")));
         return new ResponseEntity(HttpStatus.OK);
     }
 }

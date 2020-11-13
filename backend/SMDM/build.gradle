@@ -38,6 +38,10 @@ dependencies {
 	//jackson
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
 
+	//json
+	implementation 'org.json:json:20171018'
+//	compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

@@ -30,7 +30,7 @@ public class DailyProductController {
     public Object UpdateDate(@RequestParam("userid") String id,
                              @RequestParam("categoryid") String categoryid){
 
-        String s = naverShoppingService.findCategory(categoryid);
+        String s = naverShoppingService.findCategory(categoryid).get(1);
         Optional<DailyProduct> d = dailyProductService.findByUseridAndCategoryid(id,s);
         if(d.isPresent()) {
             dailyProductService.updateDate(id,s);
@@ -95,7 +95,7 @@ public class DailyProductController {
     @PostMapping
     public Object AddProduct(@RequestBody List<Map<String,String>> param){
         for(Map<String,String> m : param){
-            String navercategory = naverShoppingService.findCategory(m.get("categoryid"));
+            String navercategory = naverShoppingService.findCategory(m.get("categoryid")).get(1);
             if(m.get("check").equals("Y")) {
                 dailyProductService.addproduct(m.get("userid")
                         , navercategory);
@@ -110,7 +110,7 @@ public class DailyProductController {
     //알람바꾸기
     @PostMapping("/updatealarm")
     public Object UpdateAlarm(@RequestBody Map<String,String> param){
-        String navercategory = naverShoppingService.findCategory(param.get("categoryid"));
+        String navercategory = naverShoppingService.findCategory(param.get("categoryid")).get(1);
         dailyProductService.updateAlarm2(param.get("userid"),navercategory,Integer.parseInt(param.get("alarm")));
         return new ResponseEntity<String>("ok",HttpStatus.OK);
     }

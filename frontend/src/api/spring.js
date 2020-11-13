@@ -8,7 +8,6 @@ export default {
         memo: "/users/memo",
         update: "/users/update",
         alarm: "/users/dailyproducts",
-        getAlarm: "/users/dailyproducts/category",
-        postAlarm: "/users/category"
+        offAlarm: "/users/dailyproducts/updatealarm",
     }
 }
