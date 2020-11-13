@@ -12,5 +12,6 @@ export default {
         postAlarm: "/users/category",
         offAlarm: "/users/dailyproducts/updatealarm",
         getCalendar: "/calendar",
+        analyze: "/calendar/date/analyze"
     }
 }
