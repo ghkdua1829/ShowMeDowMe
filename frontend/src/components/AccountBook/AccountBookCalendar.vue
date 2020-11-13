@@ -41,8 +41,6 @@
             :event-color="getEventColor"
             :type="type"
             @click:event="showEvent"
-            @click:more="viewDay"
-            @click:date="viewDay"
             @change="updateRange"
           ></v-calendar>
           <v-menu
@@ -101,6 +99,13 @@
         </v-sheet>
       </v-col>
     </v-row>
+    <div class="chart">
+      <v-toolbar-title v-if="$refs.calendar" class="calendar-date">
+        <h3>월별 장보기 분석</h3>
+        {{ $refs.calendar.title }}
+      </v-toolbar-title>
+      <doughnut-chart :chart-data="datacollection"></doughnut-chart>
+    </div>
   </div>
 </template>
 
@@ -109,11 +114,16 @@ import "@/assets/css/components/AccountBook/accountBookCalendar.scss";
 import SERVER from "@/api/spring";
 import axios from "axios";
 import { mapState } from "vuex";
+import DoughnutChart from "./DoughnutChart.js";
 
 export default {
   name: "AccountBookCalendar",
+  components: {
+    DoughnutChart,
+  },
   mounted() {
     this.$refs.calendar.checkChange();
+    this.fillData();
   },
   created() {
     let todate = new Date();
@@ -266,6 +276,34 @@ export default {
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
     },
+    // 차트 관련 methods
+    fillData() {
+      this.datacollection = {
+        labels: ["생필품", "화장지", "갈비", "생선"],
+        datasets: [
+          {
+            label: "통계내역",
+            backgroundColor: [
+              "#eb9f9f",
+              "#f1bbba",
+              "#f8ecc9",
+              "#a79c8e",
+              "#9DC8C8",
+              "#D1B6E1",
+              "#E0E3DA",
+              "#84B1ED",
+              "#D4DFE6",
+              "#f8ecc9",
+              "#b87978",
+            ],
+            data: [20, 50, 10, 20], // 42, 19 (61)/ 21,13 (34)
+          },
+        ],
+      };
+    },
+    getRandomInt() {
+      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
+    },
   },
   data() {
     return {
@@ -292,6 +330,9 @@ export default {
         5: "worst",
       },
       event_data: [],
+      // 차트 관련 데이터
+      datacollection: null,
+      todayMonth: "",
     };
   },
 };
