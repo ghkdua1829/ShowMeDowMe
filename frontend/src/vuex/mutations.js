@@ -45,5 +45,20 @@ export default {
     },
     FAIL_TIME(state) {
         state.check.timecheck = "F"
+    },
+    SAVE_GRADE(state, grade) {
+        state.reportGrade = grade
+    },
+    REMOVE_SHOPDATA(state) {
+        state.aimTime= 0,
+        state.aimExpense= 0,
+        state.isSkipTime= false,
+        state.isSkipMoney= false,
+        state.shoppingList= [],
+        state.recentItem= [],
+        state.nowExpense= 0,
+        state.check.moneycheck = "",
+        state.check.timecheck= "",
+        state.reportGrade= 0
     }
 }

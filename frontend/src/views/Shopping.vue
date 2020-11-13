@@ -1,7 +1,5 @@
 <template>
   <div class="shopping">
-    {{ check }}
-    {{ aimExpense }} {{ aimTime }} {{ isSkipMoney }} {{ isSkipTime }}
     <div v-if="member">
       <v-icon @click="$router.push({ path: '/perparation' })">
         mdi-arrow-left
@@ -53,8 +51,7 @@
       <div>제품명 : {{ recentItem.name }}</div>
       <div>가격 : {{ recentItem.price }}</div>
     </div>
-    {{ recentItem }}
-    {{ shoppingList }}
+
     <v-btn
       class="camera-btn"
       dark
@@ -87,7 +84,7 @@ import ShoppingList from "@/components/Shopping/ShoppingList";
 import ShoppingMemo from "@/components/Shopping/ShoppingMemo";
 import axios from "axios";
 import SERVER from "@/api/spring";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Shopping",
@@ -173,6 +170,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["saveGrade"]),
     completeShop() {
       const URL = SERVER.URL + SERVER.ROUTES.getCalendar;
       let stirngShoppingList = "";
@@ -180,8 +178,8 @@ export default {
         stirngShoppingList +=
           this.shoppingList[i].name +
           "," +
-          // this.shoppingList[i].amount +
-          // "," +
+          this.shoppingList[i].amount +
+          "," +
           this.shoppingList[i].price +
           ",";
       }
@@ -201,7 +199,8 @@ export default {
       };
       axios
         .post(URL, sendData)
-        .then(() => {
+        .then((res) => {
+          this.saveGrade(res.data.grade);
           this.$router.push({ path: "/report" });
         })
         .catch((err) => {

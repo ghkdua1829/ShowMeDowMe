@@ -57,7 +57,7 @@
               </v-toolbar>
               <v-card-text>
                 <v-avatar size="55" class="mb-3">
-                  <img alt="user" :src="gradeImgae[selectedEvent.grade]" />
+                  <img alt="user" :src="gradeImage[selectedEvent.grade]" />
                 </v-avatar>
 
                 <v-simple-table>
@@ -131,7 +131,7 @@ export default {
       });
   },
   computed: {
-    ...mapState(["gradeImgae"]),
+    ...mapState(["gradeImage"]),
   },
   methods: {
     dateToString(date) {

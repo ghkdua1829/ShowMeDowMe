@@ -59,5 +59,11 @@ export default {
   },
   failTime({ commit }) {
     commit("FAIL_TIME")
-  } 
+  },
+  saveGrade({ commit }, grade) {
+    commit("SAVE_GRADE", grade)
+  },
+  removeData({ commit }) {
+    commit("REMOVE_SHOPDATA")
+  }
 }
