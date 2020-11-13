@@ -56,8 +56,9 @@
                 <h2>결제 금액 {{ selectedEvent.name }}</h2>
               </v-toolbar>
               <v-card-text>
+                {{ gradeImgae[selectedEvent.grade] }}
                 <v-img :src="gradeImgae[selectedEvent.grade]" />
-                <a href="https://kr.freepik.com/vectors/heart">Heart 벡터는 </a>
+                <small>이모티콘 </small>
                 <v-btn color="error lighten-2" @click="deleteBill()"
                   >삭제</v-btn
                 >
@@ -151,11 +152,24 @@ export default {
             userId: sessionStorage.userid,
           },
         })
-        .then((res) => {
-          this.event_data = res.data;
+        .then(() => {
           alert("삭제되었습니다.");
           this.selectedOpen = false;
-          this.updateRange();
+          let todate = new Date();
+          const DATE = this.dateToString(todate).substring(0, 6);
+          const URL = SERVER.URL + SERVER.ROUTES.getCalendar + "/date/" + DATE;
+
+          axios
+            .post(URL, {
+              userId: sessionStorage.userid,
+            })
+            .then((res) => {
+              this.event_data = res.data;
+              this.updateRange();
+            })
+            .catch((err) => {
+              console.err(err);
+            });
         })
         .catch((err) => {
           alert("죄송합니다. 시스템 오류입니다.");
@@ -209,7 +223,6 @@ export default {
         const sday = sdates.substring(6, 8);
         const shour = sdates.substring(8, 10);
         const sminute = sdates.substring(10, 12);
-        console.log("test");
         const s_date =
           syear +
           "/" +
