@@ -7,6 +7,8 @@ import java.net.URLEncoder;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class NaverShoppingService {
@@ -20,10 +22,13 @@ public class NaverShoppingService {
 
 
 
-    public String findCategory(String findcategory){
+    public List<String> findCategory(String findcategory){
         String clientId = "k_IClWbMNYXQW9cnZrHb";// 애플리케이션 클라이언트 아이디값";
         String clientSecret = "OWRYXDDQHm";// 애플리케이션 클라이언트 시크릿값";\
-        String s = new String();
+        String s1 = new String();
+        String s2 = new String();
+
+        List<String> li = new ArrayList<>();
         int display = 1; // 검색결과갯수. 최대100개
         try {
             String text = URLEncoder.encode(findcategory, "utf-8");
@@ -55,17 +60,21 @@ public class NaverShoppingService {
             String[] category = new String[display];
             int k = 0;
             for (int i = 0; i < array.length; i++) {
-                if (array[i].equals("category3")) {
-                    s= array[i + 2];
+                if (array[i].equals("category1")) {
+                    s1= array[i + 2];
                 }
+                if (array[i].equals("category3")) {
+                    s2= array[i + 2];
+                }
+
             }
-
-
+            li.add(s1);
+            li.add(s2);
 
         } catch (Exception e) {
             System.out.println(e);
         }
-        return s;
+        return li;
 
     }
 }

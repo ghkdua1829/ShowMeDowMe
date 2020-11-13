@@ -38,7 +38,7 @@ public class DailyProductService {
     //update date
     public void updateDate(String Userid, String CategoryId){
 
-        Optional<DailyProduct> d = Optional.ofNullable(dailyProductRepository.findByUseridAndCategoryid(Userid, naverShoppingService.findCategory(CategoryId)));
+        Optional<DailyProduct> d = Optional.ofNullable(dailyProductRepository.findByUseridAndCategoryid(Userid, CategoryId));
         if(d.isPresent()){
             SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd");
             java.util.Date time = new Date();

@@ -3,18 +3,19 @@
 import com.ssafy.SMDM.dto.Calendar;
 import com.ssafy.SMDM.service.CalendarService;
 import com.ssafy.SMDM.service.DailyProductService;
+import com.ssafy.SMDM.service.NaverShoppingService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-@CrossOrigin
+ @CrossOrigin
 @RestController
 
 @RequestMapping("/api/calendar")
@@ -25,6 +26,8 @@ public class CalendarController {
     @Autowired
     DailyProductService dailyProductService;
 
+    @Autowired
+    NaverShoppingService naverShoppingService;
     @PostMapping
     public Object saveCalendar(@RequestBody Map<String, String> t) {
         Calendar calendar = new Calendar();
@@ -34,13 +37,15 @@ public class CalendarController {
         calendar.setReceiptdate(time1);
         calendar.setShoppinglist(t.get("shoppinglist"));
         String []s = t.get("shoppinglist").split(",");
-        for(String i : s){
-            dailyProductService.updateDate(t.get("userid"),i);
+        String dump = "";
+        for (int i = 0; i<s.length; i+=2){
+            List<String> li = naverShoppingService.findCategory(s[i]);
+            dailyProductService.updateDate(t.get("userid"),li.get(1));
+            dump=dump+li.get(0)+","+s[i+1]+",";
         }
+        calendar.setDumpshoppinglist(dump);
         calendar.setUserid(t.get("userId"));
         calendar.setMoney(Integer.parseInt(t.get("money")));
-//        Optional<Calendar> u = calendarService.findByUserId(t.get("userid"));
-        System.out.println(t.get("timecheck")+' '+t.get("moneycheck"));
         int grade = calendarService.updateGrade(t.get("timecheck"), t.get("moneycheck"));
         calendar.setGrade(grade);
         calendarService.saveCalendar(calendar);
@@ -50,9 +55,36 @@ public class CalendarController {
     @PostMapping("/date/{date}")
     public Object getCalendarByMonth(@RequestBody Map<String, String> t , @PathVariable String date) {
         try {
+            Map<String,Integer> buyByMonth = new HashMap<String, Integer>();
             List<Calendar> list = calendarService.searchMonthReceiptdate(date.substring(0,4), date.substring(4,6),t.get("userId"));
+            for(Calendar c : list){
+                String []s = c.getDumpshoppinglist().split(",");
+                for (int i = 0; i<s.length; i+=2){
+                    if(buyByMonth.containsKey(s[i])){
+                        Integer total=buyByMonth.get(s[i])+Integer.parseInt(s[i+1]);
+                        buyByMonth.put(s[i],total);
+                    }else{
+                        Integer total = Integer.parseInt(s[i+1]);
+                        buyByMonth.put(s[i],total);
+                    }
+                }
+            }
+            Integer result = 0;
+            for (String key : buyByMonth.keySet()){
+                result += buyByMonth.get(key);
+            }
+            double result1 = (double) result;
+            Map<String,String> buyByMonth1 = new HashMap<String, String>();
+            for ( String key : buyByMonth.keySet()){
+                buyByMonth1.put(key,String.format("%.2f",(buyByMonth.get(key)/result1)*100));
+            }
 
-            return new ResponseEntity<List>(list, HttpStatus.OK);
+            JSONObject main = new JSONObject();
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("Calendar",list);
+            jsonObject.put("buyByMonth",buyByMonth1);
+            return new ResponseEntity<JSONObject>(jsonObject, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
