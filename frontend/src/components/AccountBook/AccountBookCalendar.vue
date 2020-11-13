@@ -56,17 +56,17 @@
                 <h2>결제 금액 {{ selectedEvent.name }}</h2>
               </v-toolbar>
               <v-card-text>
-                <v-btn color="error lighten-2" @click="deleteBill()">삭제</v-btn>
-                 <v-simple-table>
+                <v-img :src="gradeImgae[selectedEvent.grade]" />
+                <a href="https://kr.freepik.com/vectors/heart">Heart 벡터는 </a>
+                <v-btn color="error lighten-2" @click="deleteBill()"
+                  >삭제</v-btn
+                >
+                <v-simple-table>
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th class="text-left">
-                          제품명
-                        </th>
-                        <th class="text-left">
-                          가격
-                        </th>
+                        <th class="text-left">제품명</th>
+                        <th class="text-left">가격</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -75,7 +75,7 @@
                         :key="index"
                       >
                         <td>{{ deatil.name }}</td>
-                        <td>{{ deatil.price}}</td>
+                        <td>{{ deatil.price }}</td>
                       </tr>
                     </tbody>
                   </template>
@@ -98,7 +98,7 @@
 import "@/assets/css/components/AccountBook/accountBookCalendar.scss";
 import SERVER from "@/api/spring";
 import axios from "axios";
-// import vueMoment from 'vue-moment'
+import { mapState } from "vuex";
 
 export default {
   name: "AccountBookCalendar",
@@ -107,23 +107,23 @@ export default {
   },
   created() {
     let todate = new Date();
-    // let month = todate.getUTCMonth() + 1;
-    // let year = todate.getUTCFullYear();
-    // console.log("date : " + year + month);
     const DATE = this.dateToString(todate).substring(0, 6);
     const URL = SERVER.URL + SERVER.ROUTES.getCalendar + "/date/" + DATE;
 
-    axios.post(URL, {
-      userId : sessionStorage.userid
-    })
-    .then((res) => {
-      this.event_data = res.data;
-      this.updateRange()
-    })
-    .catch((err) => {
-      console.err(err)
-    })
-
+    axios
+      .post(URL, {
+        userId: sessionStorage.userid,
+      })
+      .then((res) => {
+        this.event_data = res.data;
+        this.updateRange();
+      })
+      .catch((err) => {
+        console.err(err);
+      });
+  },
+  computed: {
+    ...mapState(["gradeImgae"]),
   },
   methods: {
     dateToString(date) {
@@ -132,10 +132,10 @@ export default {
       let day = date.getDate();
       let hours = date.getHours();
       let minutes = date.getMinutes();
-      month = (month > 9)? month : "0" + month;
-      day = (day > 9)? day : "0" + day;
-      hours = (hours > 9)? hours : "0" + hours;
-      minutes = (minutes > 9)? minutes : "0" + minutes;
+      month = month > 9 ? month : "0" + month;
+      day = day > 9 ? day : "0" + day;
+      hours = hours > 9 ? hours : "0" + hours;
+      minutes = minutes > 9 ? minutes : "0" + minutes;
 
       return year + "" + month + "" + day + "" + hours + "" + minutes;
     },
@@ -145,19 +145,22 @@ export default {
       const stringDate = this.dateToString(thisDate);
       const URL = SERVER.URL + SERVER.ROUTES.getCalendar + "/" + stringDate;
 
-      axios.delete(URL, {
-        data: {
-          userId : sessionStorage.userid
-        }
-      })
-      .then((res) => {
-        this.event_data = res.data;
-        this.updateRange()
-      })
-      .catch((err) => {
-        console.err(err)
-      })
-        this.selectedOpen = false
+      axios
+        .delete(URL, {
+          data: {
+            userId: sessionStorage.userid,
+          },
+        })
+        .then((res) => {
+          this.event_data = res.data;
+          alert("삭제되었습니다.");
+          this.selectedOpen = false;
+          this.updateRange();
+        })
+        .catch((err) => {
+          alert("죄송합니다. 시스템 오류입니다.");
+          console.err(err);
+        });
     },
     getEventColor(event) {
       return event.color;
@@ -173,12 +176,12 @@ export default {
     },
     showEvent({ nativeEvent, event }) {
       this.selectedEvent = event;
-      let splitList = this.selectedEvent.details.split(',')
-      let tableList = []
-      for (let i = 0; i < splitList.length; i +=2) {
-        tableList.push({name: splitList[i], price: splitList[i+1]})
+      let splitList = this.selectedEvent.details.split(",");
+      let tableList = [];
+      for (let i = 0; i < splitList.length; i += 2) {
+        tableList.push({ name: splitList[i], price: splitList[i + 1] });
       }
-      this.selectedEvent.details = tableList
+      this.selectedEvent.details = tableList;
       const open = () => {
         this.selectedElement = nativeEvent.target;
         setTimeout(() => {
@@ -200,13 +203,13 @@ export default {
       for (let ev_n in this.event_data) {
         const event_data_detail = this.event_data[ev_n];
         let sdates = this.event_data[ev_n]["receiptdate"];
-        sdates = sdates.replace(/[^0-9]/g,'');
+        sdates = sdates.replace(/[^0-9]/g, "");
         const syear = sdates.substring(0, 4);
         const smonth = sdates.substring(4, 6);
         const sday = sdates.substring(6, 8);
         const shour = sdates.substring(8, 10);
         const sminute = sdates.substring(10, 12);
-        console.log("test")
+        console.log("test");
         const s_date =
           syear +
           "/" +
@@ -262,7 +265,6 @@ export default {
         4: "bad",
         5: "worst",
       },
-      // billList: [],
       event_data: [],
     };
   },
