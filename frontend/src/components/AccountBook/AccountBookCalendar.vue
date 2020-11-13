@@ -51,13 +51,13 @@
             :activator="selectedElement"
             offset-x
           >
-            <v-card color="grey lighten-4" min-width="350px" flat>
+            <v-card color="grey lighten-4" max-width="300px" flat>
               <v-toolbar :color="selectedEvent.color" dark>
                 <h2>결제 금액 {{ selectedEvent.name }}</h2>
               </v-toolbar>
               <v-card-text>
                 <v-avatar size="55" class="mb-3">
-                  <img alt="user" :src="gradeImgae[selectedEvent.grade]" />
+                  <img alt="user" :src="gradeImage[selectedEvent.grade]" />
                 </v-avatar>
 
                 <v-simple-table>
@@ -65,6 +65,7 @@
                     <thead>
                       <tr>
                         <th class="text-left">제품명</th>
+                        <th class="text-left">수량</th>
                         <th class="text-left">가격</th>
                       </tr>
                     </thead>
@@ -74,12 +75,13 @@
                         :key="index"
                       >
                         <td>{{ deatil.name }}</td>
+                        <td>{{ deatil.amount }}</td>
                         <td>{{ deatil.price }}</td>
                       </tr>
                     </tbody>
                   </template>
                 </v-simple-table>
-                <small>이미지는 rawpixel.com - kr.freepik.com가 제작함 </small>
+                <small>이미지 출처 kr.freepik.com </small>
                 <div>
                   <v-btn
                     class="delete-btn"
@@ -131,7 +133,7 @@ export default {
       });
   },
   computed: {
-    ...mapState(["gradeImgae"]),
+    ...mapState(["gradeImage"]),
   },
   methods: {
     dateToString(date) {
@@ -197,8 +199,12 @@ export default {
       this.selectedEvent = event;
       let splitList = this.selectedEvent.details.split(",");
       let tableList = [];
-      for (let i = 0; i < splitList.length; i += 2) {
-        tableList.push({ name: splitList[i], price: splitList[i + 1] });
+      for (let i = 0; i < splitList.length; i += 3) {
+        tableList.push({
+          name: splitList[i],
+          amount: splitList[i + 1],
+          price: splitList[i + 2],
+        });
       }
       this.selectedEvent.details = tableList;
       const open = () => {
