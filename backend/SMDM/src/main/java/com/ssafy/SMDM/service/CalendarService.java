@@ -31,10 +31,6 @@ import java.util.Optional;
 
     //time, money를 통해 grade 결정
     public int updateGrade(String timecheck, String moneycheck) {
-        System.out.println(timecheck);
-        System.out.println(moneycheck);
-        System.out.println(timecheck.equals("T"));
-        System.out.println(moneycheck.equals("T"));
         if (timecheck.equals("T") && moneycheck.equals("T")) {
             return 1;
         } else if ((timecheck.equals("F") && moneycheck.equals("T")) || (timecheck.equals("T") && moneycheck.equals("F"))) {
