@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import "@/assets/css/components/AccountBook/accountBookAnalysis.scss";
 import DoughnutChart from "./DoughnutChart.js";
 
 export default {
