@@ -5,6 +5,10 @@ export default {
     shoppingList: [],
     recentItem: [],
     nowExpense: 0,
+    check: {
+        moneycheck: "X",
+        timecheck: "X"
+    },
     gradeImgae: [
         "",
         "https://user-images.githubusercontent.com/60081201/99012095-ef957580-2590-11eb-86f5-5d4b96060252.PNG",

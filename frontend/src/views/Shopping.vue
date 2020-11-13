@@ -51,8 +51,8 @@
       <div>제품명 : {{ recentItem.name }}</div>
       <div>가격 : {{ recentItem.price }}</div>
     </div>
-    <!-- {{ recentItem }} -->
-    <!-- {{ shoppingList }} -->
+    {{ recentItem }}
+    {{ shoppingList }}
     <v-btn
       class="camera-btn"
       dark
@@ -73,9 +73,7 @@
         <h4>현재 결제 예상 금액 {{ nowExpense }}원</h4>
       </v-col>
       <v-col>
-        <v-btn outlined @click="$router.push({ path: '/report' })">
-          장보기 완료
-        </v-btn>
+        <v-btn outlined @click="completeShop(timeout)"> 장보기 완료 </v-btn>
       </v-col>
     </v-row>
   </div>
@@ -85,7 +83,7 @@
 import "@/assets/css/views/shopping.scss";
 import ShoppingList from "@/components/Shopping/ShoppingList";
 import ShoppingMemo from "@/components/Shopping/ShoppingMemo";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "Shopping",
@@ -96,7 +94,6 @@ export default {
   props: {
     endpoint: {},
   },
-
   created() {
     if (sessionStorage.length === 0) {
       this.member = false;
@@ -135,6 +132,7 @@ export default {
         ) {
           if (this.aimTime !== 0) {
             alert("쇼핑시간이 초과하였습니다");
+            this.timeout = true;
             this.secondsLeft--;
           }
         }
@@ -166,6 +164,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["completeShop"]),
     zeroPad(input, length) {
       return (Array(length + 1).join("0") + input).slice(-length);
     },
@@ -178,6 +177,7 @@ export default {
       timer: 0,
       timerColor: "teal lighten-2",
       member: true,
+      timeout: false,
     };
   },
 };

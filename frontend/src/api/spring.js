@@ -11,6 +11,7 @@ export default {
         getAlarm: "/users/dailyproducts/category",
         postAlarm: "/users/category",
         offAlarm: "/users/dailyproducts/updatealarm",
+        saveShopData: "/calendar",
 	getCalendar: "/calendar",
     }
 }

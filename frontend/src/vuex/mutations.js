@@ -1,3 +1,5 @@
+import axios from "axios";
+import SERVER from "@/api/spring";
 export default {
     SET_USERID(state, userid) {
         state.userid = userid
@@ -11,10 +13,10 @@ export default {
         state.shoppingList.push(state.recentItem)
     },
     EDIT_SHOPDATA(state, editInfo) { // 입력된 쇼핑 데이터 수정
-        console.log(editInfo)
-        console.log("before", state.shoppingList)
+        // console.log(editInfo)
+        // console.log("before", state.shoppingList)
         state.shoppingList[editInfo.editIndex] = editInfo.editData
-        console.log("after", state.shoppingList)
+        // console.log("after", state.shoppingList)
 
     },
     SUM_PRICE(state) { // 현재 결제 금액 계산
@@ -25,6 +27,26 @@ export default {
     },
     ADD_USER_SHOPDATA(state, editItem) {
         state.shoppingList.push(editItem)
-        console.log(editItem)
+        // console.log(,editItem)
+    },
+    COMPLETE_SHOPPING(state, timeout) {
+        if (timeout) {
+            state.check.timecheck = "F"
+        } else if (state.aimTime !== 0) {
+            state.check.timecheck = "T"
+        }
+        const URL = SERVER.URL + SERVER.ROUTES.saveShopData
+        const sendData = {
+            userId : sessionStorage.userId,
+            money : state.nowExpense,
+            moneycheck : state.check.moneycheck,
+            timecheck : state.check.timecheck,
+            shoppingList : state.shoppingList // string으로 고치기
+        }
+        axios.post(URL, sendData)
+            .then((res) => {
+                console.log(res)
+                this.$router.push({ path: "/report" });
+            })
     }
 }
