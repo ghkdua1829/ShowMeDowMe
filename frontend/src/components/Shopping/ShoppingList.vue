@@ -81,8 +81,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "ShoppingList",
@@ -101,7 +100,6 @@ export default {
       val || this.closeDelete();
     },
   },
-
   methods: {
     ...mapActions(["editShopItem", "addUserShopItem"]),
     editItem(item) {
