@@ -57,10 +57,7 @@ export default {
     commit("ADD_USER_SHOPDATA", editItem)
     commit("SUM_PRICE")
   },
-  completeShop({ commit }, timeout) {
-    commit("COMPLETE_SHOPPING", timeout)
-    
-  }
-    
-  
+  failTime({ commit }) {
+    commit("FAIL_TIME")
+  } 
 }

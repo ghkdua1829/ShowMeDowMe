@@ -1,5 +1,7 @@
 <template>
   <div class="shopping">
+    {{ check }}
+    {{ aimExpense }} {{ aimTime }} {{ isSkipMoney }} {{ isSkipTime }}
     <div v-if="member">
       <v-icon @click="$router.push({ path: '/perparation' })">
         mdi-arrow-left
@@ -47,7 +49,7 @@
       </v-col>
     </v-row>
     <div v-if="recentItem.length">
-      <h4>방금 추가된 제품</h4>
+      <h4>최근 사진으로 추가된 제품</h4>
       <div>제품명 : {{ recentItem.name }}</div>
       <div>가격 : {{ recentItem.price }}</div>
     </div>
@@ -73,7 +75,7 @@
         <h4>현재 결제 예상 금액 {{ nowExpense }}원</h4>
       </v-col>
       <v-col>
-        <v-btn outlined @click="completeShop(timeout)"> 장보기 완료 </v-btn>
+        <v-btn outlined @click="completeShop()"> 장보기 완료 </v-btn>
       </v-col>
     </v-row>
   </div>
@@ -83,7 +85,9 @@
 import "@/assets/css/views/shopping.scss";
 import ShoppingList from "@/components/Shopping/ShoppingList";
 import ShoppingMemo from "@/components/Shopping/ShoppingMemo";
-import { mapActions, mapState } from "vuex";
+import axios from "axios";
+import SERVER from "@/api/spring";
+import { mapState } from "vuex";
 
 export default {
   name: "Shopping",
@@ -97,6 +101,8 @@ export default {
   created() {
     if (sessionStorage.length === 0) {
       this.member = false;
+    } else {
+      this.username = sessionStorage.userid;
     }
     this.hoursLeft = parseInt(this.aimTime / 60);
     this.minutesLeft = this.aimTime % 60;
@@ -132,7 +138,7 @@ export default {
         ) {
           if (this.aimTime !== 0) {
             alert("쇼핑시간이 초과하였습니다");
-            this.timeout = true;
+            this.failTime();
             this.secondsLeft--;
           }
         }
@@ -141,11 +147,14 @@ export default {
   },
   computed: {
     ...mapState([
+      "isSkipTime",
+      "isSkipMoney",
       "aimTime",
       "aimExpense",
       "nowExpense",
       "recentItem",
       "shoppingList",
+      "check",
     ]),
     timeLeft: function () {
       if (this.hours !== 0) {
@@ -164,7 +173,41 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["completeShop"]),
+    completeShop() {
+      const URL = SERVER.URL + SERVER.ROUTES.getCalendar;
+      let stirngShoppingList = "";
+      for (let i = 0; i < this.shoppingList.length; i++) {
+        stirngShoppingList +=
+          this.shoppingList[i].name +
+          "," +
+          // this.shoppingList[i].amount +
+          // "," +
+          this.shoppingList[i].price +
+          ",";
+      }
+      if (stirngShoppingList !== "") {
+        stirngShoppingList = stirngShoppingList.substr(
+          0,
+          stirngShoppingList.length - 1
+        );
+      }
+      console.log(stirngShoppingList);
+      let sendData = {
+        userId: this.username,
+        money: this.nowExpense,
+        moneycheck: this.check.moneycheck,
+        timecheck: this.check.timecheck,
+        shoppinglist: stirngShoppingList,
+      };
+      axios
+        .post(URL, sendData)
+        .then(() => {
+          this.$router.push({ path: "/report" });
+        })
+        .catch((err) => {
+          console.err(err);
+        });
+    },
     zeroPad(input, length) {
       return (Array(length + 1).join("0") + input).slice(-length);
     },
@@ -177,7 +220,7 @@ export default {
       timer: 0,
       timerColor: "teal lighten-2",
       member: true,
-      timeout: false,
+      username: "",
     };
   },
 };
