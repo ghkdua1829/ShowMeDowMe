@@ -60,5 +60,8 @@ export default {
         state.check.moneycheck = "",
         state.check.timecheck= "",
         state.reportGrade= 0
+    },
+    DELETE_SHOPITEM(state, itemIndex) {
+        state.shoppingList.splice(itemIndex, 1);
     }
 }
