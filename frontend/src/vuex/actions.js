@@ -65,5 +65,9 @@ export default {
   },
   removeData({ commit }) {
     commit("REMOVE_SHOPDATA")
+  },
+  deleteShopItem({ commit }, itemIndex) {
+    commit("DELETE_SHOPITEM", itemIndex)
+    commit("SUM_PRICE")
   }
 }
