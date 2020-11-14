@@ -101,7 +101,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["editShopItem", "addUserShopItem"]),
+    ...mapActions(["editShopItem", "addUserShopItem", "deleteShopItem"]),
     editItem(item) {
       this.editedIndex = this.shoppingList.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -115,7 +115,7 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.shoppingList.splice(this.editedIndex, 1);
+      this.deleteShopItem(this.editedIndex, 1);
       this.closeDelete();
     },
 
