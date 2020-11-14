@@ -1,5 +1,6 @@
 <template>
   <div class="accountBook-calendar">
+    <div class="calendar">
     <v-row>
       <v-col>
         <v-btn fab text small color="grey darken-2" @click="prev">
@@ -100,7 +101,9 @@
       </v-col>
     </v-row>
 
-    <div class="chart mt-3">
+    </div>
+
+    <div class="chart mt-3" v-if="isAnalyzeData">
       <v-toolbar-title v-if="$refs.calendar" class="calendar-date">
         <h3>월별 장보기 분석</h3>
         {{ $refs.calendar.title }}
@@ -171,6 +174,7 @@ export default {
         for (const [key, value] of Object.entries(res.data)) {
           this.labelList.push(key);
           this.analyzeData.push(parseInt(value));
+          this.isAnalyzeData = true
         }
         this.fillData();
       })
@@ -370,6 +374,7 @@ export default {
       todayMonth: "",
       labelList: [],
       analyzeData: [],
+      isAnalyzeData: false
     };
   },
 };
