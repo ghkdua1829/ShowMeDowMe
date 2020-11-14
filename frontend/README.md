@@ -1,24 +1,16 @@
 # frontend
 
-## Project setup
-```
-npm install
+## :key: 서버 키는 방법
+
+```bash
+$ cd frontend/
+$ yarn install
+$ yarn serve
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
+## 빌드 하는 방법
+```bash
+$ yarn build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
