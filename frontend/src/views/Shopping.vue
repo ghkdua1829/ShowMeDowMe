@@ -180,7 +180,7 @@ export default {
           "," +
           this.shoppingList[i].amount +
           "," +
-          this.shoppingList[i].price +
+          (this.shoppingList[i].amount * this.shoppingList[i].price) +
           ",";
       }
       if (stirngShoppingList !== "") {
@@ -189,7 +189,7 @@ export default {
           stirngShoppingList.length - 1
         );
       }
-      console.log(stirngShoppingList);
+      // console.log(stirngShoppingList);
       let sendData = {
         userId: this.username,
         money: this.nowExpense,
