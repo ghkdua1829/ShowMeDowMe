@@ -38,10 +38,10 @@ public class CalendarController {
         calendar.setShoppinglist(t.get("shoppinglist"));
         String []s = t.get("shoppinglist").split(",");
         String dump = "";
-        for (int i = 0; i<s.length; i+=2){
+        for (int i = 0; i<s.length; i+=3){
             List<String> li = naverShoppingService.findCategory(s[i]);
             dailyProductService.updateDate(t.get("userid"),li.get(1));
-            dump=dump+li.get(0)+","+s[i+1]+",";
+            dump=dump+li.get(0)+","+s[i+2]+",";
         }
         calendar.setDumpshoppinglist(dump);
         calendar.setUserid(t.get("userId"));
@@ -93,6 +93,9 @@ public class CalendarController {
             for ( String key : buyByMonth.keySet()){
                 buyByMonth1.put(key,String.format("%.2f",(buyByMonth.get(key)/result1)*100));
             }
+            System.out.println(buyByMonth);
+            System.out.println(result1);
+            System.out.println(buyByMonth1);
             return new ResponseEntity( buyByMonth1, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
