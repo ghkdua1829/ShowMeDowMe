@@ -94,7 +94,7 @@ export default {
           })
           .catch((err) => console.err(err));
       });
-      console.log(alarmData, AlarmURL);
+      // console.log(alarmData, AlarmURL);
     },
     changeSelect() {
       const SelectURL = SERVER.URL + SERVER.ROUTES.alarm;
