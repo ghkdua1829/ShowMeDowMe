@@ -45,14 +45,29 @@ export default {
   },
   saveCameraData({ commit }, saveData) {
     commit("SAVE_SHOPDATA", saveData)
+    commit("SUM_PRICE")
+
     router.push({ path: "/shop" });
   },
-  editShopItem({ commit }, editData, editIndex) {
-    const editInfo = {
-      editData: editData,
-      editIndex: editIndex
-    }
+  editShopItem({ commit }, editInfo) {
     commit("EDIT_SHOPDATA", editInfo)
+    commit("SUM_PRICE")
+  },
+  addUserShopItem({ commit }, editItem) {
+    commit("ADD_USER_SHOPDATA", editItem)
+    commit("SUM_PRICE")
+  },
+  failTime({ commit }) {
+    commit("FAIL_TIME")
+  },
+  saveGrade({ commit }, grade) {
+    commit("SAVE_GRADE", grade)
+  },
+  removeData({ commit }) {
+    commit("REMOVE_SHOPDATA")
+  },
+  deleteShopItem({ commit }, itemIndex) {
+    commit("DELETE_SHOPITEM", itemIndex)
+    commit("SUM_PRICE")
   }
-  // save
 }

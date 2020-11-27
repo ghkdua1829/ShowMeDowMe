@@ -23,8 +23,8 @@ public class NaverShoppingService {
 
 
     public List<String> findCategory(String findcategory){
-        String clientId = "k_IClWbMNYXQW9cnZrHb";// 애플리케이션 클라이언트 아이디값";
-        String clientSecret = "OWRYXDDQHm";// 애플리케이션 클라이언트 시크릿값";\
+        String clientId = ;// 애플리케이션 클라이언트 아이디값";
+        String clientSecret =;// 애플리케이션 클라이언트 시크릿값";\
         String s1 = new String();
         String s2 = new String();
 

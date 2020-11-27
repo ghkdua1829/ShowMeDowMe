@@ -37,22 +37,21 @@ import "@/assets/css/components/Preparation/preparationMemo.scss";
 import axios from "axios";
 import SERVER from "@/api/spring";
 
-const URL =
-  SERVER.URL + SERVER.ROUTES.memo + "?userid=" + sessionStorage.userid;
-
 export default {
   name: "PreparationMemo",
   components: {
     Navigation,
   },
   created() {
+    this.username = sessionStorage.userid;
+    this.URL = SERVER.URL + SERVER.ROUTES.memo + "?userid=" + this.username;
     if (this.$route.name.name === "PreparationMemo") {
       this.modalCheck = true;
     } else {
       this.modalCheck = false;
     }
     axios
-      .get(URL)
+      .get(this.URL)
       .then((res) => {
         if (res.data !== "") {
           this.memoList = res.data.split(",");
@@ -64,7 +63,7 @@ export default {
     deleteMemo(index) {
       this.memoList.splice(index, 1);
       this.postmemo = this.memoList.join(", ");
-      let updateURL = URL + "&memo=" + this.postmemo;
+      let updateURL = this.URL + "&memo=" + this.postmemo;
       axios.put(updateURL).catch((err) => console.err(err));
     },
     plusMemo() {
@@ -72,7 +71,7 @@ export default {
         if (this.memoList.includes(this.memoInput) === false) {
           this.memoList.push(this.memoInput);
           this.postmemo = this.memoList.join(", ");
-          let updateURL = URL + "&memo=" + this.postmemo;
+          let updateURL = this.URL + "&memo=" + this.postmemo;
           axios.put(updateURL).catch((err) => console.err(err));
         }
         this.memoInput = "";
@@ -88,6 +87,8 @@ export default {
       colors: ["green", "purple", "indigo", "cyan", "teal", "orange"],
       modalCheck: false,
       postmemo: "",
+      username: "",
+      URL: "",
     };
   },
 };

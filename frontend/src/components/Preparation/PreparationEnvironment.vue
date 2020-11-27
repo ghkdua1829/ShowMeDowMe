@@ -1,7 +1,8 @@
 <template>
   <div class="preparation-environment">
     <h2 class="ready-title">장보기 준비</h2>
-    <v-row class="mt-10">
+    <small>설정을 원하지 않으면 SKIP을 눌러주세요.</small>
+    <v-row class="mt-13">
       <v-col cols="4" class="preparation-type">
         <h3>목표시간</h3>
       </v-col>
@@ -24,9 +25,11 @@
     </v-row>
     <v-row>
       <v-col>
-        <h5 v-if="isSkipTime && value === 0">시간은 넉넉하게 하겠습니다.</h5>
+        <h5 v-if="setData.isSkipTime && setData.value === 0">
+          시간은 넉넉하게 하겠습니다.
+        </h5>
       </v-col>
-      <div class="btn-skip" v-if="isSkipTime && value === 0">
+      <div class="btn-skip" v-if="setData.isSkipTime && setData.value === 0">
         <v-btn small outlined color="teal lighten-2">SKIP</v-btn>
       </div>
       <div v-else class="btn-skip">
@@ -52,9 +55,11 @@
     </v-row>
     <v-row>
       <v-col>
-        <h5 v-if="isSkipMoney && amount === ''">금액은 상관없습니다.</h5>
+        <h5 v-if="setData.isSkipMoney && setData.amount === ''">
+          금액은 상관없습니다.
+        </h5>
       </v-col>
-      <div class="btn-skip" v-if="isSkipMoney && amount === ''">
+      <div class="btn-skip" v-if="setData.isSkipMoney && setData.amount === ''">
         <v-btn small outlined color="teal lighten-2">SKIP</v-btn>
       </div>
       <div v-else class="btn-skip">
@@ -63,10 +68,15 @@
     </v-row>
     <v-btn
       large
-      class="ma-10 m-3 0 4"
+      class="ma-10 m-3 0 4 set-btn"
       @click="setShop(setData)"
       color="teal lighten-2"
-      dark
+      :disabled="
+        !(
+          (setData.isSkipMoney || setData.amount) &&
+          (setData.isSkipTime || setData.value)
+        )
+      "
     >
       <h3>장보러 가기</h3>
     </v-btn>
@@ -88,12 +98,12 @@ export default {
   methods: {
     ...mapActions(["setShop"]),
     skipAimTime() {
-      this.isSkipTime = true;
-      this.value = 0;
+      this.setData.isSkipTime = true;
+      this.setData.value = 0;
     },
     skipAimValue() {
-      this.isSkipMoney = true;
-      this.amount = "";
+      this.setData.isSkipMoney = true;
+      this.setData.amount = "";
     },
   },
   data() {
@@ -103,11 +113,11 @@ export default {
       minute: "",
       time: "",
       setData: {
-        amount: "",
-        value: 0,
+        amount: "", // 목표 금액
+        value: 0, // 목표 시간
+        isSkipTime: false,
+        isSkipMoney: false,
       },
-      isSkipTime: false,
-      isSkipMoney: false,
       rules: [(v) => v <= 120 || "과도한 쇼핑은 건강에 해롭습니다."],
       ticksLabels: [
         "0",

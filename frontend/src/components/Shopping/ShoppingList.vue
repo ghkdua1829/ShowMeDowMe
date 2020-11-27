@@ -12,7 +12,13 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn class="mb-2" v-bind="attrs" v-on="on" outlined color="teal"
+            <v-btn
+              class="mb-2"
+              rounded
+              v-bind="attrs"
+              v-on="on"
+              outlined
+              color="teal"
               >직접추가하기
             </v-btn>
           </template>
@@ -49,7 +55,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn text @click="close"> 닫기 </v-btn>
-              <v-btn text @click="save"> 저장 </v-btn>
+              <v-btn text color="teal" @click="save"> 저장 </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -59,13 +65,14 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn text @click="closeDelete">취소</v-btn>
-              <v-btn text @click="deleteItemConfirm">확인</v-btn>
+              <v-btn text color="teal" @click="deleteItemConfirm">확인</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-toolbar>
     </template>
+    <!-- 입력된 데이터 수정 / 삭제 -->
     <template v-slot:item.actions="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
       <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
@@ -74,8 +81,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "ShoppingList",
@@ -94,9 +100,8 @@ export default {
       val || this.closeDelete();
     },
   },
-
   methods: {
-    ...mapActions(["editShopItem"]),
+    ...mapActions(["editShopItem", "addUserShopItem", "deleteShopItem"]),
     editItem(item) {
       this.editedIndex = this.shoppingList.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -110,7 +115,7 @@ export default {
     },
 
     deleteItemConfirm() {
-      this.purchasedThings.splice(this.editedIndex, 1);
+      this.deleteShopItem(this.editedIndex, 1);
       this.closeDelete();
     },
 
@@ -132,17 +137,13 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        // this.editShopItem(
-        //   Object.assign(this.shoppingList[this.editedIndex], this.e0ditedItem),
-        //   this.editedIndex
-        // );
-        Object.assign(this.shoppingList[this.editedIndex], this.editedItem);
-        // console.log(
-        //   Object.assign(this.shoppingList[this.editedIndex], this.editedItem)
-        // );
-        console.log("dddddd");
+        const editInfo = {
+          editData: this.editedItem,
+          editIndex: this.editedIndex,
+        };
+        this.editShopItem(editInfo);
       } else {
-        this.shoppingList.push(this.editedItem);
+        this.addUserShopItem(this.editedItem);
       }
       this.close();
     },
@@ -161,12 +162,11 @@ export default {
       { text: "가격", value: "price" },
       { text: "편집", value: "actions", sortable: false },
     ],
-    purchasedThings: [],
     editedIndex: -1,
     editedItem: {},
     defaultItem: {
       name: "",
-      amount: 0,
+      amount: 1,
       price: 0,
     },
   }),
